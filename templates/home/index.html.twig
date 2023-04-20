@@ -1,20 +1,429 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="app">
+        <div class="songs-wrapper">
+            <div class="row">
+                <div class="col s12 m6 l4 x3">
+                    <div class="active song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://cbsradionews.files.wordpress.com/2016/02/death-of-a-bacherlor-album-art.jpg?w=555&h=548);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">Death Of A Bachelor</div>
+                            <div class="song-artist">by Panic! At The Disco</div>
+                            <div class="song-time">3:23</div>
+                        </div>
+                    </div>
+                </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(http://static.djbooth.net/pics-features/chance-3-artwork.jpg);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title"></div>
+                            <div class="song-artist">by Chance The Rapper</div>
+                            <div class="song-time">3:41</div>
+                        </div>
+                    </div>
+                </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/alioukandji/Desktop/BeatsWebside/beatsWebside/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/alioukandji/Desktop/BeatsWebside/beatsWebside/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://i.pinimg.com/736x/f0/89/73/f089734bf401b9a7d59f48a5077b2907--music-covers-heart-art.jpg);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">A Walk</div>
+                            <div class="song-artist">by Tycho</div>
+                            <div class="song-time">5:16</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://lh3.googleusercontent.com/NFqQwY63RbJYCgrmEYsez-CDK2KAWKM_FIBTlaipK2zCB6CXvVO48ZjX2jWkgixu1_VIUA_Y=s1024-c-e100-rwu-v1);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">Come Hang Out</div>
+                            <div class="song-artist">by AJR</div>
+                            <div class="song-time">4:26</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://lh3.googleusercontent.com/4s6mMULoaDMdpQlhlBbF8Y_88kh1ugeLx4DimzRfOJg-H7IGVblWAPSc233C8R1liUL1L1zhCg=s1024-c-e100-rwu-v1);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">Cigarette</div>
+                            <div class="song-artist">by PANG!</div>
+                            <div class="song-time">4:15</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://lh3.googleusercontent.com/QXdqujkQXwuQzgpxSP8nzrOqq6i0NQnE_iD3XFkRNs9-3yC4jigcFTB94bn8BOVlFNnx2VztmQ=s1024-c-e100-rwu-v1);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">80's Films</div>
+                            <div class="song-artist">by Jon Bellion</div>
+                            <div class="song-time">3:36</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://lh6.ggpht.com/3FhBNLXAL-atLEQHojVxsC8exkGS16aRrT2AGGYg1P257vWJtZwnoXKkkBeXSt3wmUHQunE1hw=s1024-c-e100-rwu-v1);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">Cardiac Arrest</div>
+                            <div class="song-artist">by Bad Suns</div>
+                            <div class="song-time">3:02</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://lh3.googleusercontent.com/9gMEeE5JHaHYj_s25dr8wjyrZa8tQrfp-syYXoASdoTrZ5zgVUm8Z3gC6BbKcwOIdcI2uFiIm8E=s1024-c-e100-rwu-v1);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">Worst In Me</div>
+                            <div class="song-artist">by Julia Michaels</div>
+                            <div class="song-time">3:26</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://lh3.googleusercontent.com/J_xB101XKHvDsZWP0tHfCfVnQtLY_BZM9_S_6hc6RStGg6mbrJbDkD5xR8RJKMv98QDS7FzHlw=s1024-c-e100-rwu-v1);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">Rosie</div>
+                            <div class="song-artist">John Mayer</div>
+                            <div class="song-time">4:00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://lh4.ggpht.com/QqjbOo_bnoKjsrpZlQSGoACKQYpQpbT6pPIkDl6UuTWvc4jrJgu4XaSY8_Lomb73l_JjuDtkUBM=s1024-c-e100-rwu-v1);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">IV. Sweatpants</div>
+                            <div class="song-artist">Childish Gambino</div>
+                            <div class="song-time">3:00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://lh3.googleusercontent.com/1HKf4Wbp6DSwKnX6kVGUh3aANVW2WfWjC3cfyQ16l07N85xZLd4EBwkxM5AsY0XxfIwnJQTKdzg=s1024-c-e100-rwu-v1);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">Heavydirtysoul</div>
+                            <div class="song-artist">Twenty One Pilots</div>
+                            <div class="song-time">3:54</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6 l4 x3">
+                    <div class="song">
+                        <div
+                                class="song-image"
+                                style="
+                  background-image: url(https://lh3.googleusercontent.com/CrIHeXpJPoZz63YneLoWOjUGswBEa5LHVoUEPYu9hvA2CJMZz2f8X6V4fve7hti5ww7GUvtYYA=s1024-c-e100-rwu-v1);
+                "
+                        ></div>
+                        <div class="song-info">
+                            <div class="song-title">Tech Noir</div>
+                            <div class="song-artist">GUNSHIP</div>
+                            <div class="song-time">4:57</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="music-player">
+            <div class="progress-wrapper">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="times-row">
+                <div class="start-time">0:00</div>
+                <div class="current-song">Current Song</div>
+                <div class="end-time"></div>
+            </div>
+            <div class="player-actions">
+                <button class="action-button">
+                    <i class="material-icons">skip_previous</i>
+                </button>
+                <button class="play-button">
+                    <i class="material-icons">play_arrow</i>
+                </button>
+                <button class="action-button">
+                    <i class="material-icons">skip_next</i>
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+    <audio id="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" ></audio>
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script
+        src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+        crossorigin="anonymous"
+></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js"
+            integrity="sha512-2fk3Q4NXPYAqIha0glLZ2nluueK43aNoxvijPf53+DgL7UW9mkN+uXc1aEmnZdkkZVvtJZltpRt+JqTWc3TS3Q=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    ></script>
+<script>
+    $(function(){
+        $(".song").on("click", function () {
+            $(".song").removeClass("active");
+            $(this).addClass("active");
+        });
+        let toggle = document.querySelector(".toggle");
+        let body = document.querySelector("body");
+
+        let tl = gsap.timeline();
+
+        toggle.addEventListener("click", function () {
+            if (body.classList.contains("open")) {
+                //Fermer le menu.
+                body.classList.remove("open");
+                tl.to(".sep", {
+                    duration: 0,
+                    height: 0,
+                });
+
+                tl.to(".sep__icon", {
+                    duration: 0,
+                    opacity: 0,
+                });
+            } else {
+                //Ouvrir le menu.
+                body.classList.add("open");
+
+                tl.to(".sep", {
+                    duration: 0.75,
+                    height: "100%",
+                    delay: 0.5,
+                });
+
+                tl.to(".sep__icon", {
+                    opacity: 1,
+                    duration: 0.25,
+                    delay: -0.5,
+                });
+
+                tl.from(
+                    ".menu__left__inner__item",
+                    {
+                        y: 40,
+                        opacity: 0,
+                        stagger: 0.25,
+                    },
+                    "<-0.5"
+                );
+
+                tl.from(
+                    ".menu__right__inner__item",
+                    {
+                        y: 40,
+                        opacity: 0,
+                        stagger: 0.25,
+                    },
+                    "<0.5"
+                );
+            }
+        });
+    })
+
+    //média player
+    $(document).ready(function() {
+        // Récupérer l'élément audio
+        var audioPlayer = $('#audio-player')[0];
+
+        // Récupérer les éléments DOM nécessaires
+        var progressBar = $('.progress-bar');
+        var startTime = $('.start-time');
+        var endTime = $('.end-time');
+        var playButton = $('.play-button');
+        var prevButton = $('.player-actions .action-button:first');
+        var nextButton = $('.player-actions .action-button:last');
+        var currentSong = $('.current-song');
+        var progressWrapper = $('.progress-wrapper');
+
+        // Définir les valeurs initiales
+        var isPlaying = false;
+        var currentTime = 0;
+        var duration = audioPlayer.duration;
+
+        // Mise à jour de la barre de progression et du temps de lecture
+        function updateProgress() {
+            currentTime = audioPlayer.currentTime;
+            duration = audioPlayer.duration;
+            if(!isNaN(duration)) {
+                var percent = currentTime / duration * 100;
+                progressBar.width(percent + '%');
+                startTime.text(formatTime(currentTime));
+                endTime.text(formatTime(duration));
+            }
+        }
+
+        // Formatage de la durée en minutes:secondes
+        function formatTime(time) {
+            var minutes = Math.floor(time / 60);
+            var seconds = Math.floor(time % 60);
+            return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        }
+
+        // Lecture de la musique
+        function play() {
+            audioPlayer.play();
+            isPlaying = true;
+            playButton.html('<i class="material-icons">pause</i>');
+        }
+
+        // Pause de la musique
+        function pause() {
+            audioPlayer.pause();
+            isPlaying = false;
+            playButton.html('<i class="material-icons">play_arrow</i>');
+        }
+
+        // Bouton play/pause
+        playButton.on('click', function() {
+            if (isPlaying) {
+                pause();
+            } else {
+                play();
+            }
+        });
+
+        // Bouton précédent
+        prevButton.on('click', function() {
+            // Changer la source audio ici pour la musique précédente
+            // Exemple : audioPlayer.src = 'audio/previous-song.mp3';
+            audioPlayer.load();
+            play();
+        });
+
+        // Bouton suivant
+        nextButton.on('click', function() {
+            // Changer la source audio ici pour la musique suivante
+            // Exemple : audioPlayer.src = 'audio/next-song.mp3';
+            audioPlayer.load();
+            play();
+        });
+
+        // Mettre à jour la barre de progression et le temps de lecture toutes les 500 millisecondes
+        setInterval(updateProgress, 500);
+        // Ramener la chanson au début lorsque l'utilisateur clique sur la barre de progression
+        progressBar.on('click', function(e) {
+
+            var pos = (e.pageX - $(this).offset().left) / $(this).width();
+            audioPlayer.currentTime = pos * duration;
+        });
+        // Variables pour le déplacement de la barre de progression
+        var isDragging = false;
+        var startX = 0;
+        var dragOffset = 0;
+
+        // Fonction de démarrage du déplacement
+        function startDrag(e) {
+            isDragging = true;
+            startX = e.pageX;
+            dragOffset = startX - progressBar.offset().left;
+        }
+
+        // Fonction de déplacement de la barre de progression
+        function drag(e) {
+            if (isDragging) {
+                var pos = (e.pageX - progressBar.offset().left - dragOffset) / progressBar.width();
+                pos = Math.max(0, Math.min(1, pos)); // S'assurer que la position est entre 0 et 1
+                audioPlayer.currentTime = pos * duration;
+                updateProgress();
+            }
+        }
+
+        // Fonction d'arrêt du déplacement
+        function stopDrag() {
+            isDragging = false;
+        }
+
+        // Événements pour le déplacement de la barre de progression
+        progressBar.on('mousedown', startDrag);
+        $(document).on('mousemove', drag);
+        $(document).on('mouseup', stopDrag);
+
+        // Déplacer la barre de progression au clic sur progress-wrapper si une chanson est sélectionnée
+        progressWrapper.on('click', function(e) {
+            if (isSongSelected() && !isNaN(duration)) {
+                var pos = (e.pageX - $(this).offset().left) / $(this).width();
+                audioPlayer.currentTime = pos * duration;
+                updateProgress();
+            }
+        });
+        // Vérifier si une chanson est sélectionnée
+        function isSongSelected() {
+            return audioPlayer.src !== "";
+        }
+    });
+
+    //---fin média player
+</script>
 {% endblock %}
