@@ -214,7 +214,11 @@
 
 
     </div>
-    <audio id="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" ></audio>
+    <div id = "audios_to_play">
+        <audio id="audio-player_1" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}"  data-piste = "1"></audio>
+        <audio id="audio-player_2" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste = "2"></audio>
+    </div>
+
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
@@ -294,133 +298,173 @@
 
     //média player
     $(document).ready(function() {
-        // Récupérer l'élément audio
-        var audioPlayer = $('#audio-player')[0];
+        var tabPiste = [];
+        var numeroAudio = 0 //initialisation
+        $('#audios_to_play').children().each(function(element){
+           tabPiste.push($(this).data('piste'))
+        })
+        console.log(tabPiste)
+        //s'il existe des pistes
+        if(tabPiste.length != 0) {
+            // Récupérer l'élément audio
+            var audioPlayer = $('#audio-player_' + tabPiste[0])[0];
+            numeroAudio = 1
+            // Récupérer les éléments DOM nécessaires
+            var progressBar = $('.progress-bar');
+            var startTime = $('.start-time');
+            var endTime = $('.end-time');
+            var playButton = $('.play-button');
+            var prevButton = $('.player-actions .action-button:first');
+            var nextButton = $('.player-actions .action-button:last');
+            var currentSong = $('.current-song');
+            var progressWrapper = $('.progress-wrapper');
 
-        // Récupérer les éléments DOM nécessaires
-        var progressBar = $('.progress-bar');
-        var startTime = $('.start-time');
-        var endTime = $('.end-time');
-        var playButton = $('.play-button');
-        var prevButton = $('.player-actions .action-button:first');
-        var nextButton = $('.player-actions .action-button:last');
-        var currentSong = $('.current-song');
-        var progressWrapper = $('.progress-wrapper');
+            // Définir les valeurs initiales
+            var isPlaying = false;
+            var currentTime = 0;
+            var duration = audioPlayer.duration;
 
-        // Définir les valeurs initiales
-        var isPlaying = false;
-        var currentTime = 0;
-        var duration = audioPlayer.duration;
 
-        // Mise à jour de la barre de progression et du temps de lecture
-        function updateProgress() {
-            currentTime = audioPlayer.currentTime;
-            duration = audioPlayer.duration;
-            if(!isNaN(duration)) {
-                var percent = currentTime / duration * 100;
-                progressBar.width(percent + '%');
-                startTime.text(formatTime(currentTime));
-                endTime.text(formatTime(duration));
+            // Mise à jour de la barre de progression et du temps de lecture
+            function updateProgress() {
+                currentTime = audioPlayer.currentTime;
+                duration = audioPlayer.duration;
+                if (!isNaN(duration)) {
+                    var percent = currentTime / duration * 100;
+                    progressBar.width(percent + '%');
+                    startTime.text(formatTime(currentTime));
+                    endTime.text(formatTime(duration));
+                }
+                if(currentTime == duration) {
+                    numeroAudio++
+                    pause()
+                    if(tabPiste.includes(numeroAudio)) {
+                        audioPlayer = $('#audio-player_' + numeroAudio)[0];
+                        play()
+                    }
+                    else {
+                        numeroAudio--
+                        pause()
+                    }
+
+                }
             }
-        }
 
-        // Formatage de la durée en minutes:secondes
-        function formatTime(time) {
-            var minutes = Math.floor(time / 60);
-            var seconds = Math.floor(time % 60);
-            return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-        }
-
-        // Lecture de la musique
-        function play() {
-            audioPlayer.play();
-            isPlaying = true;
-            playButton.html('<i class="material-icons">pause</i>');
-        }
-
-        // Pause de la musique
-        function pause() {
-            audioPlayer.pause();
-            isPlaying = false;
-            playButton.html('<i class="material-icons">play_arrow</i>');
-        }
-
-        // Bouton play/pause
-        playButton.on('click', function() {
-            if (isPlaying) {
-                pause();
-            } else {
-                play();
+            // Formatage de la durée en minutes:secondes
+            function formatTime(time) {
+                var minutes = Math.floor(time / 60);
+                var seconds = Math.floor(time % 60);
+                return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
             }
-        });
 
-        // Bouton précédent
-        prevButton.on('click', function() {
-            // Changer la source audio ici pour la musique précédente
-            // Exemple : audioPlayer.src = 'audio/previous-song.mp3';
-            audioPlayer.load();
-            play();
-        });
-
-        // Bouton suivant
-        nextButton.on('click', function() {
-            // Changer la source audio ici pour la musique suivante
-            // Exemple : audioPlayer.src = 'audio/next-song.mp3';
-            audioPlayer.load();
-            play();
-        });
-
-        // Mettre à jour la barre de progression et le temps de lecture toutes les 500 millisecondes
-        setInterval(updateProgress, 500);
-        // Ramener la chanson au début lorsque l'utilisateur clique sur la barre de progression
-        progressBar.on('click', function(e) {
-
-            var pos = (e.pageX - $(this).offset().left) / $(this).width();
-            audioPlayer.currentTime = pos * duration;
-        });
-        // Variables pour le déplacement de la barre de progression
-        var isDragging = false;
-        var startX = 0;
-        var dragOffset = 0;
-
-        // Fonction de démarrage du déplacement
-        function startDrag(e) {
-            isDragging = true;
-            startX = e.pageX;
-            dragOffset = startX - progressBar.offset().left;
-        }
-
-        // Fonction de déplacement de la barre de progression
-        function drag(e) {
-            if (isDragging) {
-                var pos = (e.pageX - progressBar.offset().left - dragOffset) / progressBar.width();
-                pos = Math.max(0, Math.min(1, pos)); // S'assurer que la position est entre 0 et 1
-                audioPlayer.currentTime = pos * duration;
-                updateProgress();
+            // Lecture de la musique
+            function play() {
+                audioPlayer.play();
+                isPlaying = true;
+                playButton.html('<i class="material-icons">pause</i>');
             }
-        }
 
-        // Fonction d'arrêt du déplacement
-        function stopDrag() {
-            isDragging = false;
-        }
+            // Pause de la musique
+            function pause() {
+                audioPlayer.pause();
+                isPlaying = false;
+                playButton.html('<i class="material-icons">play_arrow</i>');
+            }
 
-        // Événements pour le déplacement de la barre de progression
-        progressBar.on('mousedown', startDrag);
-        $(document).on('mousemove', drag);
-        $(document).on('mouseup', stopDrag);
+            // Bouton play/pause
+            playButton.on('click', function () {
+                if (isPlaying) {
+                    pause();
+                } else {
+                    play();
+                }
+            });
 
-        // Déplacer la barre de progression au clic sur progress-wrapper si une chanson est sélectionnée
-        progressWrapper.on('click', function(e) {
-            if (isSongSelected() && !isNaN(duration)) {
+            // Bouton précédent
+            prevButton.on('click', function () {
+                numeroAudio--
+                if(tabPiste.includes(numeroAudio)) {
+                    pause()
+                    audioPlayer = $('#audio-player_' + numeroAudio)[0];
+                    play()
+                }
+                else {
+                    pause()
+                    numeroAudio++
+                    audioPlayer = $('#audio-player_' + numeroAudio)[0];
+                    play()
+                }
+            });
+
+            // Bouton suivant
+            nextButton.on('click', function () {
+                numeroAudio++
+                if(tabPiste.includes(numeroAudio)) {
+                    pause()
+                    audioPlayer = $('#audio-player_' + numeroAudio)[0];
+                    play()
+                }
+                else {
+                    pause()
+                    numeroAudio--
+                    audioPlayer = $('#audio-player_' + numeroAudio)[0];
+                    play()
+                }
+            });
+
+            // Mettre à jour la barre de progression et le temps de lecture toutes les 500 millisecondes
+            setInterval(updateProgress, 500);
+            // Ramener la chanson au début lorsque l'utilisateur clique sur la barre de progression
+            progressBar.on('click', function (e) {
+
                 var pos = (e.pageX - $(this).offset().left) / $(this).width();
                 audioPlayer.currentTime = pos * duration;
-                updateProgress();
+            });
+            // Variables pour le déplacement de la barre de progression
+            var isDragging = false;
+            var startX = 0;
+            var dragOffset = 0;
+
+            // Fonction de démarrage du déplacement
+            function startDrag(e) {
+                isDragging = true;
+                startX = e.pageX;
+                dragOffset = startX - progressBar.offset().left;
             }
-        });
-        // Vérifier si une chanson est sélectionnée
-        function isSongSelected() {
-            return audioPlayer.src !== "";
+
+            // Fonction de déplacement de la barre de progression
+            function drag(e) {
+                if (isDragging) {
+                    var pos = (e.pageX - progressBar.offset().left - dragOffset) / progressBar.width();
+                    pos = Math.max(0, Math.min(1, pos)); // S'assurer que la position est entre 0 et 1
+                    audioPlayer.currentTime = pos * duration;
+                    updateProgress();
+                }
+            }
+
+            // Fonction d'arrêt du déplacement
+            function stopDrag() {
+                isDragging = false;
+            }
+
+            // Événements pour le déplacement de la barre de progression
+            progressBar.on('mousedown', startDrag);
+            $(document).on('mousemove', drag);
+            $(document).on('mouseup', stopDrag);
+
+            // Déplacer la barre de progression au clic sur progress-wrapper si une chanson est sélectionnée
+            progressWrapper.on('click', function (e) {
+                if (isSongSelected() && !isNaN(duration)) {
+                    var pos = (e.pageX - $(this).offset().left) / $(this).width();
+                    audioPlayer.currentTime = pos * duration;
+                    updateProgress();
+                }
+            });
+
+            // Vérifier si une chanson est sélectionnée
+            function isSongSelected() {
+                return audioPlayer.src !== "";
+            }
         }
     });
 
