@@ -19,6 +19,8 @@
                             <div class="song-artist">by Panic! At The Disco</div>
                             <div class="song-time">3:23</div>
                         </div>
+                        <audio id="audio-player_3" data-id="audio-player_3" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" data-piste="1" ></audio>
+                        <audio id="audio-player_4" data-id="audio-player_4" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste="2" ></audio>
                     </div>
                 </div>
 
@@ -35,6 +37,8 @@
                             <div class="song-artist">by Chance The Rapper</div>
                             <div class="song-time">3:41</div>
                         </div>
+                        <audio id="audio-player_1" data-id="audio-player_1" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" data-piste="1" ></audio>
+                        <audio id="audio-player_2" data-id="audio-player_2" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste="2" ></audio>
                     </div>
                 </div>
 
@@ -51,6 +55,8 @@
                             <div class="song-artist">by Tycho</div>
                             <div class="song-time">5:16</div>
                         </div>
+                        <audio id="audio-player_3" data-id="audio-player_3" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" data-piste="1" ></audio>
+                        <audio id="audio-player_4" data-id="audio-player_4" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste="2" ></audio>
                     </div>
                 </div>
                 <div class="col s12 m6 l4 x3">
@@ -298,19 +304,35 @@
 
     //média player
     $(document).ready(function() {
-        var tabPiste = [];
+        var audioPlayer
+        var tabPiste = {};
         var numeroAudio = 0 //initialisation
-        $('#audios_to_play').children().each(function(element){
-           tabPiste.push($(this).data('piste'))
-        })
-        console.log(tabPiste)
+        var progressBar = $('.progress-bar');
+        $('.song').on('click', function(){
+            if(typeof audioPlayer != 'undefined') {
+                audioPlayer.pause()
+                audioPlayer.currentTime = 0
+                progressBar.width(0 + '%');
+                $('.play-button').html('<i class="material-icons">play_arrow</i>');
+            }
+            var audios = $(this).children('audio');
+            audios.each(function(element) {
+                console.log($(this).data('piste'))
+                tabPiste[$(this).data('piste')] = $(this).data('id')
+            })
+            $.each(tabPiste,function (key,val){
+                if(val == undefined) {
+                    tabPiste.splice(key,1)
+                }
+            })
+
         //s'il existe des pistes
         if(tabPiste.length != 0) {
             // Récupérer l'élément audio
-            var audioPlayer = $('#audio-player_' + tabPiste[0])[0];
+             audioPlayer = $('#' + tabPiste[1])[0];
             numeroAudio = 1
             // Récupérer les éléments DOM nécessaires
-            var progressBar = $('.progress-bar');
+
             var startTime = $('.start-time');
             var endTime = $('.end-time');
             var playButton = $('.play-button');
@@ -338,8 +360,8 @@
                 if(currentTime == duration) {
                     numeroAudio++
                     pause()
-                    if(tabPiste.includes(numeroAudio)) {
-                        audioPlayer = $('#audio-player_' + numeroAudio)[0];
+                    if( tabPiste.hasOwnProperty(numeroAudio)) {
+                        audioPlayer = $('#'+tabPiste[numeroAudio])[0];
                         play()
                     }
                     else {
@@ -383,15 +405,15 @@
             // Bouton précédent
             prevButton.on('click', function () {
                 numeroAudio--
-                if(tabPiste.includes(numeroAudio)) {
+                if(tabPiste.hasOwnProperty(numeroAudio)) {
                     pause()
-                    audioPlayer = $('#audio-player_' + numeroAudio)[0];
+                    audioPlayer = $('#'+tabPiste[numeroAudio])[0];
                     play()
                 }
                 else {
                     pause()
                     numeroAudio++
-                    audioPlayer = $('#audio-player_' + numeroAudio)[0];
+                    audioPlayer = $('#'+tabPiste[numeroAudio])[0];
                     play()
                 }
             });
@@ -399,15 +421,15 @@
             // Bouton suivant
             nextButton.on('click', function () {
                 numeroAudio++
-                if(tabPiste.includes(numeroAudio)) {
+                if(tabPiste.hasOwnProperty(numeroAudio)) {
                     pause()
-                    audioPlayer = $('#audio-player_' + numeroAudio)[0];
+                    audioPlayer = $('#'+tabPiste[numeroAudio])[0];
                     play()
                 }
                 else {
                     pause()
                     numeroAudio--
-                    audioPlayer = $('#audio-player_' + numeroAudio)[0];
+                    audioPlayer = $('#'+tabPiste[numeroAudio])[0];
                     play()
                 }
             });
@@ -467,6 +489,7 @@
             }
         }
     });
+    })
 
     //---fin média player
 </script>
