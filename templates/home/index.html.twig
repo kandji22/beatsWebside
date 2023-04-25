@@ -19,8 +19,8 @@
                             <div class="song-artist">by Panic! At The Disco</div>
                             <div class="song-time">3:23</div>
                         </div>
-                        <audio id="audio-player_3" data-id="audio-player_3" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" data-piste="1" ></audio>
-                        <audio id="audio-player_4" data-id="audio-player_4" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste="2" ></audio>
+                        <audio data-song = "my song" id="audio-player_3" data-id="audio-player_3" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" data-piste="1" ></audio>
+                        <audio data-song = "my song2" id="audio-player_4" data-id="audio-player_4" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste="2" ></audio>
                     </div>
                 </div>
 
@@ -37,8 +37,8 @@
                             <div class="song-artist">by Chance The Rapper</div>
                             <div class="song-time">3:41</div>
                         </div>
-                        <audio id="audio-player_1" data-id="audio-player_1" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" data-piste="1" ></audio>
-                        <audio id="audio-player_2" data-id="audio-player_2" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste="2" ></audio>
+                        <audio data-song = "my song3"  id="audio-player_1" data-id="audio-player_1" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" data-piste="1" ></audio>
+                        <audio data-song = "my song4"   id="audio-player_2" data-id="audio-player_2" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste="2" ></audio>
                     </div>
                 </div>
 
@@ -55,8 +55,7 @@
                             <div class="song-artist">by Tycho</div>
                             <div class="song-time">5:16</div>
                         </div>
-                        <audio id="audio-player_3" data-id="audio-player_3" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" data-piste="1" ></audio>
-                        <audio id="audio-player_4" data-id="audio-player_4" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste="2" ></audio>
+
                     </div>
                 </div>
                 <div class="col s12 m6 l4 x3">
@@ -220,10 +219,7 @@
 
 
     </div>
-    <div id = "audios_to_play">
-        <audio id="audio-player_1" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}"  data-piste = "1"></audio>
-        <audio id="audio-player_2" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste = "2"></audio>
-    </div>
+
 
 {% endblock %}
 {% block javascripts %}
@@ -362,6 +358,8 @@
                     pause()
                     if( tabPiste.hasOwnProperty(numeroAudio)) {
                         audioPlayer = $('#'+tabPiste[numeroAudio])[0];
+                        currentSong.empty()
+                        currentSong.append('<span>'+$('#'+tabPiste[numeroAudio]).data('sound')+'</span>')
                         play()
                     }
                     else {
