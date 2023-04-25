@@ -13,6 +13,7 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+    {% block head %}
     </head>
     <body>
     <!DOCTYPE html>
@@ -99,6 +100,7 @@
         </nav>
     </header>
     <section class="hero"></section>
+     {% endblock %}
         {% block body %}{% endblock %}
     </body>
 </html>

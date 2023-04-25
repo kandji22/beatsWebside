@@ -2,14 +2,8 @@
 
 {% block title %}Home{% endblock %}
 
-{% block body %}
-    <!-- PRESS THE MENU BUTTON TO TRIGGER ANIMATION -->
-    <!-- PRESS PLAY BUTTON TO LISTEN THE DEMO SONG -->
-
-    <!-- As seen on: "https://dribbble.com/shots/2144866-Day-5-Music-Player-Rebound/" -->
-
-    <!-- THANK YOU! -->
-
+{% block head %}
+    {{ parent() }}
     <article class="screen">
         <input type="checkbox" value="None" id="magicButton" name="check" />
         <label class="main" for="magicButton"></label>
@@ -116,28 +110,96 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script
+            src="https://code.jquery.com/jquery-3.6.4.js"
+            integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+            crossorigin="anonymous"
+    ></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js"
+            integrity="sha512-2fk3Q4NXPYAqIha0glLZ2nluueK43aNoxvijPf53+DgL7UW9mkN+uXc1aEmnZdkkZVvtJZltpRt+JqTWc3TS3Q=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    ></script>
     <script>
-        // PRESS THE MENU BUTTON TO TRIGGER ANIMATION
-        // PRESS PLAY BUTTON TO LISTEN THE DEMO SONG
+        $(function(){
+            $(".song").on("click", function () {
+                $(".song").removeClass("active");
+                $(this).addClass("active");
+            });
+            let toggle = document.querySelector(".toggle");
+            let body = document.querySelector("body");
 
-        // As seen on: "https://dribbble.com/shots/2144866-Day-5-Music-Player-Rebound/"
+            let tl = gsap.timeline();
 
-        // THANK YOU!
+            toggle.addEventListener("click", function () {
+                if (body.classList.contains("open")) {
+                    //Fermer le menu.
+                    body.classList.remove("open");
+                    tl.to(".sep", {
+                        duration: 0,
+                        height: 0,
+                    });
 
-        var audio = document.getElementById('audio');
-        var playpause = document.getElementById("play");
+                    tl.to(".sep__icon", {
+                        duration: 0,
+                        opacity: 0,
+                    });
+                } else {
+                    //Ouvrir le menu.
+                    body.classList.add("open");
+
+                    tl.to(".sep", {
+                        duration: 0.75,
+                        height: "100%",
+                        delay: 0.5,
+                    });
+
+                    tl.to(".sep__icon", {
+                        opacity: 1,
+                        duration: 0.25,
+                        delay: -0.5,
+                    });
+
+                    tl.from(
+                        ".menu__left__inner__item",
+                        {
+                            y: 40,
+                            opacity: 0,
+                            stagger: 0.25,
+                        },
+                        "<-0.5"
+                    );
+
+                    tl.from(
+                        ".menu__right__inner__item",
+                        {
+                            y: 40,
+                            opacity: 0,
+                            stagger: 0.25,
+                        },
+                        "<0.5"
+                    );
+                }
+            });
 
 
-        function togglePlayPause() {
-            if (audio.paused || audio.ended) {
-                playpause.title = "Pause";
-                audio.play();
-            } else {
-                playpause.title = "Play";
-                audio.pause();
+            var audio = document.getElementById('audio');
+            var playpause = document.getElementById("play");
+
+
+            function togglePlayPause() {
+                if (audio.paused || audio.ended) {
+                    playpause.title = "Pause";
+                    audio.play();
+                } else {
+                    playpause.title = "Play";
+                    audio.pause();
+                }
             }
-        }
-
-
+        })
     </script>
 {% endblock %}
+
+
+

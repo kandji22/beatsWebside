@@ -1563,3 +1563,10 @@ td > #repeat:checked ~ label.repeat:before {
 audio {
     visibility: hidden;
 }
+
+.toggle {
+    z-index: 99999;
+}
+.menu__left,.menu__right,.sep,.sep__icon {
+    z-index: 9999;
+}
