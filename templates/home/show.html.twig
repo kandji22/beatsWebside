@@ -85,6 +85,7 @@
         <div class="info">
             <h4>STRESSED OUT</h4>
             <h3>twenty one pilots - Blurryface</h3>
+            <i class="fa fa-cart-arrow-down panier_show" aria-hidden="true" style='font-size:24px; display:none'></i>
         </div>
         <audio preload="auto" id="audio" controls>
             <source src="http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3">
@@ -92,7 +93,7 @@
         </audio>
         <table class="player">
             <td><input type="checkbox" id="backward"/><label class="backward" for="backward"></label></td>
-            <td><input type="checkbox" id="play" title="Play" onclick="togglePlayPause()"/><label class="play" for="play"></label></td>
+            <td><input type="checkbox" id="play" title="Play"/><label class="play" for="play"></label></td>
             <td><input type="checkbox" id="forward"/><label class="forward" for="forward"></label></td>
         </table>
 
@@ -197,6 +198,12 @@
                     audio.pause();
                 }
             }
+            $('#magicButton').on('click',function (){
+                $('.panier_show').toggle()
+            })
+            $('#play').on('click',function() {
+                togglePlayPause()
+            })
         })
     </script>
 {% endblock %}

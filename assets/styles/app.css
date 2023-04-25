@@ -1570,3 +1570,7 @@ audio {
 .menu__left,.menu__right,.sep,.sep__icon {
     z-index: 9999;
 }
+.panier_show:hover {
+    color: #5eb5e0;
+    cursor: pointer;
+}
