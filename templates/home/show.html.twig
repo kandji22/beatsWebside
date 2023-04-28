@@ -13,7 +13,7 @@
         <div class="bodyPlayer"></div>
 
         <table class="list">
-            <tr class="song">
+            <tr class="song" data-song="http://jplayer.org/audio/m4a/Miaow-07-Bubble.m4a">
                 <td class="nr">
                     <h5>1<h5></td>
                 <td class="title"><h6>Heavydirtysoul<h6></td>
@@ -21,7 +21,7 @@
                 <td><input type="checkbox" id="heart"/><label class="zmr" for="heart"></label></td>
             </tr>
 
-            <tr class="song">
+            <tr class="song" data-song="https://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3">
                 <td class="nr"><h5>2<h5></td>
                 <td class="title"><h6 style="color: #ff564c;">StressedOut<h6></td>
                 <td class="length"><h5>3:22<h5></td>
@@ -85,15 +85,16 @@
         <div class="info">
             <h4>STRESSED OUT</h4>
             <h3>twenty one pilots - Blurryface</h3>
+            <!-- ici mettre une condition pour dire que le produit est déjâ ajouter au panier -->
             <i class="fa fa-cart-arrow-down panier_show" aria-hidden="true" style='font-size:24px; display:none'></i>
+            <div class="show_card" style ="display: none; margin-top: 6px; "> <a href="{{ path('app_show_card') }}" class="btn btn-primary" style="font-size: 11px" > Voir mon panier <i class="fa fa-arrow-right"></i> </a></div>
         </div>
         <audio preload="auto" id="audio" controls>
             <source src="http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3">
-            <source src="http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.ogg">
         </audio>
         <table class="player">
             <td><input type="checkbox" id="backward"/><label class="backward" for="backward"></label></td>
-            <td><input type="checkbox" id="play" title="Play"/><label class="play" for="play"></label></td>
+            --<td><input type="checkbox" id="play" title="Play"/><label class="play" for="play"></label></td>
             <td><input type="checkbox" id="forward"/><label class="forward" for="forward"></label></td>
         </table>
 
@@ -204,7 +205,20 @@
             $('#play').on('click',function() {
                 togglePlayPause()
             })
+            $('.song').on('click',function(){
+
+                console.log($(this).data('song'))
+                $("#audio source").prop("src", $(this).data('song'));
+                $("#audio")[0].load();
+                $("#audio")[0].play();
+                $('#play').prop('checked',true)
+            })
+            $('.panier_show').on('click',function () {
+                $(this).hide('slow')
+                $('.show_card').show('slow')
+            })
         })
+
     </script>
 {% endblock %}
 

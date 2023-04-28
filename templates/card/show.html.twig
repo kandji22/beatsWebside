@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mon panier - Sound{% endblock %}
+ {% block stylesheets %}
+     {{ parent() }}
+     <style>
+
+         body {
+             background-color: white;
+             width: 80%;
+             margin-left: 9%;
+             margin-right: 9%;
+             margin-top: 10%;
+         }
+     </style>
+ {% endblock %}
+
+{% block head %}
+{% endblock %}
+{% block body %}
+    <h1>Mon panier</h1>
+    Retrouvez l'ensemble des produits que vous avez ajouté à votre panier.
+
+    {% if true %}
+        <table class="table mt-3">
+            <thead>
+            <tr>
+                <th scope="col">Produit</th>
+                <th scope="col"></th>
+                <th scope="col">Prix</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set total = null %}
+           <!-- faire un  boucle -->
+                <tr>
+                    <th>
+                        <img src="{{  asset('images/image1.jpeg')  }}" alt="" height="75px"><br/>
+                    </th>
+                    <td>
+                        Nom du Produit<br/>
+                        <small>Petit titre du produit </small>
+                    </td>
+
+                    <td> 1000 €</td>
+
+                    <td>
+                        <a href="{{ path('delete_to_cart', { 'id' : 1 }) }}" style="font-size: 2rem">
+                            &#128686;
+                        </a>
+                    </td>
+                </tr>
+            <!-- fin boucle -->
+<!-- ici on fait la sommme  -->
+
+            </tbody>
+        </table>
+        <div class="text-right mb-5">
+            <b>Nombre de produit :</b> 2 <br/>
+            <b>Total de mon panier :</b> 2000 €
+            <a href="" class="btn btn-success btn-block mt-3">Valider mon panier</a>
+            <a href="{{ path('app_home') }}" class="btn btn-primary btn-block mt-3">Retourner dans ma boutique </a>
+        </div>
+    {% else %}
+        <hr>
+        <p><b>Votre panier est vide.</b></p>
+    {% endif %}
+{% endblock %}

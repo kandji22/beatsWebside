@@ -27,4 +27,33 @@ class IndexController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+
+    /**
+     * @Route("/card/show", name="app_show_card")
+     */
+    public function showCard(): Response
+    {
+        return $this->render('card/show.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+
+    //delete_to_cart
+    /**
+     * @Route("/card/delete{id}", name="delete_to_cart")
+     */
+    public function deleteCard(): Response
+    {
+    }
+
+
+    /**
+     * @Route("/commande", name="order_command")
+     */
+    public function Order(): Response
+    {
+        return $this->render('order/index.html.twig', [
+
+        ]);
+    }
 }

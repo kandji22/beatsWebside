@@ -40,7 +40,7 @@ nav {
 
 .toggle {
     color: var(--third-color);
-    font-size: 2rem;
+    font-size: 1rem;
     position: absolute;
     top: 1rem;
     right: 1rem;
