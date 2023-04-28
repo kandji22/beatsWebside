@@ -1574,3 +1574,6 @@ audio {
     color: #5eb5e0;
     cursor: pointer;
 }
+body {
+    background-color: #1d1d1d !important;
+}
