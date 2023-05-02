@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Home{% endblock %}
-
+ {% block stylesheets %}
+     {{ parent() }}
+     <style>
+         .music-player {
+             margin-bottom: 2rem;
+         }
+     </style>
+{% endblock %}
 {% block head %}
     {{ parent() }}
     <article class="screen">
@@ -13,7 +20,7 @@
         <div class="bodyPlayer"></div>
 
         <table class="list">
-            <tr class="song" data-song="http://jplayer.org/audio/m4a/Miaow-07-Bubble.m4a">
+            <tr class="song" data-song="http://jplayer.org/audio/m4a/Miaow-07-Bubble.m4a" data-piste="1">
                 <td class="nr">
                     <h5>1<h5></td>
                 <td class="title"><h6>Heavydirtysoul<h6></td>
@@ -21,61 +28,13 @@
                 <td><input type="checkbox" id="heart"/><label class="zmr" for="heart"></label></td>
             </tr>
 
-            <tr class="song" data-song="https://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3">
+            <tr class="song" data-song="https://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3" data-piste="2">
                 <td class="nr"><h5>2<h5></td>
                 <td class="title"><h6 style="color: #ff564c;">StressedOut<h6></td>
                 <td class="length"><h5>3:22<h5></td>
                 <td><input type="checkbox" id="heart1" checked /><label class="zmr" for="heart1"></label></td>
             </tr>
 
-            <tr class="song">
-                <td class="nr"><h5>3<h5></td>
-                <td class="title"><h6>Ride<h6></td>
-                <td class="length"><h5>3:34<h5></td>
-                <td><input type="checkbox" id="heart2"/><label class="zmr" for="heart2"></label></td>
-            </tr>
-
-            <tr class="song">
-                <td class="nr"><h5>4<h5></td>
-                <td class="title"><h6>Fairy Local<h6></td>
-                <td class="length"><h5>3:27<h5></td>
-                <td><input type="checkbox" id="heart3" checked /><label class="zmr" for="heart3"></label></td>
-            </tr>
-
-            <tr class="song">
-                <td class="nr"><h5>5<h5></td>
-                <td class="title"><h6>Tear in My Heart<h6></td>
-                <td class="length"><h5>3:08<h5></td>
-                <td><input type="checkbox" id="heart4"/><label class="zmr" for="heart4"></label></td>
-            </tr>
-
-            <tr class="song">
-                <td class="nr"><h5>6<h5></td>
-                <td class="title"><h6>Lane Boy<h6></td>
-                <td class="length"><h5>4:13<h5></td>
-                <td><input type="checkbox" id="heart5"/><label class="zmr" for="heart5"></label></td>
-            </tr>
-
-            <tr class="song">
-                <td class="nr"><h5>7<h5></td>
-                <td class="title"><h6>The Judge<h6></td>
-                <td class="length"><h5>4:57<h5></td>
-                <td><input type="checkbox" id="heart6"/><label class="zmr" for="heart6"></label></td>
-            </tr>
-
-            <tr class="song">
-                <td class="nr"><h5>8<h5></td>
-                <td class="title"><h6>Doubt<h6></td>
-                <td class="length"><h5>3:11<h5></td>
-                <td><input type="checkbox" id="heart7"/><label class="zmr" for="heart7"></label></td>
-            </tr>
-
-            <tr class="song">
-                <td class="nr"><h5>9<h5></td>
-                <td class="title"><h6>Polarize<h6></td>
-                <td class="length"><h5>3:46<h5></td>
-                <td><input type="checkbox" id="heart8"/><label class="zmr" for="heart8"></label></td>
-            </tr>
         </table>
 
         <div class="shadow"></div>
@@ -92,6 +51,13 @@
         <audio preload="auto" id="audio" controls>
             <source src="http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3">
         </audio>
+
+
+        <div class="music-player" style = "display: none">
+            <div class="progress-wrapper">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
         <table class="player">
             <td><input type="checkbox" id="backward"/><label class="backward" for="backward"></label></td>
             --<td><input type="checkbox" id="play" title="Play"/><label class="play" for="play"></label></td>
@@ -125,6 +91,9 @@
     ></script>
     <script>
         $(function(){
+            var progressBar = $('.progress-bar');
+            var audioPlayer;
+            var progressWrapper = $('.progress-wrapper');
             $(".song").on("click", function () {
                 $(".song").removeClass("active");
                 $(this).addClass("active");
@@ -188,7 +157,18 @@
 
             var audio = document.getElementById('audio');
             var playpause = document.getElementById("play");
+            var duration;
+            var tabSound = {}
+            var indexSound = 1
+            $('.song').each(function(){
 
+                tabSound[$(this).data('piste')] = $(this).data('song')
+            })
+            $.each(tabSound,function (key,val){
+                if(val == undefined) {
+                    tabSound.splice(key,1)
+                }
+            })
 
             function togglePlayPause() {
                 if (audio.paused || audio.ended) {
@@ -206,17 +186,81 @@
                 togglePlayPause()
             })
             $('.song').on('click',function(){
-
-                console.log($(this).data('song'))
-                $("#audio source").prop("src", $(this).data('song'));
-                $("#audio")[0].load();
-                $("#audio")[0].play();
-                $('#play').prop('checked',true)
+                progressBar.width(0 + '%');
+                indexSound = $(this).data('piste')
+                goTo(tabSound[indexSound])
             })
             $('.panier_show').on('click',function () {
                 $(this).hide('slow')
                 $('.show_card').show('slow')
             })
+        $('#forward').on('click',function () {
+            indexSound++
+            if(tabSound.hasOwnProperty(indexSound)) {
+                goTo(tabSound[indexSound])
+            }
+            else {
+                indexSound--
+            }
+        })
+        $('#backward').on('click',function () {
+            indexSound--
+            if(tabSound.hasOwnProperty(indexSound)) {
+                goTo(tabSound[indexSound])
+            }
+            else {
+                indexSound++
+            }
+        })
+
+            function goTo(piste = null) {
+
+                $("#audio source").prop("src", piste);
+                $("#audio")[0].load();
+                $("#audio")[0].play();
+                $('#play').prop('checked',true)
+            }
+            $('#magicButton').on('click',function(){
+                $('.music-player').toggle()
+            })
+
+            // Mise à jour de la barre de progression et du temps de lecture
+            function updateProgress() {
+                currentTime = audio.currentTime;
+                duration = audio.duration;
+                if (!isNaN(duration)) {
+                    var percent = currentTime / duration * 100;
+                    progressBar.width(percent + '%');
+                }
+                if(currentTime == duration) {
+                    indexSound++
+                    pause()
+                    if( tabSound.hasOwnProperty(indexSound)) {
+                        goTo(tabSound[indexSound])
+                    }
+                    else {
+                        numeroAudio--
+                        audio.pause()
+                    }
+
+                }
+            }
+            // Mettre à jour la barre de progression et le temps de lecture toutes les 500 millisecondes
+            setInterval(updateProgress, 500);
+
+            // Déplacer la barre de progression au clic sur progress-wrapper si une chanson est sélectionnée
+            progressWrapper.on('click', function (e) {
+
+                if (isSongSelected() && !isNaN(duration)) {
+                    var pos = (e.pageX - $(this).offset().left) / $(this).width();
+                    audio.currentTime = pos * duration;
+                    updateProgress();
+                }
+            });
+            // Vérifier si une chanson est sélectionnée
+            function isSongSelected() {
+                return $('source').src !== "";
+            }
         })
 
     </script>
