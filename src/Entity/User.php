@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -38,13 +39,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
+    
+
     /**
      * @ORM\OneToMany(targetEntity=Likes::class, mappedBy="user_id", orphanRemoval=true)
      */
     private $likes;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $addresse;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ville;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $code_postal;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $pays;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $date_inscription;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $picture;
+
     public function __construct()
     {
+        $date = new \DateTime();
+        $this->setDateInscription($date);
         $this->likes = new ArrayCollection();
     }
 
@@ -163,6 +208,102 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $like->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getAddresse(): ?string
+    {
+        return $this->addresse;
+    }
+
+    public function setAddresse(string $addresse): self
+    {
+        $this->addresse = $addresse;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(string $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getCodePostal(): ?string
+    {
+        return $this->code_postal;
+    }
+
+    public function setCodePostal(?string $code_postal): self
+    {
+        $this->code_postal = $code_postal;
+
+        return $this;
+    }
+
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
+
+    public function setPays(?string $pays): self
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    public function getDateInscription(): ?\DateTimeInterface
+    {
+        return $this->date_inscription;
+    }
+
+    public function setDateInscription(\DateTimeInterface $date_inscription): self
+    {
+        $this->date_inscription = $date_inscription;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }
