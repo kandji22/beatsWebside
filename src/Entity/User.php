@@ -88,6 +88,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
+        if(empty($this->roles)) {
+            $this->roles[] = 'ROLE_USER';
+        }
         $date = new \DateTime();
         $this->setDateInscription($date);
         $this->likes = new ArrayCollection();
