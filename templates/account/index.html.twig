@@ -597,6 +597,56 @@
         min-width: 420px;
         }
         }
+
+        .menu {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu li {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .menu li:last-child {
+            margin-right: 0;
+        }
+
+        .menu a {
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .menu a:hover {
+            color: #fff;
+            background-color: #000;
+            padding: 5px 10px;
+        }
+
+        .bouton {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bouton:hover {
+            background-color: #fff;
+            color: #000;
+        }
     </style>
 {% endblock %}
 {% block body %}
@@ -714,57 +764,36 @@
                     <div class="head">
                         <h3>Beat Propriétaire</h3>
                         <i class='bx bx-search' ></i>
-                        <i class='bx bx-filter' ></i>
+
+                        <i id="menu_filter" class='bx bx-filter' ></i>
                     </div>
                     <table>
                         <thead>
                         <tr>
-                            <th>User</th>
-                            <th>Date Order</th>
-                            <th>Status</th>
+                            <th>Produit</th>
+                            <th>Date Commande</th>
+                            <th>Nom du Produit</th>
+                            <th>Prix</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td>
                                 <img src="img/people.png">
-                                <p>John Doe</p>
+
                             </td>
                             <td>01-10-2021</td>
-                            <td><span class="status completed">Completed</span></td>
-                        </tr>
-                        <tr>
+                            <td>Nom du produit ici</td>
+                            <td>$100</td>
                             <td>
-                                <img src="img/people.png">
-                                <p>John Doe</p>
+                                <div class="form-check" style="margin-left: 14px">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" >
+                                </div>
                             </td>
-                            <td>01-10-2021</td>
-                            <td><span class="status pending">Pending</span></td>
+                            <!--<td><span class="status completed">Completed</span></td>-->
                         </tr>
-                        <tr>
-                            <td>
-                                <img src="img/people.png">
-                                <p>John Doe</p>
-                            </td>
-                            <td>01-10-2021</td>
-                            <td><span class="status process">Process</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="img/people.png">
-                                <p>John Doe</p>
-                            </td>
-                            <td>01-10-2021</td>
-                            <td><span class="status pending">Pending</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="img/people.png">
-                                <p>John Doe</p>
-                            </td>
-                            <td>01-10-2021</td>
-                            <td><span class="status completed">Completed</span></td>
-                        </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -794,6 +823,7 @@
                         </li>
                         <li class="not-completed">
                             <p>Todo List</p>
+
                             <i class='bx bx-dots-vertical-rounded' ></i>
                         </li>
                     </ul>
@@ -884,6 +914,9 @@
                 } else {
                     document.body.classList.remove('dark');
                 }
+            })
+            $('#menu_filter').on('click',function(){
+                $('#').toggle('slow')
             })
         })
     </script>

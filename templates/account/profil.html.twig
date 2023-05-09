@@ -4,6 +4,7 @@
 {% block head %} {% endblock %}
 {% block stylesheets %}
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
 
@@ -597,6 +598,7 @@
                 min-width: 420px;
             }
         }
+
     </style>
 {% endblock %}
 {% block body %}
@@ -658,7 +660,7 @@
                 <span class="num">8</span>
             </a>
             <a href="{{ path('app_profil') }}" class="profile">
-                <img src="{{ asset('images/people.png') }}">
+                <img src="{{ asset('images/profil/people.png') }}">
             </a>
         </nav>
         <!-- NAVBAR -->
@@ -685,14 +687,31 @@
 
 
             <div class="table-data">
-
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
                 <div class="todo">
                     <div class="head">
-                        <h3>Modifier votre profil</h3>
-                        <i class='bx bx-plus' ></i>
-                        <i class='bx bx-filter' ></i>
+                        <h3>Parémetrer votre profil</h3>
                     </div>
-                    <!--mettre formulaire-->
+
+                    <hr>
+                    {% if notification %}
+                        <div class="alert alert-info">{{ notification }}</div>
+                    {% endif %}
+                    <form method="POST" action="{{ path('app_profil') }}" enctype="multipart/form-data">
+                        {{ form_widget(form) }}
+
+                    </form>
+                    <hr>
+
 
                 </div>
             </div>
@@ -707,6 +726,7 @@
             integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
             crossorigin="anonymous"
     ></script>
+
     <script>
         $(function(){
             const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');

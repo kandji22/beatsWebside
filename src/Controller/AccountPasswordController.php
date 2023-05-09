@@ -20,37 +20,32 @@ class AccountPasswordController extends AbstractController
      */
     public function changePassword(Request $request,UserPasswordEncoderInterface $encoder,EntityManagerInterface $entityManager): Response
     {
-        $user = $this->getUser();
+        $notification = null;
 
-        $s = $user;
-        $form = $this->createForm(ChangePasswordType::class,$user);
-        //dd($request->get('confirm_change_password'));
+        $user = $this->getUser();
+        $form = $this->createForm(ChangePasswordType::class, $user);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            $oldPassword = $form->get('password')->getData();
-            $newPassord = $request->get('new_password');
-            $newConfirmPassord = $request->get('confirm_change_password');
-dd($);
-            if($encoder->isPasswordValid($user,$oldPassword)) {
-dd('ok');
-                $this->addFlash('error', 'L\'ancien mot de passe rentré n\'est pas correct');
-                exit();
-            }
-            dd('ok');
-            if($newPassord != $newConfirmPassord) {
-                $this->addFlash('error', 'Le mot de passe de confirmation n\'est pas la même');
-                exit();
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $old_pwd = $form->get('old_password')->getData();
 
-            $user->setPassword($newPassord);
-            $entityManager->flush($user);
-            $entityManager->persist();
+            if ($encoder->isPasswordValid($user, $old_pwd)) {
 
+                $new_pwd = $form->get('new_password')->getData();
+                $password = $encoder->encodePassword($user, $new_pwd);
+
+                $user->setPassword($password);
+                $entityManager->flush();
+                $notification = "Votre mot de passe a bien été mis à jour.";
+            } else {
+                $notification = "Votre mot de passe actuel n'est pas le bon";
+            }
         }
+
         return $this->render('account/changepassword.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'notification' => $notification
         ]);
     }
 }

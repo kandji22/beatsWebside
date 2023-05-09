@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -58,8 +59,11 @@ class ProfilType extends AbstractType
                         'choices' => array_flip(Countries::getNames()),
                         'placeholder' => 'Choisissez un pays'
             ])
-            ->add('picture', FileType::class, [
+            /*->add('picture', FileType::class, [
 
+            ])*/
+            ->add('submit', SubmitType::class, [
+            'label' => "Mettre à jour"
             ])
 
         ;

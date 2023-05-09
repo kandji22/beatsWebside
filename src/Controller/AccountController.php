@@ -18,16 +18,7 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/profil/profile", name="app_profil")
-     */
-    public function profil(): Response
-    {
 
-        return $this->render('account/profil.html.twig', [
-
-        ]);
-    }
 
 
 
