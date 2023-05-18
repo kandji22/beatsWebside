@@ -647,6 +647,32 @@
             background-color: #fff;
             color: #000;
         }
+
+        .dropdown-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            z-index: 9999;
+        }
+
+        .dropdown-menu li {
+            padding: 5px;
+            background-color: #f1f1f1;
+
+            margin: 0;
+            font-size: 11px;
+            margin-bottom: 0 !important;
+
+        }
+
+        .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu li:hover {
+            background-color: #3c91e6 !important;
+            cursor:pointer;
+        }
     </style>
 {% endblock %}
 {% block body %}
@@ -729,7 +755,7 @@
                     </ul>
                 </div>
                 <a href="#" class="btn-download">
-                    <i class='bx bxs-cloud-download' ></i>
+                    <i class='bx bxs-cloud-download ' ></i>
                     <span class="text">Download PDF Contrat</span>
                 </a>
             </div>
@@ -738,21 +764,21 @@
                 <li>
                     <i class='bx bxs-calendar-check' ></i>
                     <span class="text">
-						<h3>1020</h3>
+						<h3 class="number_owner_beat">1020</h3>
 						<p>Nombre de beat Propriétaire</p>
 					</span>
                 </li>
                 <li>
                     <i class='bx bxs-group' ></i>
                     <span class="text">
-						<h3>2834</h3>
+						<h3 class="number_no_owner_beat">2834</h3>
 						<p>Nombre de beats en attente d'achat</p>
 					</span>
                 </li>
                 <li>
                     <i class='bx bxs-dollar-circle' ></i>
                     <span class="text">
-						<h3>$2543</h3>
+						<h3>$<span class="price_in_basket">2543</span></h3>
 						<p>Somme Totale des beats achetés </p>
 					</span>
                 </li>
@@ -761,11 +787,13 @@
 
             <div class="table-data">
                 <div class="order">
-                    <div class="head">
+                    <div class="head" style="position: relative">
                         <h3>Beat Propriétaire</h3>
-                        <i class='bx bx-search' ></i>
+                        <a href="#" class="btn-download">
+                            <i class="bx bxs-cloud-download "></i>
+                            <span class="text download_selected_pdf">Download PDF Contrat</span>
+                        </a>
 
-                        <i id="menu_filter" class='bx bx-filter' ></i>
                     </div>
                     <table>
                         <thead>
@@ -788,7 +816,7 @@
                             <td>$100</td>
                             <td>
                                 <div class="form-check" style="margin-left: 14px">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" >
+                                    <input data-id ="1" class="form-check-input check_album" type="checkbox" value="" id="flexCheckDefault" >
                                 </div>
                             </td>
                             <!--<td><span class="status completed">Completed</span></td>-->
@@ -797,34 +825,34 @@
                         </tbody>
                     </table>
                 </div>
+
                 <div class="todo">
                     <div class="head">
                         <h3>Beats dans votre panier</h3>
-                        <i class='bx bx-plus' ></i>
+                        <i class='bx bx-plus by_panier' ></i>
                         <i class='bx bx-filter' ></i>
                     </div>
                     <ul class="todo-list">
-                        <li class="completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded' ></i>
+                        <li data-id="1" class="not-completed" style="position: relative">
+                            <p>Titre album</p>
+                            <span>$</span>
+                            <span class="price_album">200</span>
+                            <i class='bx bx-dots-vertical-rounded todo_list' ></i>
+                            <ul class="dropdown-menu" style="background-color: white;position: absolute;right: -20px;bottom: -70px;display: none">
+                                <li class="select_choice" style="background-color: white">Selectionner</li>
+                                <li class="delete_choice" style="background-color: white;color: red">Delete</li>
+                            </ul>
                         </li>
-                        <!--ici completed veut dire qu'on la déja acheté et donc tu peux plus l'acheté-->
-                        <li class="completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded' ></i>
-                        </li>
-                        <li class="not-completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded' ></i>
-                        </li>
-                        <li class="completed">
-                            <p>Todo List</p>
-                            <i class='bx bx-dots-vertical-rounded' ></i>
-                        </li>
-                        <li class="not-completed">
-                            <p>Todo List</p>
+                        <li data-id="2" class="not-completed" style="position: relative">
+                            <p>Titre album</p>
+                            <span>$</span>
+                            <span class="price_album">200</span>
+                            <i class='bx bx-dots-vertical-rounded todo_list' ></i>
+                            <ul class="dropdown-menu" style="background-color: white;position: absolute;right: -20px;bottom: -70px;display: none">
+                                <li class="select_choice" style="background-color: white">Selectionner</li>
+                                <li class="delete_choice" style="background-color: white;color: red">Delete</li>
 
-                            <i class='bx bx-dots-vertical-rounded' ></i>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -918,6 +946,92 @@
             $('#menu_filter').on('click',function(){
                 $('#').toggle('slow')
             })
+            $('.todo_list').on('click',function (){
+
+                $(this).parent().find('.dropdown-menu').toggle()
+            })
         })
+        function hideDropdownMenus() {
+            $(".dropdown-menu").hide();
+        }
+        // Événement de clic sur n'importe quel élément de la page
+        $(document).on("click", function(e) {
+            var targetClass = $(e.target).attr("class");
+            if (targetClass.indexOf("todo_list") !== -1) {
+
+            } else {
+                // La sous-chaîne "todo_list" n'est pas présente dans myString
+                hideDropdownMenus();
+            }
+
+            //sélectionner album à acheter
+            $('.select_choice').on('click',function () {
+                hideDropdownMenus();
+                var grantparent = $(this).parent().parent()
+                var parent = $(this).parent()
+                grantparent.removeClass("not-completed");
+                grantparent.addClass("completed");
+                var unselectChoiceElement = $('<li class="unselect_choice" style="background-color: white;color:#fd7238">Déselectionner</li>');
+                $(this).replaceWith(unselectChoiceElement);
+            })
+            //déselectionner
+            //sélectionner album à acheter
+            $('.unselect_choice').on('click',function () {
+                hideDropdownMenus();
+                var grantparent = $(this).parent().parent()
+                grantparent.removeClass("completed");
+                grantparent.addClass("not-completed");
+                var selectChoiceElement = $('<li class="select_choice" style="background-color: white">Selectionner</li>');
+                $(this).replaceWith(selectChoiceElement);
+            })
+
+            //acheter la selection
+            $('.download_selected_pdf').on('click',function(){
+                var selectedIds = [];
+                // Boucle à travers les checkboxes
+                $(".check_album").each(function() {
+                    // Vérifier si la checkbox est sélectionnée
+                    if ($(this).is(":checked")) {
+                        // Récupérer la valeur de l'attribut data-id
+                        var id = $(this).data("id");
+                        // Ajouter l'id au tableau selectedIds
+                        selectedIds.push(id);
+                    }
+                });
+
+// Afficher les ids sélectionnés dans la console
+                console.log(selectedIds);
+                if(selectedIds.length == 0) {
+                    alert("Merci de selectionner un ou des albums")
+                    return
+                }
+                //ici lancer le téléchargement pdf
+            })
+
+        });
+        $(function(){
+            function intializePage() {
+
+                var totalBitsInBasket = 0
+                var totalBitsProperty = 0
+                var priceBitsToBy = 0
+                $('.price_album').each(function(index,element){
+                    priceBitsToBy+= parseInt($(this).text())
+                    totalBitsInBasket++
+                })
+                $('.check_album').each(function(index,element){
+                    totalBitsProperty++
+                })
+                $('.number_owner_beat').empty()
+                $('.number_no_owner_beat').empty()
+                $('.price_in_basket').empty()
+                $('.number_owner_beat').text(totalBitsProperty)
+                $('.number_no_owner_beat').text(totalBitsInBasket)
+                $('.price_in_basket').text(priceBitsToBy)
+                console.log(totalBitsInBasket)
+            }
+            intializePage()
+        })
+
     </script>
 {% endblock %}
