@@ -6,9 +6,13 @@ use App\Repository\InstrumentalsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass=InstrumentalsRepository::class)
+ * @Vich\Uploadable
  */
 class Instrumentals
 {
@@ -33,6 +37,12 @@ class Instrumentals
      * @ORM\Column(type="string", length=255)
      */
     private $fichier_audio;
+
+    /**
+     * @Vich\UploadableField(mapping="instrumentals_audio", fileNameProperty="fichier_audio")
+     * @Assert\File(maxSize="10M",maxSizeMessage="La taille maximale autorisée est de 10 Mo.")
+     */
+    private $fichier;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -91,7 +101,12 @@ class Instrumentals
 
     public function setFichierAudio(string $fichier_audio): self
     {
-        $this->fichier_audio = $fichier_audio;
+        if($fichier_audio == null) {
+            $fichier_audio = "default.mp3";
+        }
+        else {
+            $this->fichier_audio = $fichier_audio;
+        }
 
         return $this;
     }
@@ -149,4 +164,20 @@ class Instrumentals
 
         return $this;
     }
+
+    public function getFichier(): ?File
+    {
+        return $this->fichier;
+    }
+
+    public function setFichier(?File $fichier): void
+    {
+        $this->fichier = $fichier;
+
+        if ($fichier) {
+            // Générer un nom de fichier unique
+            $this->nomFichier = uniqid().'.'.$fichier->guessExtension();
+        }
+    }
+
 }

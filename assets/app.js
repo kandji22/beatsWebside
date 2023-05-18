@@ -11,5 +11,5 @@ global.$ = $;
 import gsap from "gsap";
 global.gsap = gsap;
 $(document).ready(function() {
-    console.log(gsap)
+console.log('ok')
 });

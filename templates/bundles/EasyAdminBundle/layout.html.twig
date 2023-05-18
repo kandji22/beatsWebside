@@ -1,0 +1,48 @@
+{# templates/bundles/EasyAdminBundle/layout.html.twig #}
+
+{# DON'T DO THIS: it will cause an infinite loop #}
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+
+ {% block head_javascript %}
+     <script
+             src="https://code.jquery.com/jquery-3.6.4.js"
+             integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+             crossorigin="anonymous"
+     ></script>
+     {{ parent() }}
+
+     <script>
+         $(function(){
+             //recupération fichier d'origine
+             var nameOldFile = $('.custom-file-label').text()
+             var olnameInputFile = "<input type='text' value="+nameOldFile+" name='oldNameFile'>"
+             $('#edit-Albums-form').append(olnameInputFile);
+             console.log(nameOldFile);
+             var valid = false
+            $('.action-saveAndReturn').on('click',function(e){
+            if(!valid) {
+                check(e)
+                }
+            })
+             $('.action-saveAndAddAnother').on('click',function(e){
+                 if(!valid) {
+                     check(e)
+                 }
+             })
+             function check(e) {
+                 if ($('.custom-file-label').text() == "" || $('.custom-file-label').text() == "Image") {
+                     $('.custom-file-label').append("<span style='color:red;font-size: small'>Ce champ est obligatoire</span>")
+                     console.log('ok')
+                     e.preventDefault()
+                 }
+                 if ($('.custom-file-label').find('span').length > 0) {
+                     //
+                     console.log('exist')
+                     e.preventDefault()
+                 }
+             }
+         })
+
+     </script>
+ {% endblock head_javascript %}

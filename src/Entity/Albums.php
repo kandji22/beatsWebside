@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass=AlbumsRepository::class)
  */
@@ -25,6 +26,11 @@ class Albums
     private $title;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
      * @ORM\Column(type="text")
      */
     private $description;
@@ -39,9 +45,26 @@ class Albums
      */
     private $instrumentals;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $price;
+
     public function __construct()
     {
         $this->instrumentals = new ArrayCollection();
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -80,7 +103,12 @@ class Albums
 
     public function setImage(string $image): self
     {
-        $this->image = $image;
+        if($image == null) {
+            $image = 'default.jpg';
+        }
+        else {
+            $this->image = $image;
+        }
 
         return $this;
     }
@@ -113,5 +141,21 @@ class Albums
         }
 
         return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->getTitle();
     }
 }
