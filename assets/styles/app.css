@@ -663,6 +663,9 @@ nav {
 .songs-wrapper .song.active {
     border: solid 3px white;
 }
+.song {
+    margin-top: 4rem !important;
+}
 .row {
     display: flex;
     flex-wrap: wrap;
@@ -1295,25 +1298,25 @@ label.zmr:before {
     transition: all 0.15s linear;
 }
 
-td > #heart:checked ~ label.zmr:before {
+td > .heart:checked ~ label.zmr:before {
     content: "\f004";
     color: #ff564c;
     transition: all 0.15s linear;
 }
 
-td > #heart1:checked ~ label.zmr:before {
+td > .heart1:checked ~ label.zmr:before {
     content: "\f004";
     color: #ff564c;
     transition: all 0.15s linear;
 }
 
-td > #heart2:checked ~ label.zmr:before {
+td > .heart2:checked ~ label.zmr:before {
     content: "\f004";
     color: #ff564c;
     transition: all 0.15s linear;
 }
 
-td > #heart3:checked ~ label.zmr:before {
+td > .heart3:checked ~ label.zmr:before {
     content: "\f004";
     color: #ff564c;
     transition: all 0.15s linear;

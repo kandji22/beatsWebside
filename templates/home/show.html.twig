@@ -7,6 +7,9 @@
          .music-player {
              margin-bottom: 2rem;
          }
+         .active {
+             background-color: #393636 !important;
+         }
      </style>
 {% endblock %}
 {% block head %}
@@ -20,20 +23,16 @@
         <div class="bodyPlayer"></div>
 
         <table class="list">
-            <tr class="song" data-song="http://jplayer.org/audio/m4a/Miaow-07-Bubble.m4a" data-piste="1">
-                <td class="nr">
-                    <h5>1<h5></td>
-                <td class="title"><h6>Heavydirtysoul<h6></td>
-                <td class="length"><h5>3:54<h5></td>
-                <td><input type="checkbox" id="heart"/><label class="zmr" for="heart"></label></td>
-            </tr>
-
-            <tr class="song" data-song="https://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3" data-piste="2">
-                <td class="nr"><h5>2<h5></td>
-                <td class="title"><h6 style="color: #ff564c;">StressedOut<h6></td>
-                <td class="length"><h5>3:22<h5></td>
-                <td><input type="checkbox" id="heart1" checked /><label class="zmr" for="heart1"></label></td>
-            </tr>
+           {% set t = 1 %}
+            {% for instrumental in instrumentals %}
+                <tr class="song {{ "song_"~ t }} {{ t==1?'active':'' }}" data-song="{{ asset("audio/"~ instrumental.getFichierAudio) }}" data-piste="{{ t }}" data-id ="{{ instrumental.id }}">
+                    <td class="nr"><h5>{{ t }}<h5></td>
+                    <td class="title"><h6 style="color: #ff564c;">{{ instrumental.titre }}<h6></td>
+                    <td  class="length "><h5 class="duration_sound"> <h5></td>
+                    <td><input type="checkbox" class="heart"  /><label class="zmr label_heart" for="heart" ></label></td>
+                </tr>
+                {% set t = t + 1 %}
+            {% endfor %}
 
         </table>
 
@@ -42,14 +41,14 @@
         <div class="bar"></div>
 
         <div class="info">
-            <h4>STRESSED OUT</h4>
-            <h3>twenty one pilots - Blurryface</h3>
+            <h4>{{ album.title }}</h4>
+            <h3>Prix album:  <span style="color:#4f4fe5">{{ album.price}} $</span></h3>
             <!-- ici mettre une condition pour dire que le produit est déjâ ajouter au panier -->
             <i class="fa fa-cart-arrow-down panier_show" aria-hidden="true" style='font-size:24px; display:none'></i>
             <div class="show_card" style ="display: none; margin-top: 6px; "> <a href="{{ path('app_show_card') }}" class="btn btn-primary" style="font-size: 11px" > Voir mon panier <i class="fa fa-arrow-right"></i> </a></div>
         </div>
         <audio preload="auto" id="audio" controls>
-            <source src="http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3">
+            <source src="{{ asset("audio/"~ instrumentals[0].getFichierAudio)}}">
         </audio>
 
 
@@ -94,10 +93,6 @@
             var progressBar = $('.progress-bar');
             var audioPlayer;
             var progressWrapper = $('.progress-wrapper');
-            $(".song").on("click", function () {
-                $(".song").removeClass("active");
-                $(this).addClass("active");
-            });
             let toggle = document.querySelector(".toggle");
             let body = document.querySelector("body");
 
@@ -161,7 +156,6 @@
             var tabSound = {}
             var indexSound = 1
             $('.song').each(function(){
-
                 tabSound[$(this).data('piste')] = $(this).data('song')
             })
             $.each(tabSound,function (key,val){
@@ -185,8 +179,30 @@
             $('#play').on('click',function() {
                 togglePlayPause()
             })
-            $('.song').on('click',function(){
+            $('.song').on('click',function(e){
+                //label_heart
+                console.log(e.target.classList)
+                if($.inArray('label_heart',e.target.classList) !== -1) {
+                    var element = $(this).find('.heart')
+                    //$(this).find('.heart').prop('checked',true)
+                    if(element.is(':checked')) {
+                        ajax($(this).data('id'),false);
+                        $(this).find('.heart').prop('checked',false)
+                        return
+                    }
+                    else {
+                        ajax($(this).data('id'),true);
+                        $(this).find('.heart').prop('checked',true)
+                        return
+                    }
+
+
+
+                }
+                $(".song").removeClass("active");
+                $(this).addClass("active");
                 progressBar.width(0 + '%');
+                $('.song_'+indexSound).removeClass('active')
                 indexSound = $(this).data('piste')
                 goTo(tabSound[indexSound])
             })
@@ -195,6 +211,7 @@
                 $('.show_card').show('slow')
             })
         $('#forward').on('click',function () {
+            $('.song_'+indexSound).removeClass('active')
             indexSound++
             if(tabSound.hasOwnProperty(indexSound)) {
                 goTo(tabSound[indexSound])
@@ -204,6 +221,7 @@
             }
         })
         $('#backward').on('click',function () {
+            $('.song_'+indexSound).removeClass('active')
             indexSound--
             if(tabSound.hasOwnProperty(indexSound)) {
                 goTo(tabSound[indexSound])
@@ -214,10 +232,11 @@
         })
 
             function goTo(piste = null) {
-
+                $('.song_'+indexSound).addClass('active')
                 $("#audio source").prop("src", piste);
                 $("#audio")[0].load();
                 $("#audio")[0].play();
+
                 $('#play').prop('checked',true)
             }
             $('#magicButton').on('click',function(){
@@ -233,6 +252,7 @@
                     progressBar.width(percent + '%');
                 }
                 if(currentTime == duration) {
+                    $('.song_'+indexSound).removeClass('active')
                     indexSound++
                     pause()
                     if( tabSound.hasOwnProperty(indexSound)) {
@@ -260,6 +280,26 @@
             // Vérifier si une chanson est sélectionnée
             function isSongSelected() {
                 return $('source').src !== "";
+            }
+            function ajax(id,bool) {
+                console.log(id)
+                console.log(bool)
+                $.ajax({
+                    url: '/votre-route',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        checked: bool
+                    },
+                    success: function(response) {
+                        // Réponse du contrôleur Symfony
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Gestion des erreurs
+                        console.error(error);
+                    }
+                });
             }
         })
 
