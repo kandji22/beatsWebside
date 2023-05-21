@@ -32,22 +32,16 @@ class InstrumentalsCrudController extends AbstractCrudController
             ];
         } else {
             // Configuration des autres champs pour les autres actions (show, edit, etc.)
-
-            yield TextField::new('titre');
-            yield TextEditorField::new('description');
-            yield ImageField::new('fichier_audio')
+        return [
+             TextField::new('titre'),
+             TextEditorField::new('description'),
+             ImageField::new('fichier_audio')
                 ->setUploadDir('public/audio') // Chemin d'upload des images
-                ->setBasePath('/audio') // Chemin d'accès aux images
-                ->setUploadedFileNamePattern('[randomhash].[extension]') // Pattern de nommage des fichiers
-                ->setFormTypeOptions([
-                    'constraints' => [
-                        new File([
-                            'maxSize' => '10M', // Augmentez cette valeur selon vos besoins
-                            'maxSizeMessage' => 'La taille maximale autorisée est de 10 Mo.', // Message d'erreur personnalisé
-                        ]),
-                    ],
-                ]);
-            yield AssociationField::new('album_id');
+                ->setBasePath('audio/') // Chemin d'accès aux images
+                ->setUploadedFileNamePattern('[randomhash].[extension]'),
+            AssociationField::new('album_id')
+            ]; // Pattern de nommage des fichiers
+
         }
     }
 

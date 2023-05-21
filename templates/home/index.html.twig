@@ -6,195 +6,36 @@
     <div class="app">
         <div class="songs-wrapper">
             <div class="row">
-                <div class="col s12 m6 l4 x3">
-                    <div class="active song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://cbsradionews.files.wordpress.com/2016/02/death-of-a-bacherlor-album-art.jpg?w=555&h=548);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">Death Of A Bachelor</div>
-                            <div class="song-artist">by Panic! At The Disco</div>
-                            <div class="song-time">3:23</div>
-                        </div>
-                        <audio data-song = "my song" id="audio-player_3" data-id="audio-player_3" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" data-piste="1" ></audio>
-                        <audio data-song = "my song2" id="audio-player_4" data-id="audio-player_4" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste="2" ></audio>
-                    </div>
-                </div>
+                {% set t = 1 %}
+                {% for album in albums %}
+                    <div class="col s12 m6 l4 x3">
+                        <div class="active song">
+                            <div
+                                    class="song-image"
+                                    style="
+                      background-image: url(https://cbsradionews.files.wordpress.com/2016/02/death-of-a-bacherlor-album-art.jpg?w=555&h=548);
+                    "
+                            ></div>
+                            <div class="song-info">
+                                <div class="song-title">{{ album.title }}</div>
+                                <div class="song-artist">{% if album.description | length > 80 %}
+                                        {{ album.description | slice(0, 80) }}
+                                        <button class="btn btn-primary">Lire la suite</button>
+                                    {% else %}
+                                        {{ album.description | raw  }}
+                                    {% endif %}</div>
 
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(http://static.djbooth.net/pics-features/chance-3-artwork.jpg);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title"></div>
-                            <div class="song-artist">by Chance The Rapper</div>
-                            <div class="song-time">3:41</div>
-                            <div class=""> <a href="{{ path('app_show') }}" class="btn btn-primary" > <i class="fa fa-arrow-right"></i> </a></div>
-                        </div>
-                        <audio data-song = "my song3"  id="audio-player_1" data-id="audio-player_1" class="audio-player" preload="none" src="{{ asset('audio/test.mp3') }}" data-piste="1" ></audio>
-                        <audio data-song = "my song4"   id="audio-player_2" data-id="audio-player_2" class="audio-player" preload="none" src="{{ asset('audio/test2.mp3') }}" data-piste="2" ></audio>
-                    </div>
-                </div>
+                            </div>
+                            {% set audios = album.getInstrumentals %}
 
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://i.pinimg.com/736x/f0/89/73/f089734bf401b9a7d59f48a5077b2907--music-covers-heart-art.jpg);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">A Walk</div>
-                            <div class="song-artist">by Tycho</div>
-                            <div class="song-time">5:16</div>
+                            {% for audio in audios %}
+                                <audio data-song = "my song" id="{{ "audio-player_"~ t }}" data-id="{{ "audio-player_"~ t }}" class="audio-player" preload="none" src="{{ asset('audio/'~ audio.getFichierAudio) }}" data-piste="{{ t }}" ></audio>
+                                {% set t = t + 1 %}
+                            {% endfor %}
                         </div>
+                    </div>
+            {% endfor %}
 
-                    </div>
-                </div>
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://lh3.googleusercontent.com/NFqQwY63RbJYCgrmEYsez-CDK2KAWKM_FIBTlaipK2zCB6CXvVO48ZjX2jWkgixu1_VIUA_Y=s1024-c-e100-rwu-v1);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">Come Hang Out</div>
-                            <div class="song-artist">by AJR</div>
-                            <div class="song-time">4:26</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://lh3.googleusercontent.com/4s6mMULoaDMdpQlhlBbF8Y_88kh1ugeLx4DimzRfOJg-H7IGVblWAPSc233C8R1liUL1L1zhCg=s1024-c-e100-rwu-v1);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">Cigarette</div>
-                            <div class="song-artist">by PANG!</div>
-                            <div class="song-time">4:15</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://lh3.googleusercontent.com/QXdqujkQXwuQzgpxSP8nzrOqq6i0NQnE_iD3XFkRNs9-3yC4jigcFTB94bn8BOVlFNnx2VztmQ=s1024-c-e100-rwu-v1);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">80's Films</div>
-                            <div class="song-artist">by Jon Bellion</div>
-                            <div class="song-time">3:36</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://lh6.ggpht.com/3FhBNLXAL-atLEQHojVxsC8exkGS16aRrT2AGGYg1P257vWJtZwnoXKkkBeXSt3wmUHQunE1hw=s1024-c-e100-rwu-v1);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">Cardiac Arrest</div>
-                            <div class="song-artist">by Bad Suns</div>
-                            <div class="song-time">3:02</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://lh3.googleusercontent.com/9gMEeE5JHaHYj_s25dr8wjyrZa8tQrfp-syYXoASdoTrZ5zgVUm8Z3gC6BbKcwOIdcI2uFiIm8E=s1024-c-e100-rwu-v1);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">Worst In Me</div>
-                            <div class="song-artist">by Julia Michaels</div>
-                            <div class="song-time">3:26</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://lh3.googleusercontent.com/J_xB101XKHvDsZWP0tHfCfVnQtLY_BZM9_S_6hc6RStGg6mbrJbDkD5xR8RJKMv98QDS7FzHlw=s1024-c-e100-rwu-v1);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">Rosie</div>
-                            <div class="song-artist">John Mayer</div>
-                            <div class="song-time">4:00</div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://lh4.ggpht.com/QqjbOo_bnoKjsrpZlQSGoACKQYpQpbT6pPIkDl6UuTWvc4jrJgu4XaSY8_Lomb73l_JjuDtkUBM=s1024-c-e100-rwu-v1);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">IV. Sweatpants</div>
-                            <div class="song-artist">Childish Gambino</div>
-                            <div class="song-time">3:00</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://lh3.googleusercontent.com/1HKf4Wbp6DSwKnX6kVGUh3aANVW2WfWjC3cfyQ16l07N85xZLd4EBwkxM5AsY0XxfIwnJQTKdzg=s1024-c-e100-rwu-v1);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">Heavydirtysoul</div>
-                            <div class="song-artist">Twenty One Pilots</div>
-                            <div class="song-time">3:54</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6 l4 x3">
-                    <div class="song">
-                        <div
-                                class="song-image"
-                                style="
-                  background-image: url(https://lh3.googleusercontent.com/CrIHeXpJPoZz63YneLoWOjUGswBEa5LHVoUEPYu9hvA2CJMZz2f8X6V4fve7hti5ww7GUvtYYA=s1024-c-e100-rwu-v1);
-                "
-                        ></div>
-                        <div class="song-info">
-                            <div class="song-title">Tech Noir</div>
-                            <div class="song-artist">GUNSHIP</div>
-                            <div class="song-time">4:57</div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="music-player">
@@ -239,10 +80,7 @@
     ></script>
 <script>
     $(function(){
-        $(".song").on("click", function () {
-            $(".song").removeClass("active");
-            $(this).addClass("active");
-        });
+
         let toggle = document.querySelector(".toggle");
         let body = document.querySelector("body");
 
@@ -307,6 +145,8 @@
         var numeroAudio = 0 //initialisation
         var progressBar = $('.progress-bar');
         $('.song').on('click', function(){
+            tabPiste = {}
+
             if(typeof audioPlayer != 'undefined') {
                 audioPlayer.pause()
                 audioPlayer.currentTime = 0
@@ -315,7 +155,7 @@
             }
             var audios = $(this).children('audio');
             audios.each(function(element) {
-                console.log($(this).data('piste'))
+                console.log('doule')
                 tabPiste[$(this).data('piste')] = $(this).data('id')
             })
             $.each(tabPiste,function (key,val){
@@ -326,9 +166,14 @@
 
         //s'il existe des pistes
         if(tabPiste.length != 0) {
+
+            // Trouver la clé la plus petite
+            var minKey = Math.min.apply(null, Object.keys(tabPiste));
+            console.log(tabPiste)
+            console.log(minKey)
             // Récupérer l'élément audio
-             audioPlayer = $('#' + tabPiste[1])[0];
-            numeroAudio = 1
+             audioPlayer = $('#' + tabPiste[minKey])[0];
+            numeroAudio = minKey
             // Récupérer les éléments DOM nécessaires
 
             var startTime = $('.start-time');
@@ -404,6 +249,9 @@
 
             // Bouton précédent
             prevButton.on('click', function () {
+                console.log('ok')
+                console.log(tabPiste)
+                console.log(numeroAudio)
                 numeroAudio--
                 if(tabPiste.hasOwnProperty(numeroAudio)) {
                     pause()
@@ -417,20 +265,29 @@
                     play()
                 }
             });
-
+            var clicAutorise = true;
             // Bouton suivant
             nextButton.on('click', function () {
-                numeroAudio++
-                if(tabPiste.hasOwnProperty(numeroAudio)) {
-                    pause()
-                    audioPlayer = $('#'+tabPiste[numeroAudio])[0];
-                    play()
-                }
-                else {
-                    pause()
-                    numeroAudio--
-                    audioPlayer = $('#'+tabPiste[numeroAudio])[0];
-                    play()
+
+                if (clicAutorise) {
+                    console.log(tabPiste)
+                    console.log(numeroAudio)
+                    clicAutorise = false
+                    numeroAudio++
+                    if (tabPiste.hasOwnProperty(numeroAudio)) {
+                        pause()
+                        audioPlayer = $('#' + tabPiste[numeroAudio])[0];
+                        play()
+                    } else {
+                        pause()
+                        numeroAudio--
+                        audioPlayer = $('#' + tabPiste[numeroAudio])[0];
+                        play()
+                    }
+                    // Empêcher le déclenchement de l'événement pendant l'intervalle spécifié
+                    setTimeout(function() {
+                        clicAutorise = true;
+                    }, 5000);
                 }
             });
 
