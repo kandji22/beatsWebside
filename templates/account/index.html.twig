@@ -829,11 +829,13 @@
                 <div class="todo">
                     <div class="head">
                         <h3>Beats dans votre panier</h3>
+                        <!-- Button trigger modal -->
+
                         <i class='bx bx-plus by_panier gotToPaid_class' style="font-size: 20px;"></i>
                     </div>
                     <ul class="todo-list">
                         {% for albumsInCart in albumsInCarts %}
-                            <li data-id="1" class="not-completed" style="position: relative">
+                            <li data-id="{{ albumsInCart.id }}" data-name = "{{ albumsInCart.title }}"  data-price = "{{ albumsInCart.price }}" class="not-completed" style="position: relative">
                                 <p>{{ albumsInCart.title }}</p>
                                 <span>$</span>
                                 <span class="price_album">{{ albumsInCart.price }}</span>
@@ -851,6 +853,32 @@
         <!-- MAIN -->
     </section>
     <!-- CONTENT -->
+    <!--modal -->
+
+
+    <!-- Modal -->
+    <button type="button" class="btn btn-primary modal_info" data-toggle="modal" data-target="#exampleModal" style="display: none">
+        Launch demo modal
+    </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Excecuter l'achat >></button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script
@@ -858,6 +886,8 @@
             integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
             crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     <script>
         $(function(){
             const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
@@ -1019,16 +1049,33 @@
                 $('.number_no_owner_beat').text(totalBitsInBasket)
                 $('.price_in_basket').text(priceBitsToBy)
                 console.log(totalBitsInBasket)
+
             }
             intializePage()
 
             //achat
             $('.gotToPaid_class').on('click',function(){
                 $tabAlbumToBySelected = []
+                $priceTotal = 0;
+                $tabaPriceAlbum = {}
                 $('.completed').each(function () {
                     $tabAlbumToBySelected.push(this);
+                    $priceTotal = $priceTotal + parseInt($(this).data('price'))
+                    $tabaPriceAlbum[$(this).data('price')] = $(this).data('name')
                 })
-                console.log($tabAlbumToBySelected)
+                if($tabAlbumToBySelected.length == 0) {
+                    alert("Merci de selectionner au mon un album pour faire votre achat")
+                    return
+                }
+                console.log($tabaPriceAlbum)
+                var htmltab = ""
+                $.each($tabaPriceAlbum,function($key,$value){
+                    htmltab +='<tr> <th scope="row">'+$value+'</th> <td>$'+$key+'</td>  </tr>'
+                })
+                //modal-body
+                var html ='<table class="table"> <thead class="thead-dark"> <tr> <th scope="col">Album</th> <th scope="col">Prix</th>  </tr> </thead> <tbody>'+htmltab+'  <tr> <th scope="row"><span style="color: #5a5ab0">Total:<span></th> <td><span style="color: #e07e7e">$'+$priceTotal+'</span></td> </tr></tbody> </table>'
+                $('.modal-body').append(html)
+                $('.modal_info').click()
             })
         })
 
