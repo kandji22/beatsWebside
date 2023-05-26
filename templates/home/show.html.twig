@@ -19,17 +19,18 @@
         <label class="main" for="magicButton"></label>
 
         <div class="coverImage"></div>
-        <div class="search"></div>
+        <!--<div class="search"></div>-->
         <div class="bodyPlayer"></div>
 
         <table class="list">
            {% set t = 1 %}
             {% for instrumental in instrumentals %}
+
                 <tr class="song {{ "song_"~ t }} {{ t==1?'active':'' }}" data-song="{{ asset("audio/"~ instrumental.getFichierAudio) }}" data-piste="{{ t }}" data-id ="{{ instrumental.id }}">
                     <td class="nr"><h5>{{ t }}<h5></td>
                     <td class="title"><h6 style="color: #ff564c;">{{ instrumental.titre }}<h6></td>
                     <td  class="length "><h5 class="duration_sound"> <h5></td>
-                    <td><input type="checkbox" class="heart"  /><label class="zmr label_heart" for="heart" ></label></td>
+                    <td><input type="checkbox" class="heart" {% if instrumental.hasLike() %}checked {% endif %} /><label class="zmr label_heart" for="heart" ></label></td>
                 </tr>
                 {% set t = t + 1 %}
             {% endfor %}
@@ -44,7 +45,8 @@
             <h4>{{ album.title }}</h4>
             <h3>Prix album:  <span style="color:#4f4fe5">{{ album.price}} $</span></h3>
             <!-- ici mettre une condition pour dire que le produit est déjâ ajouter au panier -->
-            <i class="fa fa-cart-arrow-down panier_show" aria-hidden="true" style='font-size:24px; display:none'></i>
+
+            <a href="{{ path('add_to_cart',{'id': album.id}) }}"><i class="fa fa-cart-arrow-down panier_show" aria-hidden="true" style='font-size:24px; display:none'></i></a>
             <div class="show_card" style ="display: none; margin-top: 6px; "> <a href="{{ path('app_show_card') }}" class="btn btn-primary" style="font-size: 11px" > Voir mon panier <i class="fa fa-arrow-right"></i> </a></div>
         </div>
         <audio preload="auto" id="audio" controls>
@@ -59,18 +61,18 @@
         </div>
         <table class="player">
             <td><input type="checkbox" id="backward"/><label class="backward" for="backward"></label></td>
-            --<td><input type="checkbox" id="play" title="Play"/><label class="play" for="play"></label></td>
+            <td><input type="checkbox" id="play" title="Play"/><label class="play" for="play"></label></td>
             <td><input type="checkbox" id="forward"/><label class="forward" for="forward"></label></td>
         </table>
 
-        <table class="footer">
+        <!--<table class="footer">
             <td><input type="checkbox" id="love" checked /><label class="love" for="love"></label></td>
             <td><input type="checkbox" id="shuffle"/><label class="shuffle" for="shuffle"></label></td>
             <td><input type="checkbox" id="repeat" checked /><label class="repeat" for="repeat"></label></td>
             <td><input type="checkbox" id="options"/><label class="options" for="options"></label></td>
-        </table>
+        </table>-->
 
-        <div class="current"><h2>STRESSED OUT</h2></div>
+        <div class="current"><h2> {{ album.title }}</h2></div>
 
 
     </article>
@@ -285,7 +287,7 @@
                 console.log(id)
                 console.log(bool)
                 $.ajax({
-                    url: '/votre-route',
+                    url: '{{ path('app_ajax_sound') }}',
                     type: 'POST',
                     data: {
                         id: id,

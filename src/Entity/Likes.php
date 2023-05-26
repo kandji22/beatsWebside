@@ -18,7 +18,7 @@ class Likes
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Instrumentals::class, inversedBy="likes")
+     * @ORM\ManyToOne(targetEntity=Instrumentals::class, inversedBy="likes",)
      * @ORM\JoinColumn(nullable=false)
      */
     private $instrumental_id;
@@ -28,6 +28,11 @@ class Likes
      * @ORM\JoinColumn(nullable=false)
      */
     private $user_id;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $like_instrumental;
 
     public function getId(): ?int
     {
@@ -54,6 +59,18 @@ class Likes
     public function setUserId(?User $user_id): self
     {
         $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function isLikeInstrumental(): ?bool
+    {
+        return $this->like_instrumental;
+    }
+
+    public function setLikeInstrumental(bool $like_instrumental): self
+    {
+        $this->like_instrumental = $like_instrumental;
 
         return $this;
     }

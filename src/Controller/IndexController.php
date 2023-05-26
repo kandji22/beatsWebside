@@ -63,13 +63,7 @@ class IndexController extends AbstractController
         ]);
     }
 
-    //delete_to_cart
-    /**
-     * @Route("/card/delete{id}", name="delete_to_cart")
-     */
-    public function deleteCard(): Response
-    {
-    }
+
 
 
     /**

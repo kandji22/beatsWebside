@@ -771,7 +771,7 @@
                 <li>
                     <i class='bx bxs-group' ></i>
                     <span class="text">
-						<h3 class="number_no_owner_beat">2834</h3>
+						<h3 class="number_no_owner_beat"></h3>
 						<p>Nombre de beats en attente d'achat</p>
 					</span>
                 </li>
@@ -829,31 +829,21 @@
                 <div class="todo">
                     <div class="head">
                         <h3>Beats dans votre panier</h3>
-                        <i class='bx bx-plus by_panier' ></i>
-                        <i class='bx bx-filter' ></i>
+                        <i class='bx bx-plus by_panier gotToPaid_class' style="font-size: 20px;"></i>
                     </div>
                     <ul class="todo-list">
-                        <li data-id="1" class="not-completed" style="position: relative">
-                            <p>Titre album</p>
-                            <span>$</span>
-                            <span class="price_album">200</span>
-                            <i class='bx bx-dots-vertical-rounded todo_list' ></i>
-                            <ul class="dropdown-menu" style="background-color: white;position: absolute;right: -20px;bottom: -70px;display: none">
-                                <li class="select_choice" style="background-color: white">Selectionner</li>
-                                <li class="delete_choice" style="background-color: white;color: red">Delete</li>
-                            </ul>
-                        </li>
-                        <li data-id="2" class="not-completed" style="position: relative">
-                            <p>Titre album</p>
-                            <span>$</span>
-                            <span class="price_album">200</span>
-                            <i class='bx bx-dots-vertical-rounded todo_list' ></i>
-                            <ul class="dropdown-menu" style="background-color: white;position: absolute;right: -20px;bottom: -70px;display: none">
-                                <li class="select_choice" style="background-color: white">Selectionner</li>
-                                <li class="delete_choice" style="background-color: white;color: red">Delete</li>
-
-                            </ul>
-                        </li>
+                        {% for albumsInCart in albumsInCarts %}
+                            <li data-id="1" class="not-completed" style="position: relative">
+                                <p>{{ albumsInCart.title }}</p>
+                                <span>$</span>
+                                <span class="price_album">{{ albumsInCart.price }}</span>
+                                <i class='bx bx-dots-vertical-rounded todo_list' ></i>
+                                <ul class="dropdown-menu" style="background-color: white;position: absolute;right: -20px;bottom: -70px;display: none">
+                                    <li class="select_choice" style="background-color: white">Selectionner</li>
+                                    <a href="{{ path('delete_to_cart',{'id' : albumsInCart.id }) }}"><li class="delete_choice" style="background-color: white;color: red">Delete</li></a>
+                                </ul>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -1031,6 +1021,11 @@
                 console.log(totalBitsInBasket)
             }
             intializePage()
+
+            //achat
+            $('.gotToPaid_class').on('click',function(){
+                alert('ok')
+            })
         })
 
     </script>

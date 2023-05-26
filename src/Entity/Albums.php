@@ -6,6 +6,7 @@ use App\Repository\AlbumsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 /**
@@ -13,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Albums
 {
+    private $session;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -50,8 +52,9 @@ class Albums
      */
     private $price;
 
-    public function __construct()
+    public function __construct(SessionInterface $session)
     {
+        $this->session = $session;
         $this->instrumentals = new ArrayCollection();
     }
 
@@ -157,5 +160,14 @@ class Albums
     public function __toString(): string
     {
         return $this->getTitle();
+    }
+    public function isAddToCart() {
+        $bool = false;
+        $cart = $this->session->get('cart', []);
+        $inverse = array_flip($cart);
+        if(array_key_exists($this->getId(),$inverse)) {
+            $bool = true;
+        }
+        return $bool;
     }
 }

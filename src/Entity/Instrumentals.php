@@ -142,7 +142,17 @@ class Instrumentals
     {
         return $this->likes;
     }
+    public function hasLike() {
+        $bool = false;
+        $likes = $this->getLikes()->map(function ($like) {
+            return $like->getId();
+        });
 
+        if(count($likes) > 0) {
+            $bool = true;
+        }
+        return $bool;
+    }
     public function addLike(Likes $like): self
     {
         if (!$this->likes->contains($like)) {

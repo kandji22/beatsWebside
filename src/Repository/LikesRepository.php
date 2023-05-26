@@ -63,4 +63,27 @@ class LikesRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function isLikedByUser($userId, $instrumentalId)
+    {
+        $bool = false;
+        $responses = $this->getLike($userId, $instrumentalId);
+
+        if (count($responses) > 0) {
+            $bool = true;
+        }
+
+        return $bool;
+    }
+
+    public function getLike($userId, $instrumentalId) {
+        $responses = $this->createQueryBuilder('l')
+            ->where('l.user_id = :userId')
+            ->andWhere('l.instrumental_id = :instrumentalId')
+            ->setParameter('userId', $userId)
+            ->setParameter('instrumentalId', $instrumentalId)
+            ->getQuery()
+            ->getResult();
+        return $responses;
+    }
 }
