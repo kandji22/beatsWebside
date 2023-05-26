@@ -68,6 +68,7 @@ class Contrat
 
     public function setAlbums(Albums $albums): self
     {
+
         // set the owning side of the relation if necessary
         if ($albums->getContrat() !== $this) {
             $albums->setContrat($this);
@@ -76,5 +77,9 @@ class Contrat
         $this->albums = $albums;
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

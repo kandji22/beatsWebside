@@ -36,7 +36,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            BeforeEntityPersistedEvent::class => ['checkImageOrAudio'],
+            BeforeEntityPersistedEvent::class => [['checkImageOrAudio', 2],['checkContrat',3]],
             BeforeEntityUpdatedEvent::class => ['updateImageOrAudio',10],
             BeforeCrudActionEvent::class => ['onFormSubmit',20],
 
@@ -112,5 +112,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                 }
             }
         }
+    }
+    function checkContrat(BeforeEntityPersistedEvent $event) {
+        $entity = $event->getEntityInstance();
+       //ici on vas vérifier que un contrat soit juste pour un album
     }
 }

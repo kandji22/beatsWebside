@@ -1024,7 +1024,11 @@
 
             //achat
             $('.gotToPaid_class').on('click',function(){
-                alert('ok')
+                $tabAlbumToBySelected = []
+                $('.completed').each(function () {
+                    $tabAlbumToBySelected.push(this);
+                })
+                console.log($tabAlbumToBySelected)
             })
         })
 
