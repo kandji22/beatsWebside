@@ -52,9 +52,25 @@ class Albums
      */
     private $price;
 
-    public function __construct(SessionInterface $session)
+    /**
+     * @ORM\ManyToOne(targetEntity=OrderDetail::class, inversedBy="idAlbum")
+     */
+    private $orderDetail;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Contrat::class, inversedBy="albums", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $contrat;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
+    public function __construct()
     {
-        $this->session = $session;
+       /* $this->session = $session;*/
         $this->instrumentals = new ArrayCollection();
     }
 
@@ -161,7 +177,7 @@ class Albums
     {
         return $this->getTitle();
     }
-    public function isAddToCart() {
+   /* public function isAddToCart() {
         $bool = false;
         $cart = $this->session->get('cart', []);
         $inverse = array_flip($cart);
@@ -169,5 +185,41 @@ class Albums
             $bool = true;
         }
         return $bool;
+    }*/
+
+    public function getOrderDetail(): ?OrderDetail
+    {
+        return $this->orderDetail;
+    }
+
+    public function setOrderDetail(?OrderDetail $orderDetail): self
+    {
+        $this->orderDetail = $orderDetail;
+
+        return $this;
+    }
+
+    public function getContrat(): ?Contrat
+    {
+        return $this->contrat;
+    }
+
+    public function setContrat(Contrat $contrat): self
+    {
+        $this->contrat = $contrat;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }
