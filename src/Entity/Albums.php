@@ -53,7 +53,7 @@ class Albums
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity=OrderDetail::class, inversedBy="idAlbum")
+     * @ORM\ManyToOne(targetEntity=OrderDetail::class, inversedBy="idAlbum",cascade={"persist"})
      */
     private $orderDetail;
 
@@ -218,8 +218,12 @@ class Albums
 
     public function setStatus(string $status): self
     {
+        if($status == null) {
+            $status = false;
+        }
         $this->status = $status;
 
         return $this;
     }
+
 }

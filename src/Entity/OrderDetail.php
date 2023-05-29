@@ -6,12 +6,23 @@ use App\Repository\OrderDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=OrderDetailRepository::class)
  */
 class OrderDetail
 {
+    public function __construct()
+    {
+        $this->idAlbum = new ArrayCollection();
+        // Obtention de la date et de l'heure actuelles
+        $currentDateTime = new \DateTime();
+        // Utilisation de la date et de l'heure actuelles
+       $this->setCreatedat($currentDateTime);
+
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -20,7 +31,7 @@ class OrderDetail
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $fullnameuser;
 
@@ -39,10 +50,28 @@ class OrderDetail
      */
     private $idAlbum;
 
-    public function __construct()
-    {
-        $this->idAlbum = new ArrayCollection();
-    }
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $stripesession;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $price;
+
+
+
 
     public function getId(): ?int
     {
@@ -114,4 +143,56 @@ class OrderDetail
 
         return $this;
     }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function isStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getStripesession(): ?string
+    {
+        return $this->stripesession;
+    }
+
+    public function setStripesession(?string $stripesession): self
+    {
+        $this->stripesession = $stripesession;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+
+
+
 }

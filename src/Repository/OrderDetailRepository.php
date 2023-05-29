@@ -39,20 +39,21 @@ class OrderDetailRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneByStripeSessionId($value): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.stripesession = :val')
+            ->setParameter('val', $value)
+            ->orderBy('o.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return OrderDetail[] Returns an array of OrderDetail objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+
 
 //    public function findOneBySomeField($value): ?OrderDetail
 //    {

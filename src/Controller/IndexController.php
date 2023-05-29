@@ -46,6 +46,7 @@ class IndexController extends AbstractController
     public function show(Albums $album): Response
     {
         $instrumentals = $album->getInstrumentals();
+
         return $this->render('home/show.html.twig', [
             'controller_name' => 'HomeController',
             'album' => $album,

@@ -231,7 +231,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->lastname;
     }
-
+    public function getLastAndFirstName(): ?string
+    {
+        return $this->getFirstname().' '.$this->getLastname();
+    }
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;

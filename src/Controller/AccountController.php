@@ -24,9 +24,11 @@ class AccountController extends AbstractController
     {
         $tabAlbumInCart = array();
         $tabCart = $cart->get();
-        foreach ($tabCart as $key => $vay) {
-            $album = $this->entityManager->getReference(Albums::class,$key);
-            array_push($tabAlbumInCart,$album);
+        if($tabCart != null) {
+            foreach ($tabCart as $key => $vay) {
+                $album = $this->entityManager->getReference(Albums::class, $key);
+                array_push($tabAlbumInCart, $album);
+            }
         }
 
 
