@@ -17,6 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use App\Repository\AlbumsRepository;
 
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Security\Core\Security;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
@@ -24,12 +25,14 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     private $albumRepo;
     private $kernel;
     private $oldFile;
+    private $security;
 
-    public function __construct(FlashBagInterface $flashBag, AlbumsRepository $albumRepo,KernelInterface $kernel)
+    public function __construct(FlashBagInterface $flashBag, AlbumsRepository $albumRepo,KernelInterface $kernel,Security $security)
     {
         $this->flashBag = $flashBag;
         $this->albumRepo = $albumRepo;
         $this->kernel = $kernel;
+        $this->security = $security;
 
     }
 
@@ -115,6 +118,10 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     }
     function checkContrat(BeforeEntityPersistedEvent $event) {
         $entity = $event->getEntityInstance();
-       //ici on vas vérifier que un contrat soit juste pour un album
+        if($entity instanceof Albums) {
+            $user = $this->security->getUser();
+            $entity->setUser($user);
+        }
+
     }
 }

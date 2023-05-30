@@ -23,7 +23,7 @@ class AjaxController extends AbstractController {
      */
     public function index(Request $request,Security $security): Response
     {
-
+        
         $idInstrumental = $request->request->get('id');
         $like_instrumental = $request->request->get('checked');
         $idUtilisateur = $security->getUser()->getId();

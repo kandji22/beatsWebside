@@ -39,7 +39,7 @@
                             {% set audios = album.getInstrumentals %}
 
                             {% for audio in audios %}
-                                <audio data-song = "my song" id="{{ "audio-player_"~ t }}" data-id="{{ "audio-player_"~ t }}" class="audio-player" preload="none" src="{{ asset('audio/'~ audio.getFichierAudio) }}" data-piste="{{ t }}" ></audio>
+                                    <audio data-song = "my song" id="{{ "audio-player_"~ t }}" data-id="{{ "audio-player_"~ t }}" class="audio-player" preload="none" src="{{ asset('audio/'~ audio.getFichierAudio) }}" data-piste="{{ t }}" ></audio>
                                 {% set t = t + 1 %}
                             {% endfor %}
                         </div>

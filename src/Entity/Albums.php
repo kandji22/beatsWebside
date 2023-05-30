@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  */
 class Albums
 {
-    private $session;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -52,13 +51,9 @@ class Albums
      */
     private $price;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=OrderDetail::class, inversedBy="idAlbum",cascade={"persist"})
-     */
-    private $orderDetail;
 
     /**
-     * @ORM\OneToOne(targetEntity=Contrat::class, inversedBy="albums", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Contrat::class, mappedBy="album", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $contrat;
@@ -68,22 +63,24 @@ class Albums
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="albums")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $createdat;
+
     public function __construct()
     {
-       /* $this->session = $session;*/
         $this->instrumentals = new ArrayCollection();
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
+        $this->status = 'false';
+        // Obtention de la date et de l'heure actuelles
+        $currentDateTime = new \DateTime();
+        // Utilisation de la date et de l'heure actuelles
+        $this->setCreatedat($currentDateTime);
     }
 
     public function getId(): ?int
@@ -99,6 +96,18 @@ class Albums
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
@@ -120,14 +129,9 @@ class Albums
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
-        if($image == null) {
-            $image = 'default.jpg';
-        }
-        else {
-            $this->image = $image;
-        }
+        $this->image = $image ?? 'default.jpg';
 
         return $this;
     }
@@ -144,7 +148,7 @@ class Albums
     {
         if (!$this->instrumentals->contains($instrumental)) {
             $this->instrumentals[] = $instrumental;
-            $instrumental->setAlbumId($this);
+            $instrumental->setAlbum($this);
         }
 
         return $this;
@@ -154,8 +158,8 @@ class Albums
     {
         if ($this->instrumentals->removeElement($instrumental)) {
             // set the owning side to null (unless already changed)
-            if ($instrumental->getAlbumId() === $this) {
-                $instrumental->setAlbumId(null);
+            if ($instrumental->getAlbum() === $this) {
+                $instrumental->setAlbum(null);
             }
         }
 
@@ -170,32 +174,6 @@ class Albums
     public function setPrice(float $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-    public function __toString(): string
-    {
-        return $this->getTitle();
-    }
-   /* public function isAddToCart() {
-        $bool = false;
-        $cart = $this->session->get('cart', []);
-        $inverse = array_flip($cart);
-        if(array_key_exists($this->getId(),$inverse)) {
-            $bool = true;
-        }
-        return $bool;
-    }*/
-
-    public function getOrderDetail(): ?OrderDetail
-    {
-        return $this->orderDetail;
-    }
-
-    public function setOrderDetail(?OrderDetail $orderDetail): self
-    {
-        $this->orderDetail = $orderDetail;
-
         return $this;
     }
 
@@ -218,12 +196,36 @@ class Albums
 
     public function setStatus(string $status): self
     {
-        if($status == null) {
-            $status = false;
-        }
         $this->status = $status;
 
         return $this;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+    public function __toString(): string
+    {
+        return $this->getTitle();
+    }
+
+    public function getCreatedat(): ?\DateTimeInterface
+    {
+        return $this->createdat;
+    }
+
+    public function setCreatedat(?\DateTimeInterface $createdat): self
+    {
+        $this->createdat = $createdat;
+
+        return $this;
+    }
 }

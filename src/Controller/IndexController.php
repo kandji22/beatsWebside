@@ -31,7 +31,7 @@ class IndexController extends AbstractController
 
             $titleAlbum = $albumChoice->getTitle();
         }
-        $albums = $this->entityManager->getRepository(Albums::class)->findAll();
+        $albums = $this->entityManager->getRepository(Albums::class)->findAlbumNoSell(false);
 
         return $this->render('home/index.html.twig', [
             'albums' => $albums,

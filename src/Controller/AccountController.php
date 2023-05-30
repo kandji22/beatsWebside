@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class AccountController extends AbstractController
 {
@@ -20,7 +21,7 @@ class AccountController extends AbstractController
     /**
      * @Route("/profil/compte", name="app_account")
      */
-    public function index(SessionInterface $session,Cart $cart): Response
+    public function index(SessionInterface $session,Cart $cart,Security $security): Response
     {
         $tabAlbumInCart = array();
         $tabCart = $cart->get();
@@ -30,10 +31,13 @@ class AccountController extends AbstractController
                 array_push($tabAlbumInCart, $album);
             }
         }
-
+        //beat propriétaire findAlbumForUser
+        $user = $security->getUser();
+        $albumChoices = $this->entityManager->getRepository(Albums::class)->findAlbumForUser(true,$user);
 
         return $this->render('account/index.html.twig', [
-            'albumsInCarts' => $tabAlbumInCart
+            'albumsInCarts' => $tabAlbumInCart,
+            'albumsChoices' => $albumChoices
         ]);
     }
 

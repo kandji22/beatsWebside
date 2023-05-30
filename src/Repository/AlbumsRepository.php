@@ -39,6 +39,30 @@ class AlbumsRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAlbumForUser($value1,$value2): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.status = :val')
+            ->andWhere('a.user = :val2')
+            ->setParameter('val', $value1)
+            ->setParameter('val2', $value2)
+            ->orderBy('a.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAlbumNoSell($value): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.status = :val')
+            ->setParameter('val', $value)
+            ->orderBy('a.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Albums[] Returns an array of Albums objects
 //     */

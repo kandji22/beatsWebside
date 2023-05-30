@@ -15,8 +15,10 @@ use Symfony\Component\Security\Core\Security;
 class StripeController extends AbstractController
 {
     private $entityManager;
-    public function __construct(EntityManagerInterface $manager) {
+    private $card;
+    public function __construct(EntityManagerInterface $manager,Cart $card) {
             $this->entityManager = $manager;
+            $this->card = $card;
 
     }
     /**
@@ -44,8 +46,8 @@ class StripeController extends AbstractController
             $orderDetail = new OrderDetail();
             $orderDetail->setStatus(false);
             $orderDetail->setFullnameuser($fullName);
-            $orderDetail->setNombreAlbum($numberAlbum);
-            $orderDetail->addIdAlbum($album);
+            $orderDetail->setAlbum($album->getId());
+            $orderDetail->setPrice($album->getPrice());
             array_push($tabOrderDetail,$orderDetail);
             $products_for_stripe[] = [
                 'price_data' => [
@@ -96,8 +98,8 @@ class StripeController extends AbstractController
         $this->addFlash('success', 'Paiement effectué avec succés');
         //on set les albums à vendu
         foreach ($tabDetail as $detail) {
-            $collectionAlbum = $detail->getIdAlbum();
-            $album = $collectionAlbum->first();
+            $albumId = $detail->getAlbum();
+            $album = $this->entityManager->getRepository(Albums::class)->find($albumId);
             if($album != null) {
                 $album->setStatus(true);
                 $this->entityManager->persist($album);
@@ -108,7 +110,7 @@ class StripeController extends AbstractController
             $detail->setPrice($album->getPrice());
             $this->entityManager->persist($detail);
             $this->entityManager->flush();
-
+            $this->card->delete($album->getId());
         }
         // Redirect to another route
         return $this->redirectToRoute('app_account');

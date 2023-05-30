@@ -818,22 +818,24 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                <img src="img/people.png">
+                        {% for album in albumsChoices %}
+                            <tr>
+                                <td>
+                                    <img src="{{ asset('uploads/'~ album.image) }}">
 
-                            </td>
-                            <td>01-10-2021</td>
-                            <td>Nom du produit ici</td>
-                            <td>$100</td>
-                            <td>
-                                <div class="form-check" style="margin-left: 14px">
-                                    <input data-id ="1" class="form-check-input check_album" type="checkbox" value="" id="flexCheckDefault" >
-                                </div>
-                            </td>
-                            <!--<td><span class="status completed">Completed</span></td>-->
-                        </tr>
+                                </td>
 
+                                <td>{{ album.createdat|date('Y-m-d H:i:s') }}</td>
+                                <td>{{ album.title }}</td>
+                                <td>€{{ album.price }}</td>
+                                <td>
+                                    <div class="form-check" style="margin-left: 14px">
+                                        <input data-id ="1" class="form-check-input check_album" type="checkbox" value="" id="flexCheckDefault" >
+                                    </div>
+                                </td>
+                                <!--<td><span class="status completed">Completed</span></td>-->
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
