@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
+use App\Classe\Pdf;
 use App\Entity\Albums;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,8 +44,21 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/profil/pdf", name= "download_pdf")
+     */
+    public function downloadpdf(Pdf $pdf,Request $request) {
+        $idAlbums = $request->request->get('ids');
 
+        foreach ($idAlbums as $key=>$val) {
 
+            $album = $this->entityManager->getRepository(Albums::class)->find($val);
+            $contrat = $album->getContrat();
+            $pdf->getPDFContrat($album,$contrat,$this->entityManager);
+        }
+        $response = new JsonResponse(['success']);
+        return $response;
+    }
 
 
 }

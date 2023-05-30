@@ -768,7 +768,7 @@
                 </div>
                 <a href="#" class="btn-download">
                     <i class='bx bxs-cloud-download ' ></i>
-                    <span class="text">Download PDF Contrat</span>
+                    <span class="text download_all_pdf">Download PDF Contrat</span>
                 </a>
             </div>
 
@@ -830,7 +830,7 @@
                                 <td>€{{ album.price }}</td>
                                 <td>
                                     <div class="form-check" style="margin-left: 14px">
-                                        <input data-id ="1" class="form-check-input check_album" type="checkbox" value="" id="flexCheckDefault" >
+                                        <input data-id ="{{ album.id }}" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" >
                                     </div>
                                 </td>
                                 <!--<td><span class="status completed">Completed</span></td>-->
@@ -1020,28 +1020,6 @@
                 $(this).replaceWith(selectChoiceElement);
             })
 
-            //acheter la selection
-            $('.download_selected_pdf').on('click',function(){
-                var selectedIds = [];
-                // Boucle à travers les checkboxes
-                $(".check_album").each(function() {
-                    // Vérifier si la checkbox est sélectionnée
-                    if ($(this).is(":checked")) {
-                        // Récupérer la valeur de l'attribut data-id
-                        var id = $(this).data("id");
-                        // Ajouter l'id au tableau selectedIds
-                        selectedIds.push(id);
-                    }
-                });
-
-// Afficher les ids sélectionnés dans la console
-                console.log(selectedIds);
-                if(selectedIds.length == 0) {
-                    alert("Merci de selectionner un ou des albums")
-                    return
-                }
-                //ici lancer le téléchargement pdf
-            })
 
         });
         $(function(){
@@ -1130,9 +1108,41 @@
                 });
             })
 
+        })
+        $(function(){
+            //alert
+            setTimeout(() => {
+                $('.alert').hide('slow')
+            }, "4000")
+
+            //download pdf
+            $('.download_selected_pdf').on('click',function(e){
+                e.preventDefault()
+                var selectedPdfIds = [];
+                // Boucle à travers les checkboxes
+                $(".form-check-input").each(function() {
+                    // Vérifier si la checkbox est sélectionnée
+                    if ($(this).is(":checked")) {
+                        // Récupérer la valeur de l'attribut data-id
+                        var id = $(this).data("id");
+                        // Ajouter l'id au tableau selectedIds
+                        selectedPdfIds.push(id);
+                    }
+                })
+
+                // Afficher les ids sélectionnés dans la console
+                console.log(selectedPdfIds);
+                if(selectedPdfIds.length == 0) {
+                    alert("Merci de selectionner un ou des albums ")
+                    return
+                }
+                //ici lancer le téléchargement pdf
+                ajax(selectedPdfIds)
+            })
+
             function ajax($tabIds) {
                 $.ajax({
-                    url: '',
+                    url: '{{ path("download_pdf") }}',
                     method: 'POST',
                     data: { ids: $tabIds },
                     success: function(response) {
@@ -1143,12 +1153,6 @@
                     }
                 });
             }
-        })
-        $(function(){
-            //alert
-            setTimeout(() => {
-                $('.alert').hide('slow')
-            }, "4000")
         })
     </script>
 {% endblock %}
