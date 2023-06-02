@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+use App\Classe\Mail;
 use App\Entity\Albums;
 use App\Entity\OrderDetail;
 use Stripe\Checkout\Session;
@@ -16,9 +17,11 @@ class StripeController extends AbstractController
 {
     private $entityManager;
     private $card;
-    public function __construct(EntityManagerInterface $manager,Cart $card) {
+    private $security;
+    public function __construct(EntityManagerInterface $manager,Cart $card,Security $security) {
             $this->entityManager = $manager;
             $this->card = $card;
+            $this->security = $security;
 
     }
     /**
@@ -112,6 +115,15 @@ class StripeController extends AbstractController
             $this->entityManager->flush();
             $this->card->delete($album->getId());
         }
+        //envoi mail personnalisé avec contrat en fichier joint
+        $mail = new Mail();
+        $user = $this->security->getUser();
+        $email = $user->getUserIdentifier();
+        $name = $user->getUsername();
+        $subject = "Contrat d'achat";
+        $contenu = "l'achat des albums si dessous à été bien effectue désormé vous en éte proprété si joint les fichier contrat de(s) album(s)";
+
+
         // Redirect to another route
         return $this->redirectToRoute('app_account');
     }

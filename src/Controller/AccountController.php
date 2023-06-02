@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
-use App\Classe\Pdf;
+use App\Classe\PdfUpload;
 use App\Entity\Albums;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -26,6 +28,7 @@ class AccountController extends AbstractController
      */
     public function index(SessionInterface $session,Cart $cart,Security $security): Response
     {
+
         $tabAlbumInCart = array();
         $tabCart = $cart->get();
         if($tabCart != null) {
@@ -47,17 +50,22 @@ class AccountController extends AbstractController
     /**
      * @Route("/profil/pdf", name= "download_pdf")
      */
-    public function downloadpdf(Pdf $pdf,Request $request) {
-        $idAlbums = $request->request->get('ids');
+    public function downloadpdf(PdfUpload $pdf,Request $request) {
+        $idAlbums = json_decode($request->query->get('ids'));
 
         foreach ($idAlbums as $key=>$val) {
 
             $album = $this->entityManager->getRepository(Albums::class)->find($val);
             $contrat = $album->getContrat();
-            $pdf->getPDFContrat($album,$contrat,$this->entityManager);
+            $filename = $pdf->getPDFContrat($album,$contrat,$this->entityManager);
+            $filePath = $_SERVER['DOCUMENT_ROOT'] . 'uploads/contrats/' . $filename;
+            if (file_exists($filePath)) {
+                $response = new BinaryFileResponse($filePath);
+                $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
+                return $response;
+            }
         }
-        $response = new JsonResponse(['success']);
-        return $response;
+        return new JsonResponse(['error' => 'Le fichier PDF n\'a pas pu être généré.']);
     }
 
 

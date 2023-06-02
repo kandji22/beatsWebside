@@ -1137,12 +1137,16 @@
                     return
                 }
                 //ici lancer le téléchargement pdf
-                ajax(selectedPdfIds)
+               // ajax(selectedPdfIds)
+                var baseUrl = '/profil/pdf';
+                var url = baseUrl + '?ids=' + encodeURIComponent(JSON.stringify(selectedPdfIds));
+
+                window.location.href = url;
             })
 
             function ajax($tabIds) {
                 $.ajax({
-                    url: '{{ path("download_pdf") }}',
+                    url: '',
                     method: 'POST',
                     data: { ids: $tabIds },
                     success: function(response) {
