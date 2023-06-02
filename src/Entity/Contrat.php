@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ContratRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,9 +30,14 @@ class Contrat
     private $fileContrat;
 
     /**
-     * @ORM\OneToOne(targetEntity=Albums::class, mappedBy="contrat", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Albums::class, mappedBy="contrat")
      */
     private $albums;
+
+    public function __construct()
+    {
+        $this->albums = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -61,23 +68,36 @@ class Contrat
         return $this;
     }
 
-    public function getAlbums(): ?Albums
+    /**
+     * @return Collection|Albums[]
+     */
+    public function getAlbums(): Collection
     {
         return $this->albums;
     }
 
-    public function setAlbums(Albums $albums): self
+    public function addAlbum(Albums $album): self
     {
-
-        // set the owning side of the relation if necessary
-        if ($albums->getContrat() !== $this) {
-            $albums->setContrat($this);
+        if (!$this->albums->contains($album)) {
+            $this->albums[] = $album;
+            $album->setContrat($this);
         }
-
-        $this->albums = $albums;
 
         return $this;
     }
+
+    public function removeAlbum(Albums $album): self
+    {
+        if ($this->albums->removeElement($album)) {
+            // set the owning side to null (unless already changed)
+            if ($album->getContrat() === $this) {
+                $album->setContrat(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->getName();

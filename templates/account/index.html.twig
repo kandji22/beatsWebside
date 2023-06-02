@@ -1082,7 +1082,7 @@
             })
 
             $('#checkout-button').on('click',function(){
-                fetch("/commande/create-session/"+tabIdAlbums, {
+                fetch("/profil/commande/create-session/"+tabIdAlbums, {
                 method: "POST",
             })
                 .then(function (response) {

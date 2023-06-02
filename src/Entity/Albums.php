@@ -53,7 +53,7 @@ class Albums
 
 
     /**
-     * @ORM\OneToOne(targetEntity=Contrat::class, mappedBy="album", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Contrat::class, inversedBy="albums")
      * @ORM\JoinColumn(nullable=false)
      */
     private $contrat;
@@ -182,12 +182,13 @@ class Albums
         return $this->contrat;
     }
 
-    public function setContrat(Contrat $contrat): self
+    public function setContrat(?Contrat $contrat): self
     {
         $this->contrat = $contrat;
 
         return $this;
     }
+
 
     public function getStatus(): ?string
     {

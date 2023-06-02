@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 use App\Classe\Mail;
+use App\Classe\PdfUpload;
 use App\Entity\Albums;
 use App\Entity\OrderDetail;
 use Stripe\Checkout\Session;
@@ -25,7 +26,7 @@ class StripeController extends AbstractController
 
     }
     /**
-     * @Route("/commande/create-session/{reference}", name="stripe_create_session")
+     * @Route("/profil/commande/create-session/{reference}", name="stripe_create_session")
      */
     public function index(Cart $cart,Request $request,Security $security,$reference)
     {
@@ -73,8 +74,8 @@ class StripeController extends AbstractController
                 $products_for_stripe
             ],
             'mode' => 'payment',
-            'success_url' => $YOUR_DOMAIN . '/commande/merci/{CHECKOUT_SESSION_ID}',
-            'cancel_url' => $YOUR_DOMAIN . '/commande/erreur/{CHECKOUT_SESSION_ID}',
+            'success_url' => $YOUR_DOMAIN . '/profil/commande/merci/{CHECKOUT_SESSION_ID}',
+            'cancel_url' => $YOUR_DOMAIN . '/profil/commande/erreur/{CHECKOUT_SESSION_ID}',
         ]);
         foreach ($tabOrderDetail as $orderDetail) {
             $orderDetail->setStripesession($checkout_session->id);
@@ -89,7 +90,7 @@ class StripeController extends AbstractController
     }
 
     /**
-     * @Route("/commande/merci/{checkout}", name="stripe_success_session")
+     * @Route("/profil/commande/merci/{checkout}", name="stripe_success_session")
      */
     public function successStripe($checkout) {
         //app_account
@@ -97,12 +98,14 @@ class StripeController extends AbstractController
         //http://127.0.0.1:8000/commande/merci/dkdfk
 
         $tabDetail = $this->entityManager->getRepository(OrderDetail::class)->findOneByStripeSessionId($checkout);
-
+        $tabUrlFileContrat = [];
         $this->addFlash('success', 'Paiement effectué avec succés');
         //on set les albums à vendu
         foreach ($tabDetail as $detail) {
             $albumId = $detail->getAlbum();
             $album = $this->entityManager->getRepository(Albums::class)->find($albumId);
+            $contrat = $album->getContrat();
+
             if($album != null) {
                 $album->setStatus(true);
                 $this->entityManager->persist($album);
@@ -114,6 +117,17 @@ class StripeController extends AbstractController
             $this->entityManager->persist($detail);
             $this->entityManager->flush();
             $this->card->delete($album->getId());
+            //création fichier contrat
+            $pdfContrat = new PdfUpload();
+            $nameFile = $pdfContrat->getPDFContrat($album,$contrat,$this->entityManager);
+            $path = $_SERVER['DOCUMENT_ROOT'] . 'uploads/contrats/' .$nameFile;
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+
+            $data = file_get_contents($path);
+            $base64 = base64_encode($data);
+            $tab = ['ContentType' => "application/pdf", 'Filename' => $album->getId().'webBeat.pdf','ContentID' => "id1",'Base64Content' => $base64];
+            $id = $album->getId().'_webBeat.pdf';
+            array_push($tabUrlFileContrat,$tab);
         }
         //envoi mail personnalisé avec contrat en fichier joint
         $mail = new Mail();
@@ -122,14 +136,14 @@ class StripeController extends AbstractController
         $name = $user->getUsername();
         $subject = "Contrat d'achat";
         $contenu = "l'achat des albums si dessous à été bien effectue désormé vous en éte proprété si joint les fichier contrat de(s) album(s)";
-
+        $mail->send($email,$name,$subject,$contenu,$tabUrlFileContrat);
 
         // Redirect to another route
         return $this->redirectToRoute('app_account');
     }
 
     /**
-     * @Route("/commande/erreur/{checkout}", name="stripe_error_session")
+     * @Route("/profil/commande/erreur/{checkout}", name="stripe_error_session")
      */
     public function cancelStripe($checkout) {
         // Add a flash message

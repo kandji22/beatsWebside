@@ -23,15 +23,15 @@ class PdfUpload
             'phone_field' => '0783350630',
         ];
 
-        $response = $this->genererate($data,$contrat);
+        $response = $this->genererate($data,$contrat,$album);
         return $response;
     }
 
 
-    public function genererate($data,$contrat)
+    public function genererate($data,$contrat,$album)
     {
         try {
-            $filename = 'pdf_' . rand(2000, 1200000) . '.pdf';
+            $filename = 'pdf_' . $album->getId() . '.pdf';
             $templatePath = $_SERVER['DOCUMENT_ROOT'] . 'uploads/' . $contrat->getFileContrat();
             $pdf = new Pdf($templatePath);
             $destinationPath = $_SERVER['DOCUMENT_ROOT'] . 'uploads/contrats';
@@ -44,5 +44,6 @@ class PdfUpload
             return $e->getMessage();
         }
     }
+
 
 }
