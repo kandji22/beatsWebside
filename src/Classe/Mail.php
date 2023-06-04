@@ -14,60 +14,89 @@ class Mail
     {
         $newArray = [];
 
-        foreach ($tabFiles as $index => $attachment) {
-            $newArray[] = [
-                "Content-type" => $attachment["ContentType"],
-                "Filename" => $attachment["Filename"],
-                "content" => $attachment["Base64Content"],
-            ];
-        }
+
 
         $mj = new Client($this->api_key, $this->api_key_secret,true,['version' => 'v3.1']);
-        $body =
-            [
-                'Messages' =>
+        if(!empty($tabFiles)) {
+            foreach ($tabFiles as $index => $attachment) {
+                $newArray[] = [
+                    "Content-type" => $attachment["ContentType"],
+                    "Filename" => $attachment["Filename"],
+                    "content" => $attachment["Base64Content"],
+                ];
+            }
+            $body =
                 [
-                    [
-                        'From' =>
+                    'Messages' =>
                         [
-                            'Email' => "kandji.k@outlook.com",
-                            'Name' => "webBeat"
-                        ],
-                        'To' =>
                             [
-                                [
-                                    'Email' => $to_email,
-                                    'Name' => $to_name
-                                ]
-                            ],
-                            'TemplateID' => 4037264,
-                            'TemplateLanguage' => true,
-                            'Subject' => $subject,
-                            'Variables' =>
-                                [
-                                    'content' => $content,
-                                ],
-                        'InlinedAttachments' => $tabFiles
-                        /*[
-                            [
-                                'ContentType' => "application/pdf",
-                                'Filename' => 'test.pdf',
-                                'ContentID' => "id1",
-                                'Base64Content' => $tabFiles[0]['content']
+                                'From' =>
+                                    [
+                                        'Email' => "kandji.k@outlook.com",
+                                        'Name' => "webBeat"
+                                    ],
+                                'To' =>
+                                    [
+                                        [
+                                            'Email' => $to_email,
+                                            'Name' => $to_name
+                                        ]
+                                    ],
+                                'TemplateID' => 4037264,
+                                'TemplateLanguage' => true,
+                                'Subject' => $subject,
+                                'Variables' =>
+                                    [
+                                        'content' => $content,
+                                    ],
+                                'InlinedAttachments' => $tabFiles
+                                /*[
+                                    [
+                                        'ContentType' => "application/pdf",
+                                        'Filename' => 'test.pdf',
+                                        'ContentID' => "id1",
+                                        'Base64Content' => $tabFiles[0]['content']
+                                    ]
+
+                                ]*/
+
+
                             ]
-
-                        ]*/
-
-
-
-
-                    ]
-                ]
-        ];
+                        ]
+                ];
+        }
+        else {
+            $body =
+                [
+                    'Messages' =>
+                        [
+                            [
+                                'From' =>
+                                    [
+                                        'Email' => "kandji.k@outlook.com",
+                                        'Name' => "webBeat"
+                                    ],
+                                'To' =>
+                                    [
+                                        [
+                                            'Email' => $to_email,
+                                            'Name' => $to_name
+                                        ]
+                                    ],
+                                'TemplateID' => 4037264,
+                                'TemplateLanguage' => true,
+                                'Subject' => $subject,
+                                'Variables' =>
+                                    [
+                                        'content' => $content,
+                                    ],
+                            ]
+                        ]
+                ];
+        }
         $response = $mj->post(Resources::$Email, ['body' => $body]);
         $response->success();
 
-
-
     }
+
 }

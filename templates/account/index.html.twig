@@ -830,7 +830,7 @@
                                 <td>€{{ album.price }}</td>
                                 <td>
                                     <div class="form-check" style="margin-left: 14px">
-                                        <input data-id ="{{ album.id }}" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" >
+                                        <input data-id ="{{ album.id }}" class="form-check-input" type="checkbox" value=""  >
                                     </div>
                                 </td>
                                 <!--<td><span class="status completed">Completed</span></td>-->
@@ -1044,7 +1044,13 @@
                 $('.number_owner_beat').text(totalBitsProperty)
                 $('.number_no_owner_beat').text(totalBitsInBasket)
                 $('.price_in_basket').text(priceBitsToBy)
-                console.log(totalBitsInBasket)
+                var ownsBits = 0 ;
+                // Boucle à travers les checkboxes
+                $(".form-check-input").each(function() {
+                    ownsBits++;
+                })
+                console.log(ownsBits)
+                $('.number_owner_beat').text(ownsBits)
 
             }
             intializePage()

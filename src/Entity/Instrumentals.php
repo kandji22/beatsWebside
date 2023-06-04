@@ -101,13 +101,7 @@ class Instrumentals
 
     public function setFichierAudio(string $fichier_audio): self
     {
-        if($fichier_audio == null) {
-            $fichier_audio = "default.mp3";
-        }
-        else {
-            $this->fichier_audio = $fichier_audio;
-        }
-
+        $this->fichier_audio = $fichier_audio;
         return $this;
     }
 

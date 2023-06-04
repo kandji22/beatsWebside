@@ -52,7 +52,7 @@
         <audio preload="auto" id="audio" controls>
             {% if instrumentals is empty %} {% else %}
 
-            <source src="{{ asset("audio/"~ instrumentals|first.getFichierAudio)}}">
+            <source src="{{ asset("assets/audios/"~ instrumentals|first.getFichierAudio)}}">
             {% endif %}
         </audio>
 

@@ -1,0 +1,10 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Bloquer l'accès direct au dossier "audio"
+    RewriteRule ^audio/ - [F,L]
+</IfModule>
+
+# Autres directives spécifiques à Symfony peuvent être ajoutées ci-dessous
