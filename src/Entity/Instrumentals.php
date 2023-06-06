@@ -40,7 +40,7 @@ class Instrumentals
 
     /**
      * @Vich\UploadableField(mapping="instrumentals_audio", fileNameProperty="fichier_audio")
-     * @Assert\File(maxSize="10M",maxSizeMessage="La taille maximale autorisée est de 10 Mo.")
+     * @Assert\File(maxSize="500M",maxSizeMessage="La taille maximale autorisée est de 150 Mo.")
      */
     private $fichier;
 
@@ -59,6 +59,12 @@ class Instrumentals
      * @ORM\OneToMany(targetEntity=Likes::class, mappedBy="instrumental_id", orphanRemoval=true)
      */
     private $likes;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\File(maxSize="500M",maxSizeMessage="La taille maximale autorisée est de 150 Mo.")
+     */
+    private $originalfile;
 
     public function __construct()
     {
@@ -182,6 +188,18 @@ class Instrumentals
             // Générer un nom de fichier unique
             $this->nomFichier = uniqid().'.'.$fichier->guessExtension();
         }
+    }
+
+    public function getOriginalfile(): ?string
+    {
+        return $this->originalfile;
+    }
+
+    public function setOriginalfile(string $originalfile): self
+    {
+        $this->originalfile = $originalfile;
+
+        return $this;
     }
 
 }
