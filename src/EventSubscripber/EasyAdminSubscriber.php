@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 use App\Entity\Albums;
 use App\Entity\Instrumentals;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeCrudActionEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -18,6 +19,7 @@ use App\Repository\AlbumsRepository;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Security;
+use function PHPUnit\Framework\fileExists;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
@@ -39,10 +41,11 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            BeforeEntityPersistedEvent::class => [['checkImageOrAudio', 2],['checkContrat',3]],
+            /*BeforeEntityPersistedEvent::class => [['checkImageOrAudio', 2],['checkContrat',3]],
             BeforeEntityUpdatedEvent::class => ['updateImageOrAudio',10],
-            BeforeCrudActionEvent::class => ['onFormSubmit',20],
-
+            BeforeCrudActionEvent::class => ['onFormSubmit',20],*/
+            BeforeEntityPersistedEvent::class => [['checkContrat',3]],
+            BeforeEntityDeletedEvent::class => [['onEntityDeleted', 3]],
         ];
     }
 
@@ -124,6 +127,24 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             $user = $this->security->getUser();
             $entity->setUser($user);
         }
+
+    }
+
+    public function onEntityDeleted(BeforeEntityDeletedEvent $event) {
+        $entity = $event->getEntityInstance();
+        if($entity instanceof Instrumentals) {
+            $project_dir = $this->kernel->getProjectDir();
+            $oldAudio = $project_dir . '/public/audio/' . $entity->getFichierAudio();
+            $oldOrigin = $project_dir . '/public/original/' . $entity->getOriginalfile();
+            if (file_exists($oldAudio)) {
+                unlink($oldOrigin);
+            }
+            if(file_exists($oldAudio)) {
+                unlink($oldAudio);
+            }
+
+        }
+
 
     }
 

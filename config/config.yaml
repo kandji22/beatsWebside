@@ -1,0 +1,17 @@
+vich_uploader:
+  db_driver: orm
+  mappings:
+    instrumentals:
+      uri_prefix: /audio
+      upload_destination: '%kernel.project_dir%/public/audio'
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      inject_on_load: false
+      delete_on_update: true
+      delete_on_remove: true
+    originalfiles:
+      uri_prefix: /original
+      upload_destination: '%kernel.project_dir%/public/original'
+      namer: Vich\UploaderBundle\Naming\UniqidNamer
+      inject_on_load: false
+      delete_on_update: true
+      delete_on_remove: true
