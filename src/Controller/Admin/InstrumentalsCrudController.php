@@ -40,8 +40,8 @@ class InstrumentalsCrudController extends AbstractCrudController
                 ->setBasePath('audio/') // Chemin d'accès aux images
                 ->setUploadedFileNamePattern('[randomhash].[extension]'),
             ImageField::new('originalfile')
-                ->setUploadDir('public/audio') // Chemin d'upload des images
-                ->setBasePath('audio/') // Chemin d'accès aux images
+                ->setUploadDir('public/original') // Chemin d'upload des images
+                ->setBasePath('original/') // Chemin d'accès aux images
                 ->setUploadedFileNamePattern('audio_' . time() . '.[extension]'),
 
             AssociationField::new('album_id')

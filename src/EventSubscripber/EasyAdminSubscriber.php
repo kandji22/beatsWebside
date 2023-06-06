@@ -67,6 +67,8 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
 
         if($entity instanceof Instrumentals) {
+
+
             if($entity->getFichierAudio() == null) {
                 $entity->setFichierAudio('default.mp3');
             }

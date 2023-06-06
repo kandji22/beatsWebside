@@ -39,8 +39,8 @@ class Instrumentals
     private $fichier_audio;
 
     /**
-     * @Vich\UploadableField(mapping="instrumentals_audio", fileNameProperty="fichier_audio")
-     * @Assert\File(maxSize="500M",maxSizeMessage="La taille maximale autorisée est de 150 Mo.")
+     * @Vich\UploadableField(mapping="instrumentals", fileNameProperty="fichier_audio")
+     * @var File
      */
     private $fichier;
 
@@ -62,9 +62,14 @@ class Instrumentals
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\File(maxSize="500M",maxSizeMessage="La taille maximale autorisée est de 150 Mo.")
      */
     private $originalfile;
+
+    /**
+     * @Vich\UploadableField(mapping="originalfiles", fileNameProperty="originalfile")
+     * @var File
+     */
+    private $originalFileObject;
 
     public function __construct()
     {
@@ -200,6 +205,21 @@ class Instrumentals
         $this->originalfile = $originalfile;
 
         return $this;
+    }
+
+    public function getOriginalFileObject(): ?File
+    {
+        return $this->originalFileObject;
+    }
+
+    public function setOriginalFileObject(?File $originalFile): void
+    {
+        $this->originalFileObject = $originalFile;
+
+        if ($originalFile) {
+            // Générer un nom de fichier unique
+            $this->originalfile = 'audio_' . time() . '.' . $originalFile->guessExtension();
+        }
     }
 
 }
