@@ -68,8 +68,22 @@ class ResetPasswordController extends AbstractController
      */
     public function updatepasword($token): Response
     {
-
+//http://localhost:8000/modifier-mon-mot-de-passe/647f76bc76207
         $reset_password = $this->entityManager->getRepository(ResetPassword::class)->findOneByToken($token);
-        dd($reset_password);
+
+        //vérification temp de reset
+        $now = new \DateTime();
+        $date = $reset_password->getCreatedAt()->modify('+ 3hour');
+        if($now > $date) {
+            //modifier mot de passe
+            $this->addFlash('notice',"Votre demande de mot de passe à expiré.Merci de la renouvéler");
+            return $this->redirectToRoute('reset_password');
+        }
+       //rendre une vue avec mot de passe et confirmer mot de passe
+        return $this->render('reset_password/update.html.twig', [
+
+        ]);
+        //encodage mot de passe et flus
+        //Redirect vers la page de connexion
     }
 }

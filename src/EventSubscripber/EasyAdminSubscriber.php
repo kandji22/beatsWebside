@@ -19,6 +19,8 @@ use App\Repository\AlbumsRepository;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Security;
+use Vich\UploaderBundle\Event\Event;
+use Vich\UploaderBundle\Event\Events;
 use function PHPUnit\Framework\fileExists;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
@@ -142,10 +144,38 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             if(file_exists($oldAudio)) {
                 unlink($oldAudio);
             }
-
         }
+        //album
 
-
+        if($entity instanceof Albums) {
+            $project_dir = $this->kernel->getProjectDir();
+            $allAudios  = $entity->getInstrumentals();
+            $imageAlbum = $project_dir . '/public/uploads/' . $entity->getImage();
+            if (file_exists($imageAlbum)) {
+                unlink($imageAlbum);
+            }
+            foreach ($allAudios as $audio) {
+                $oldAudio = $project_dir . '/public/audio/' . $audio->getFichierAudio();
+                $oldOrigin = $project_dir . '/public/original/' . $audio->getOriginalfile();
+                if (file_exists($oldAudio)) {
+                    unlink($oldOrigin);
+                }
+                if (file_exists($oldAudio)) {
+                    unlink($oldAudio);
+                }
+            }
+        }
     }
 
+    public function updateImage(Event $event) {
+        $entity = $event->getEntityInstance();
+        if($entity instanceof Albums) {
+            $project_dir = $this->kernel->getProjectDir();
+            $oldimage = $project_dir . '/public/audio/' . $entity->getImage();
+
+            if (file_exists($oldimage)) {
+                unlink($oldimage);
+            }
+        }
+    }
 }

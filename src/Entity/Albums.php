@@ -6,6 +6,8 @@ use App\Repository\AlbumsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
@@ -40,6 +42,12 @@ class Albums
      * @ORM\Column(type="string", length=255)
      */
     private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="albumfile", fileNameProperty="image")
+     * @var File
+     */
+    private $albumFile;
 
     /**
      * @ORM\OneToMany(targetEntity=Instrumentals::class, mappedBy="album_id", orphanRemoval=true)
@@ -156,6 +164,7 @@ class Albums
 
     public function removeInstrumental(Instrumentals $instrumental): self
     {
+        //remove file instrument
         if ($this->instrumentals->removeElement($instrumental)) {
             // set the owning side to null (unless already changed)
             if ($instrumental->getAlbum() === $this) {
@@ -228,5 +237,20 @@ class Albums
         $this->createdat = $createdat;
 
         return $this;
+    }
+
+    public function getAlbumFile(): ?File
+    {
+        return $this->albumFile;
+    }
+
+    public function setAlbumFile(?File $albumFile): void
+    {
+        $this->albumFile = $albumFile;
+
+        if ($albumFile) {
+            // Générer un nom de fichier unique
+            $this->image = 'audio_' . time() . '.' . $albumFile->guessExtension();
+        }
     }
 }
