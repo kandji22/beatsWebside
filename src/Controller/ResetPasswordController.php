@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Classe\Mail;
 use App\Entity\ResetPassword;
 use App\Entity\User;
+use App\Form\ResetPasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ResetPasswordController extends AbstractController
 {
@@ -66,7 +68,7 @@ class ResetPasswordController extends AbstractController
     /**
      * @Route("/modifier-mon-mot-de-passe/{token}", name="update_password")
      */
-    public function updatepasword($token): Response
+    public function updatepasword($token,Request $request,UserPasswordEncoderInterface $encoder): Response
     {
 //http://localhost:8000/modifier-mon-mot-de-passe/647f76bc76207
         $reset_password = $this->entityManager->getRepository(ResetPassword::class)->findOneByToken($token);
@@ -80,10 +82,26 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('reset_password');
         }
        //rendre une vue avec mot de passe et confirmer mot de passe
-        return $this->render('reset_password/update.html.twig', [
+        $form = $this->createForm(ResetPasswordType::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $newPasswd = $form->get('new_password')->getData();
+            //encodage mot de passe et fluch
+            $user = $reset_password->getUser();
+            $passwordEncode = $encoder->encodePassword($user,$newPasswd);
+            $user->setPassword($passwordEncode);
+            $this->entityManager->flush();
 
+            //Redirect vers la page de connexion et message
+            $this->addFlash('notice','mot de passe initialisé');
+            return $this->redirectToRoute('app_login');
+
+
+        }
+        return $this->render('reset_password/update.html.twig', [
+            'form' => $form->createView()
         ]);
-        //encodage mot de passe et flus
-        //Redirect vers la page de connexion
+
+
     }
 }

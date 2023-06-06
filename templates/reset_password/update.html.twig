@@ -194,7 +194,7 @@
                 {% for message in app.flashes('notice') %}
                     <div class="alert alert-info">{{ message }}</div>
                 {% endfor %}
-                <form class="login" method="post">
+                <!--<form class="login" method="post">
                     <p class="h3 mb-3 font-weight-normal">Merci d'entrer votre address mail de connexion</p>
                     <div class="login__field">
                         <i class="login__icon fas fa-user"></i>
@@ -209,7 +209,8 @@
                     <button class="btn btn-lg btn-primary" type="submit">
                         Reset password
                     </button>
-                </form>
+                </form>-->
+                {{ form(form) }}
                 <div class="social-login">
                     <h3>log in via</h3>
                     <div class="social-icons">
