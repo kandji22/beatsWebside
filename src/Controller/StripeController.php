@@ -105,9 +105,10 @@ class StripeController extends AbstractController
             $albumId = $detail->getAlbum();
             $album = $this->entityManager->getRepository(Albums::class)->find($albumId);
             $contrat = $album->getContrat();
-
+            $user = $this->security->getUser();
             if($album != null) {
                 $album->setStatus(true);
+                $album->setUser($user);
                 $this->entityManager->persist($album);
                 $this->entityManager->flush();
             }
@@ -131,7 +132,6 @@ class StripeController extends AbstractController
         }
         //envoi mail personnalisé avec contrat en fichier joint
         $mail = new Mail();
-        $user = $this->security->getUser();
         $email = $user->getUserIdentifier();
         $name = $user->getUsername();
         $subject = "Contrat d'achat";
