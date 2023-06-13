@@ -10,6 +10,7 @@ use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,7 +21,9 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+        // redirect to some CRUD controller
+        $routeBuilder = $this->get(AdminUrlGenerator::class);
+        return $this->redirect($routeBuilder->setController(AlbumsCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard
@@ -31,10 +34,10 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToCrud('Album', 'fas fa-folder', Albums::class);
         yield MenuItem::linkToCrud('Utilisateur', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Instrumental', 'fas fa-music', Instrumentals::class);
-        yield MenuItem::linkToCrud('Album', 'fas fa-folder', Albums::class);
+
         yield MenuItem::linkToCrud('Contrat', 'fa fa-eye', Contrat::class);
         yield MenuItem::linkToCrud('Detail Transaction', 'fa fa-shopping-cart', OrderDetail::class);
 
