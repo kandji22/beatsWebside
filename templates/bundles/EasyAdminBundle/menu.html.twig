@@ -33,6 +33,8 @@
                 {% endblock menu_item %}
             {% endfor %}
         {% endblock main_menu %}
+        {% if is_granted('ROLE_ADMIN') %}
+        {% endif %}
 
     </ul>
 
