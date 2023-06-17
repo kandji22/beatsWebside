@@ -18,22 +18,12 @@
                             ></div>
                             <div class="song-info">
                                 <div class="song-title">{{ album.title }}</div>
-                                <div class="song-artist">{% if album.description | length > 80 %}
-                                        {{ album.description | slice(0, 80) }}
+                                <div class="song-artist">
                                         <!-- Button trigger modal -->
-                                        <button id="open_modal_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" data-description = "{{ album.description | raw  }}">
-                                            Lire la suite
+                                        <button id="open_modal_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" data-description = "{{ album.description }}">
+                                            Lire la Description
                                         </button>
-
-                                    {% else %}
-                                        {{ album.description | raw  }}
-                                        <button id="open_modal_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" data-description = "{{ album.description  }}">
-                                            Lire la suite
-                                        </button>
-                                        <a  type="button" class="btn btn-primary" href="{{ path('app_show', {'id': album.id}) }}" id ="link_to_lector">
-                                            Aller au lecteur >
-                                        </a>
-                                    {% endif %}</div>
+                            </div>
 
                             </div>
                             {% set audios = album.getInstrumentals %}
@@ -42,8 +32,16 @@
                                     <audio data-song = "my song" id="{{ "audio-player_"~ t }}" data-id="{{ "audio-player_"~ t }}" class="audio-player" preload="none" src="{{ asset('audio/'~ audio.getFichierAudio) }}" data-piste="{{ t }}" ></audio>
                                 {% set t = t + 1 %}
                             {% endfor %}
+                            <a  type="button" class="btn btn-primary" href="{{ path('app_show', {'id': album.id}) }}" id ="link_to_lector" >
+                                Aller au lecteur  <i class='bx bxs-hand-right'></i>
+                            </a>
                         </div>
+                        {% if album.getStatus == 1 %}
+                            <button class="btn btn-danger status_album">Vendu</button>
+                        {% endif %}
+
                     </div>
+
             {% endfor %}
 
             </div>
@@ -94,7 +92,26 @@
             </div>
         </div>
     </div>
+<style>
+    .song {
+        position: relative;
+    }
+    .status_album {
+        position: absolute;
+        bottom:0;
+        right: 0;
+    }
+    #link_to_lector {
+        position: absolute;
+        top: -2px;
+        right: 0;
+    }
 
+    #open_modal_btn {
+        margin-top: 2rem;
+    }
+
+</style>
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
@@ -132,6 +149,7 @@
         }
 
         $(".song").on("click", function (e) {
+            console.log(e.target.id)
             if(e.target.id == "open_modal_btn") {
                 $('#content_modal').empty()
                 $('#content_modal').html($('#'+e.target.id).data('description'))

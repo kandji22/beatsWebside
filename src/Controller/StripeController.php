@@ -120,7 +120,7 @@ class StripeController extends AbstractController
             $this->card->delete($album->getId());
             //création fichier contrat
             $pdfContrat = new PdfUpload();
-            $nameFile = $pdfContrat->getPDFContrat($album,$contrat,$this->entityManager);
+            $nameFile = $pdfContrat->getPDFContrat($album,$contrat,$this->entityManager,$user);
             $path = $_SERVER['DOCUMENT_ROOT'] . 'uploads/contrats/' .$nameFile;
             $type = pathinfo($path, PATHINFO_EXTENSION);
 

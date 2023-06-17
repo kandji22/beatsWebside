@@ -86,4 +86,15 @@ class Cart
         return $cartComplete;
     }
 
+    public function isallreadyadd($id) {
+        $bool = false;
+        $carts = $this->get();
+
+        if($carts != null) {
+            if (array_key_exists($id, $carts)) {
+                $bool = true;
+            }
+        }
+        return $bool;
+    }
 }

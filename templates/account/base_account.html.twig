@@ -883,18 +883,19 @@
                         })
                         li.classList.add('active');
                     })
+                    // TOGGLE SIDEBAR
+                    const menuBar = document.querySelector('#content nav .bx.bx-menu');
+                    const sidebar = document.getElementById('sidebar');
+
+                    $('.bx-menu').off('click').on('click', function () {
+                        $('#sidebar').toggleClass('hide')
+                    })
                 });
 
 
 
 
-                // TOGGLE SIDEBAR
-                const menuBar = document.querySelector('#content nav .bx.bx-menu');
-                const sidebar = document.getElementById('sidebar');
 
-                menuBar.addEventListener('click', function () {
-                    sidebar.classList.toggle('hide');
-                })
 
 
 
@@ -1044,7 +1045,7 @@
 
 
                     $.each($tabaPriceAlbum,function($key,$value){
-                        html +='<tr> <th scope="row">'+$value+'</th> <td>$'+$key+'</td>  </tr>'
+                        html +='<tr> <th scope="row">'+$value+'</th> <td>€'+$key+'</td>  </tr>'
                     })
                     //modal-body
                     html += '<tr> <th scope="row"><span style="color: #5a5ab0">Total:<span></th> <td><span style="color: #e07e7e">$'+$priceTotal+'</span></td> </tr>'

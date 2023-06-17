@@ -38,6 +38,7 @@ security:
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/profil, roles: ROLE_USER}
+         - { path: ^/show, roles: ROLE_USER}
          - { path: ^/audio, roles: ROLE_ADMIN }
 
 

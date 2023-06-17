@@ -27,11 +27,11 @@
     }
 
     .screen {
-    background: linear-gradient(90deg, #ffe0d3, #ffe0d3);
+    background: linear-gradient(90deg, #111, #111);
     position: relative;
-    height: 35rem;
-    width: 380px;
-    box-shadow: 0px 0px 24px #ffe0d3;
+    height: 50rem;
+    width: 450px;
+    box-shadow: 0px 0px 24px #111;
     }
 
     .screen__content {
@@ -77,23 +77,23 @@
     .screen__background__shape3 {
     height: 540px;
     width: 190px;
-    background: linear-gradient(270deg, #ffe0d3, #ffe0d3);
+    background: linear-gradient(270deg, #111, #111);
     top: -24px;
     right: 0;
     border-radius: 32px;
     }
 
     .screen__background__shape4 {
-    height: 400px;
+    height: 40px;
     width: 200px;
-    background: #ffe0d3;
+    background: #111;
     top: 420px;
     right: 50px;
     border-radius: 60px;
     }
 
     .login {
-    width: 320px;
+    width: 500px;
     padding: 30px;
     padding-top: 156px;
     }
@@ -101,6 +101,7 @@
     .login__field {
     padding: 20px 0px;
     position: relative;
+    margin-left: 6rem;
     }
 
     .login__icon {
@@ -148,7 +149,7 @@
     .login__submit:active,
     .login__submit:focus,
     .login__submit:hover {
-    border-color: #ffe0d3;
+    border-color: #111;
     outline: none;
     }
 
@@ -163,7 +164,7 @@
     position: absolute;
     top:0;
     right: 0;
-    background-color: #ffe0d3;
+    background-color: #111;
     width: 150px;
     height: 30px;
     font-size: 16px;
@@ -171,9 +172,10 @@
     padding-top: 4px;
     border: none;
     font-weight: bold;
+    border-radius: 26px;
 }
 .btn-connexion:hover {
-    background-color: #3c91e6;
+    background-color: #aa1111;
 }
 .screen__content {
     position: relative;
@@ -184,7 +186,36 @@
 .link-connection-google {
     display: block;
     margin-top: 3rem;
-    margin-left: 1.8rem;
+    margin-left: 8rem;
+
+}
+.social-connected {
+    background-color: #111;
+    cursor: pointer;
+    border-radius: 26px;
+}
+.social-connected:hover {
+    background-color: #aa1111;
+}
+.info_register {
+    position: absolute;
+    bottom: 3rem;
+    left: 29rem;
+    color: #4d4de3;
+}
+.register_btn {
+    background-color: #111 !important;
+    cursor: pointer !important;
+    border-radius: 26px;
+}
+.register_btn:hover{
+    background-color: #aa1111 !important;
+}
+.alert-info {
+    position: relative;
+    top: 10rem;
+    width: 30rem;
+    border-radius: 40px 10px;
 }
 </style>
 {% endblock %}
@@ -247,6 +278,8 @@
     </div>
 </div>
 </div>
+    <p class="info_register">Si vous n'avez pas de compte <a href="{{ path('register') }}" class="link_register btn btn-primary register_btn"> Enrégistrer vous ici </a></p>
+
 {% endblock %}
 {% block javascripts %}
     <script>

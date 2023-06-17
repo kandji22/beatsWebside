@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Cart;
 use App\Entity\Albums;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +32,7 @@ class IndexController extends AbstractController
 
             $titleAlbum = $albumChoice->getTitle();
         }
-        $albums = $this->entityManager->getRepository(Albums::class)->findAlbumNoSell(false);
+        $albums = $this->entityManager->getRepository(Albums::class)->findAll();
 
         return $this->render('home/index.html.twig', [
             'albums' => $albums,
@@ -43,14 +44,15 @@ class IndexController extends AbstractController
     /**
      * @Route("/show/{id}", name="app_show")
      */
-    public function show(Albums $album): Response
+    public function show(Albums $album,Cart $cart): Response
     {
         $instrumentals = $album->getInstrumentals();
-
+        $isInSession = $cart->isallreadyadd($album->getId());
         return $this->render('home/show.html.twig', [
             'controller_name' => 'HomeController',
             'album' => $album,
-            'instrumentals' => $instrumentals
+            'instrumentals' => $instrumentals,
+            'isInSession' => $isInSession
         ]);
     }
 
@@ -76,4 +78,6 @@ class IndexController extends AbstractController
 
         ]);
     }
+
+
 }

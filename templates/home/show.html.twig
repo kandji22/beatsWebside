@@ -10,6 +10,7 @@
          .active {
              background-color: #393636 !important;
          }
+
      </style>
 {% endblock %}
 {% block head %}
@@ -43,11 +44,18 @@
 
         <div class="info">
             <h4>{{ album.title }}</h4>
-            <h3>Prix album:  <span style="color:#4f4fe5">{{ album.price}} $</span></h3>
-            <!-- ici mettre une condition pour dire que le produit est déjâ ajouter au panier -->
-
-            <a href="{{ path('add_to_cart',{'id': album.id}) }}"><i class="fa fa-cart-arrow-down panier_show" aria-hidden="true" style='font-size:24px; display:none'></i></a>
-            <div class="show_card" style ="display: none; margin-top: 6px; "> <a href="{{ path('app_show_card') }}" class="btn btn-primary" style="font-size: 11px" > Voir mon panier <i class="fa fa-arrow-right"></i> </a></div>
+            {% if isInSession == false %}
+                {% if album.getStatus != 1 %}
+                    <h3>Prix album:  <span style="color:#4f4fe5">{{ album.price}} $</span></h3>
+                    <a href="{{ path('add_to_cart',{'id': album.id}) }}"><i class="fa fa-cart-arrow-down panier_show" aria-hidden="true" style='font-size:24px; display:none'></i></a>
+                {% else %}
+                    <h3>Album <span style="color: #f94658"> Vendu </span></h3>
+                {% endif %}
+            {% endif %}
+                <div class="show_card" style ="display: none; margin-top: 6px; "> <a href="{{ path('app_account') }}" class="btn btn-primary" style="font-size: 11px" > Voir mon panier <i class="fa fa-arrow-right"></i> </a></div>
+            {% if isInSession == true %}
+                <div class="show_card" style ="display: none; margin-top: 6px; "> <a href="{{ path('app_account') }}" class="btn btn-primary" style="font-size: 11px" > Voir mon panier <i class="fa fa-arrow-right"></i> </a></div>
+            {% endif %}
         </div>
         <audio preload="auto" id="audio" controls>
             {% if instrumentals is empty %} {% else %}

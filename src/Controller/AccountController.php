@@ -23,8 +23,10 @@ use ZipArchive;
 class AccountController extends AbstractController
 {
     private $entityManager;
-    public function __construct(EntityManagerInterface $entityManager) {
+    private $user;
+    public function __construct(EntityManagerInterface $entityManager,Security $security) {
         $this->entityManager = $entityManager;
+        $this->user = $security->getUser();
     }
 
     /**
@@ -32,7 +34,8 @@ class AccountController extends AbstractController
      */
     public function index(SessionInterface $session,Cart $cart,Security $security): Response
     {
-
+        phpinfo();
+        $pdf = new PdfUpload();
         $tabAlbumInCart = array();
         $tabCart = $cart->get();
         if($tabCart != null) {
@@ -64,7 +67,7 @@ class AccountController extends AbstractController
 
             $album = $this->entityManager->getRepository(Albums::class)->find($val);
             $contrat = $album->getContrat();
-            $filename = $pdf->getPDFContrat($album,$contrat,$this->entityManager);
+            $filename = $pdf->getPDFContrat($album,$contrat,$this->entityManager,$this->user);
             $pdfPath = $_SERVER['DOCUMENT_ROOT'] . 'uploads/contrats/' . $filename;
             if (file_exists($pdfPath)) {
                 // Définir les en-têtes pour le téléchargement du fichier
@@ -76,9 +79,15 @@ class AccountController extends AbstractController
                 readfile($pdfPath);
             }
         }
+    }
 
-
+    /**
+     * @Route("/profil/album", name= "download_album")
+     */
+    public function downloadAlbum(Request $request) {
+        $idAlbums = json_decode($request->query->get('ids'));
 
     }
+
 
 }

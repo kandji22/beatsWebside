@@ -26,11 +26,11 @@
     }
 
     .screen {
-        background: linear-gradient(90deg, #5D54A4, #7C78B8);
+        background: linear-gradient(90deg, #111, #111);
         position: relative;
         height: 65rem;
-        width: 380px;
-        box-shadow: 0px 0px 24px #5C5696;
+        width: 600px;
+        box-shadow: 0px 0px 24px #111;
     }
 
     .screen__content {
@@ -56,8 +56,8 @@
     }
 
     .screen__background__shape1 {
-        height: 90rem;
-        width: 520px;
+        height: 60rem;
+        width: 1000px;
         background: #FFF;
         top: -120px;
         right: 120px;
@@ -67,7 +67,7 @@
     .screen__background__shape2 {
         height: 220px;
         width: 220px;
-        background: #6C63AC;
+        background: #111;
         top: -172px;
         right: 0;
         border-radius: 32px;
@@ -76,7 +76,7 @@
     .screen__background__shape3 {
         height: 540px;
         width: 190px;
-        background: linear-gradient(270deg, #5D54A4, #6A679E);
+        background: linear-gradient(270deg, #111, #111);
         top: -24px;
         right: 0;
         border-radius: 32px;
@@ -85,14 +85,14 @@
     .screen__background__shape4 {
         height: 400px;
         width: 200px;
-        background: #7E7BB9;
+        background: #111;
         top: 420px;
         right: 50px;
         border-radius: 60px;
     }
 
     .login {
-        width: 320px;
+        width: 500px;
         padding: 30px;
         padding-top: 156px;
     }
@@ -100,17 +100,18 @@
     .login__field {
         padding: 20px 0px;
         position: relative;
+        margin-left: 6rem;
     }
 
     .login__icon {
         position: absolute;
         top: 30px;
-        color: #7875B5;
+        color: #111;
     }
 
     .login__input {
         border: none;
-        border-bottom: 2px solid #D1D1D4;
+        border-bottom: 2px solid #111;
         background: none;
         padding: 10px;
         padding-left: 24px;
@@ -123,7 +124,7 @@
     .login__input:focus,
     .login__input:hover {
         outline: none;
-        border-bottom-color: #6A679E;
+        border-bottom-color: #111;
     }
 
     .login__submit {
@@ -137,24 +138,26 @@
         font-weight: 700;
         display: flex;
         align-items: center;
-        width: 100%;
-        color: #4C489D;
-        box-shadow: 0px 2px 2px #5C5696;
+        width: 60%;
+        color: #111;
+        box-shadow: 0px 2px 2px #111;
         cursor: pointer;
         transition: .2s;
+        margin-left: 6rem;
     }
 
     .login__submit:active,
     .login__submit:focus,
     .login__submit:hover {
-        border-color: #6A679E;
+        border-color: #111;
+        background-color: #aa1111;
         outline: none;
     }
 
     .button__icon {
         font-size: 24px;
         margin-left: auto;
-        color: #7875B5;
+        color: #111;
     }
 
     .social-login {
@@ -177,11 +180,19 @@
         padding: 20px 10px;
         color: #fff;
         text-decoration: none;
-        text-shadow: 0px 0px 8px #7875B5;
+        text-shadow: 0px 0px 8px #111;
     }
 
     .social-login__icon:hover {
         transform: scale(1.5);
+    }
+    .alert-error {
+        background-color: #c8a7a7;
+        color: red;
+        position: relative;
+        top: 10rem;
+        width: 30rem;
+        border-radius: 40px 10px;
     }
 </style>
 {% endblock %}
@@ -257,12 +268,7 @@
 
 
                 <div class="social-login">
-                    <h3>log in via</h3>
-                    <div class="social-icons">
-                        <a href="#" class="social-login__icon fab fa-instagram"></a>
-                        <a href="#" class="social-login__icon fab fa-facebook"></a>
-                        <a href="#" class="social-login__icon fab fa-twitter"></a>
-                    </div>
+
                 </div>
             </div>
             <div class="screen__background">
@@ -275,7 +281,18 @@
     </div>
 {% endblock %}
 {% block javascripts %}
+    <script
+            src="https://code.jquery.com/jquery-3.6.4.js"
+            integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+            crossorigin="anonymous"
+    ></script>
 <script>
+$(function (){
 
+    setTimeout(() => {
+
+        $('.alert-error').hide('slow')
+    },'3000')
+})
 </script>
 {% endblock %}
