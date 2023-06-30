@@ -34,6 +34,7 @@ header {
 
 nav {
     height: 100%;
+    background-color: black !important;
 }
 
 /* Toggle */
@@ -189,7 +190,7 @@ nav {
 /* Hero */
 
 .hero {
-    background: url("img/hero.jpeg");
+    background: url("../img/hero.jpeg");
     background-repeat: no-repeat;
     background-size: 100% auto;
     height: 100vh;
@@ -988,9 +989,10 @@ nav {
     }
 }
 .menu {
-    background-image: url('img/hero.jpeg');
+    background-image: url('../img/hero.jpeg');
     background-size: cover;
     background-position: center;
+    border-radius: 50% !important; /* Applique la forme d'un arc */
 }
 .progress-wrapper {
     height: 8px !important;
@@ -1129,6 +1131,7 @@ h6 {
 .header {
     display: inline-flex;
     margin: 0 0 40px 0;
+
 }
 
 input[type=checkbox] {
@@ -1698,8 +1701,14 @@ body {
 }
 
 .music-player {
-    background: url("../images/hero2.jpeg");
+    background: url("../img/music.jpeg");
     background-repeat: no-repeat;
     background-size: 100% auto;
-    border-radius: 50% 50% 0 0 !important; /* Applique la forme d'un arc */
+}
+
+.container_login {
+    background-image: url("../img/login.gif") !important;
+}
+body {
+    background-color: black !important;
 }

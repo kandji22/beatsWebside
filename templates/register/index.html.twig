@@ -3,7 +3,7 @@
 {% block title %}Hello RegisterController!{% endblock %}
 {% block head %} {% endblock %}
 {% block stylesheets %}
-
+{{ parent() }}
 <style>
     @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
 
@@ -14,9 +14,7 @@
         font-family: Raleway, sans-serif;
     }
 
-    body {
-        background-image: url("../img/musicgif.gif");
-    }
+
 
     .container {
         display: flex;
@@ -28,9 +26,11 @@
     .screen {
         background: linear-gradient(90deg, #111, #111);
         position: relative;
-        height: 65rem;
+        height: 45rem;
         width: 600px;
         box-shadow: 0px 0px 24px #111;
+        opacity: 0.8;
+        color: white;
     }
 
     .screen__content {
@@ -194,10 +194,11 @@
         width: 30rem;
         border-radius: 40px 10px;
     }
+
 </style>
 {% endblock %}
 {% block body %}
-    <div class="container">
+    <div class="container container_login">
         <div class="screen">
 
             <div class="screen__content">

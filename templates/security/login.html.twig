@@ -4,8 +4,9 @@
 {% block title %}Hello RegisterController!{% endblock %}
 {% block head %} {% endblock %}
 {% block stylesheets %}
-
+    {{ parent() }}
 <style>
+
     @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
 
     * {
@@ -15,9 +16,6 @@
     font-family: Raleway, sans-serif;
     }
 
-    body {
-    background-image: url("../img/musicgif.gif");
-    }
 
     .container {
     display: flex;
@@ -217,10 +215,11 @@
     width: 30rem;
     border-radius: 40px 10px;
 }
+
 </style>
 {% endblock %}
 {% block body %}
-<div class="container">
+<div class="container container_login">
     <div class="screen">
 
         <div class="screen__content">
