@@ -193,6 +193,7 @@ nav {
     background-repeat: no-repeat;
     background-size: 100% auto;
     height: 100vh;
+    border-radius: 50% 50% 0 0 !important; /* Applique la forme d'un arc */
 }
 
 @media all and (max-width: 767px) {
@@ -1616,6 +1617,9 @@ body {
     position:relative !important;
     overflow: visible;
     z-index: 99;
+    background: radial-gradient(circle at 50% 120%, #81e8f6, #76deef 10%, #055194 80%, #062745 100%) !important;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotateX(20deg) rotateY(10deg) rotateZ(5deg);
 }
 
 .btn-danger {
@@ -1691,4 +1695,11 @@ body {
     border-color: blue !important;
     animation: pulse 2s infinite !important;
     animation: borderClose 1s linear infinite !important;
+}
+
+.music-player {
+    background: url("../images/hero2.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    border-radius: 50% 50% 0 0 !important; /* Applique la forme d'un arc */
 }
