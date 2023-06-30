@@ -53,6 +53,11 @@
                             <span class="text download_selected_pdf">Download PDF Contrat</span>
                         </a>
 
+                        <a href="#" class="btn-download_album">
+                            <i class="bx bxs-cloud-download "></i>
+                            <span class="text download_selected_album">Download Album</span>
+                        </a>
+
                     </div>
                     <table>
                         <thead>
@@ -80,8 +85,18 @@
                                         <input data-id ="{{ album.id }}" class="form-check-input" type="radio" value="" name="contrat" >
                                     </div>
                                 </td>
-                                <!--<td><span class="status completed">Completed</span></td>-->
+                                <!--<td><span class="status completed">Completed</span></td>  -->
                             </tr>
+                            <div style="display: none" class ="list_instrumental">
+                                <ul class="list-group" id = "{{ "album_"~album.id }}" data-album ="{{"Album "~album.title }}">
+                                    {% set audios = album.getInstrumentals %}
+
+                                    {% for audio in audios %}
+                                        <li style="display: flex;justify-content: space-between" class="list-group-item list-group-item-action" ><span class="audio-title">{{ audio.getTitre }}</span> <i data-namealbum = "{{ album.getTitle()  }}"  data-id = "{{ audio.id }}" style="cursor: pointer;" class='bx bx-download download_audio'></i></li>
+
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         {% endfor %}
                         </tbody>
                     </table>
@@ -111,6 +126,29 @@
                 </div>
             </div>
         </main>
+
+    <!-- Button trigger modal -->
+    <button style="display: none" type="button" class="btn btn-primary modal_class_2" data-toggle="modal" data-target="#exampleModal2">
+        Launch demo modal 2
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title title_album_modal" id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body list_instrumental_body">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
         <!-- MAIN -->
     {% block javascripts %}
         {{ parent() }}
@@ -118,6 +156,7 @@
             $(function(){
                 $('ul.side-menu li').removeClass('active');
                 $('ul.side-menu li:nth-child(1)').addClass('active');
+
             })
         </script>
     {% endblock %}

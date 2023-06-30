@@ -33,7 +33,7 @@ class IndexController extends AbstractController
             $titleAlbum = $albumChoice->getTitle();
         }
         $albums = $this->entityManager->getRepository(Albums::class)->findAll();
-
+        
         return $this->render('home/index.html.twig', [
             'albums' => $albums,
             'albumsId' => $albumsId,

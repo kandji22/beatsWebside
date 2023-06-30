@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Classe\Cart;
 use App\Classe\PdfUpload;
 use App\Entity\Albums;
+use App\Entity\Instrumentals;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Qipsius\TCPDFBundle\Controller\TCPDFController;
@@ -20,6 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use ZipArchive;
 
+
+
 class AccountController extends AbstractController
 {
     private $entityManager;
@@ -34,7 +37,6 @@ class AccountController extends AbstractController
      */
     public function index(SessionInterface $session,Cart $cart,Security $security): Response
     {
-        phpinfo();
         $pdf = new PdfUpload();
         $tabAlbumInCart = array();
         $tabCart = $cart->get();
@@ -86,8 +88,64 @@ class AccountController extends AbstractController
      */
     public function downloadAlbum(Request $request) {
         $idAlbums = json_decode($request->query->get('ids'));
+        if(empty($idAlbums)) {
+            return ;
+        }
+
+        $album = $this->entityManager->getRepository(Albums::class)->find($idAlbums[0]);
+        $instrumentals = $album->getInstrumentals();
+        $zipFilename = $_SERVER['DOCUMENT_ROOT'] . 'myzipdoc/archive.zip';
+        $zip = new ZipArchive();
+        if ($zip->open($zipFilename, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+            throw new \RuntimeException('Impossible de créer le fichier ZIP.');
+        }
+        foreach ($instrumentals as $instrumental) {
+            $filePath = $_SERVER['DOCUMENT_ROOT'] . 'original/'.$instrumental->getOriginalfile();
+            $filename = basename($filePath);
+            $zip->addFile($filePath, $filename);
+        }
+        $zip->close();
+
+        // Envoyer le fichier Zip au navigateur en tant que réponse
+        return new BinaryFileResponse($zipFilename, 200, [
+            'Content-Type' => 'application/zip',
+            'Content-Disposition' => 'attachment; filename="audio_archive.zip"',
+        ]);
 
     }
 
+    /**
+     * @Route("/profil/music", name="music_download")
+     */
+    public function downloadMusic(Request $request)
+    {
+        $idInstru = $request->query->get('ids');
+
+        if($idInstru == "") {
+            return ;
+        }
+
+        $instru = $this->entityManager->getRepository(Instrumentals::class)->find($idInstru);
+
+
+
+        // Vérifier si le fichier MP3 existe
+        $filePath = $_SERVER['DOCUMENT_ROOT'] . 'original/'.$instru->getOriginalfile();
+
+        if (!file_exists($filePath)) {
+            // Retourner une réponse appropriée si le fichier n'existe pas
+            return new Response('Fichier non trouvé.', 404);
+        }
+        $info = pathinfo($instru->getOriginalfile());
+        $extension = $info['extension'];
+        $filename = $info['basename'];
+
+
+        // Envoyer le fichier MP3 au navigateur en tant que réponse
+        return new BinaryFileResponse($filePath, 200, [
+            'Content-Type' => 'audio/'.$extension,
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
+    }
 
 }

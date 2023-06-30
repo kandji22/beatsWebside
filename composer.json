@@ -5,6 +5,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.2.5",
+        "ext-bz2": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^2.0",
@@ -14,6 +15,7 @@
         "dompdf/dompdf": "^2.0",
         "easycorp/easyadmin-bundle": "^3.5",
         "egulias/email-validator": "^3.2",
+        "james-heinrich/getid3": "^1.9",
         "knpuniversity/oauth2-client-bundle": "^2.12",
         "league/oauth2-google": "^4.0",
         "mailjet/mailjet-apiv3-php": "^1.5",

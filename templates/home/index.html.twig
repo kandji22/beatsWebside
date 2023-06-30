@@ -10,6 +10,22 @@
                 {% for album in albums %}
                     <div class="col s12 m6 l4 x3">
                         <div class="{{ "active song album_"~ album.id }}" data-id = "{{ album.id }}">
+                            <div class = "mini_disk" style="text-align: center;padding-top: 100px;padding-right: 180px">
+                                {% if album.getStatus == 1 %}
+                                    <span style="color: white;font-weight: bold;font-size: 16px">Vendu</span>
+                                {% else %}
+                                    <span style="color: white;font-weight: bold;font-size: 16px">Disponible</span>
+                                {% endif %}
+                            </div>
+
+                            <div class = "menu_album" style="text-align: center;padding-top: 150px;padding-right: 20px">
+                                <div class="open_modal_btn" style="color: white;font-weight: bold;font-size: 16px; margin-bottom: 4px" data-toggle="modal" data-target="#exampleModalLong" data-description = "{{ album.description }}">Lire la Description</div>
+                                <div class="text_lecteur" style="color: white;font-weight: bold;font-size: 16px">
+                                    <a  href="{{ path('app_show', {'id': album.id}) }}" >
+                                        Accéder au lecteur  <i class='bx bxs-hand-right'></i>
+                                    </a>
+                                </div>
+                            </div>
                             <div
                                     class="song-image"
                                     style="
@@ -20,9 +36,17 @@
                                 <div class="song-title">{{ album.title }}</div>
                                 <div class="song-artist">
                                         <!-- Button trigger modal -->
-                                        <button id="open_modal_btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" data-description = "{{ album.description }}">
-                                            Lire la Description
-                                        </button>
+
+                                            <button class="make_lector play-button">
+
+                                                {%   if albumsId != null %}
+                                                    <i class="material-icons">pause</i>
+                                                {% else %}
+                                                    <i class="material-icons">play_arrow</i>
+
+                                                {% endif %}
+                                            </button>
+
                             </div>
 
                             </div>
@@ -32,13 +56,7 @@
                                     <audio data-song = "my song" id="{{ "audio-player_"~ t }}" data-id="{{ "audio-player_"~ t }}" class="audio-player" preload="none" src="{{ asset('audio/'~ audio.getFichierAudio) }}" data-piste="{{ t }}" ></audio>
                                 {% set t = t + 1 %}
                             {% endfor %}
-                            <a  type="button" class="btn btn-primary" href="{{ path('app_show', {'id': album.id}) }}" id ="link_to_lector" >
-                                Aller au lecteur  <i class='bx bxs-hand-right'></i>
-                            </a>
                         </div>
-                        {% if album.getStatus == 1 %}
-                            <button class="btn btn-danger status_album">Vendu</button>
-                        {% endif %}
 
                     </div>
 
@@ -59,7 +77,7 @@
                 <button class="action-button">
                     <i class="material-icons">skip_previous</i>
                 </button>
-                <button class="play-button">
+                <button class="play-button play_btn">
                     <i class="material-icons">play_arrow</i>
                 </button>
                 <button class="action-button">
@@ -85,10 +103,6 @@
                 <div class="modal-body" id="content_modal">
                     ...
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
             </div>
         </div>
     </div>
@@ -99,17 +113,10 @@
     .status_album {
         position: absolute;
         bottom:0;
-        right: 0;
-    }
-    #link_to_lector {
-        position: absolute;
-        top: -2px;
-        right: 0;
+        right: 9.6px;
     }
 
-    #open_modal_btn {
-        margin-top: 2rem;
-    }
+
 
 </style>
 {% endblock %}
@@ -150,17 +157,10 @@
 
         $(".song").on("click", function (e) {
             console.log(e.target.id)
-            if(e.target.id == "open_modal_btn") {
+            if(e.target.classList.contains('open_modal_btn')) {
                 $('#content_modal').empty()
-                $('#content_modal').html($('#'+e.target.id).data('description'))
+                $('#content_modal').html($(e.target).data('description'))
                 return;
-            }
-
-            if(e.target.id  == "link_to_lector") {
-
-
-                return
-
             }
 
             var idAlbum = $(this).data('id')
@@ -240,7 +240,7 @@
                 audioPlayer.pause()
                 audioPlayer.currentTime = 0
                 progressBar.width(0 + '%');
-                $('.play-button').html('<i class="material-icons">play_arrow</i>');
+                $('.play_btn').html('<i class="material-icons">play_arrow</i>');
             }
             var audios = $('.album_'+alumId).children('audio');
             audios.each(function(element) {
@@ -267,7 +267,7 @@
 
                 var startTime = $('.start-time');
                 var endTime = $('.end-time');
-                var playButton = $('.play-button');
+                var playButton = $('.play_btn');
                 var prevButton = $('.player-actions .action-button:first');
                 var nextButton = $('.player-actions .action-button:last');
                 var currentSong = $('.current-song');

@@ -19,7 +19,7 @@ class CartController extends AbstractController
     public function add($id): Response
     {
         $this->cart->add($id);
-        return $this->redirectToRoute('app_show');
+        return $this->redirectToRoute('app_show',['id' => $id]);
     }
 
     /**

@@ -722,7 +722,9 @@
             height: 40rem;
 
         }
-
+        .download_audio:hover {
+            color: #3c91e6;
+        }
     </style>
 {% endblock %}
 {% block body %}
@@ -1114,6 +1116,41 @@
                     // ajax(selectedPdfIds)
                     var baseUrl = '/profil/pdf';
                     var url = baseUrl + '?ids=' + encodeURIComponent(JSON.stringify(selectedPdfIds));
+
+                    window.location.href = url;
+                })
+
+                //download pdf
+                $('.download_selected_album').one('click',function(e){
+                    var identify;
+                    // Boucle à travers les checkboxes
+                    $(".form-check-input").each(function() {
+                        // Vérifier si la checkbox est sélectionnée
+                        if ($(this).is(":checked")) {
+                            // Récupérer la valeur de l'attribut data-id
+                           // var id = $(this).data("id");
+                            // Ajouter l'id au tableau selectedIds
+                            //selectedPdfIds.push(id);
+                            var id = $(this).data("id");
+                            identify = "album_"+id;
+                        }
+
+                    })
+                    var $sourceElement = $('#'+identify).clone(true)
+                    var title = $('#'+identify).data("album")
+                    $('.list_instrumental_body').empty()
+                    $('.title_album_modal').empty()
+                    $('.list_instrumental_body').append($sourceElement)
+                    $('.title_album_modal').append(title)
+                    $('.modal_class_2').click()
+                })
+                $('.download_audio').one('click',function(e){
+                    var idInstrumental = $(this).data('id')
+
+                    //ici lancer le téléchargement pdf
+                    // ajax(selectedPdfIds)
+                    var baseUrl = '/profil/music';
+                    var url = baseUrl + '?ids=' + encodeURIComponent(idInstrumental);
 
                     window.location.href = url;
                 })
