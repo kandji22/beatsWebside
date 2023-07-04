@@ -80,12 +80,23 @@
             border: none;
 
         }
-
+        .logo_img {
+            width: 80px; /* Largeur souhaitée de l'image */
+            height: 80px; /* Hauteur souhaitée de l'image */
+            border-radius: 50%; /* Pour arrondir les coins de l'image */
+            object-fit: cover; /* Pour s'assurer que l'image est correctement ajustée*/
+            margin-top : 10px;
+            position:absolute;
+            top: 1rem;
+            left: 2rem;
+        }
     </style>
 {% endblock %}
 {% block body %}
     <div class="container">
-        <div class="alert alert-info">Vous allez recevoir dans quelques secondes un mail avec la procédure pour réinitialiser votre mot de passe.</div>
+        <a href="{{ path('app_home') }}" class="brand">
+            <img src="{{ asset('logo/Beats.jpeg') }}" alt="une image" class="logo_img" style="width: 6rem;height: 6rem;border-radius: 3rem">
+        </a>
         {% for message in app.flashes('notice') %}
             <div class="alert alert-info">{{ message }}</div>
         {% endfor %}

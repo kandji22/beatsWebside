@@ -725,6 +725,7 @@
         .download_audio:hover {
             color: #3c91e6;
         }
+
     </style>
 {% endblock %}
 {% block body %}
@@ -1128,7 +1129,9 @@
                 })
 
                 //download pdf
-                $('.download_selected_album').one('click',function(e){
+                $('.download_selected_album').click(function(e){
+
+                    e.stopPropagation();
                     var identify;
                     // Boucle à travers les checkboxes
                     $(".form-check-input").each(function() {
@@ -1143,6 +1146,11 @@
                         }
 
                     })
+
+                    if(identify == undefined) {
+                        alert("Merci de choisir un album")
+                        return
+                    }
                     var $sourceElement = $('#'+identify).clone(true)
                     var title = $('#'+identify).data("album")
                     $('.list_instrumental_body').empty()
@@ -1150,6 +1158,8 @@
                     $('.list_instrumental_body').append($sourceElement)
                     $('.title_album_modal').append(title)
                     $('.modal_class_2').click()
+                    // Supprimer le gestionnaire d'événements de clic après l'exécution
+
                 })
                 $('.download_audio').one('click',function(e){
                     var idInstrumental = $(this).data('id')

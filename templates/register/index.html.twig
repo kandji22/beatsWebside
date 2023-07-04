@@ -103,11 +103,24 @@
         width: 30rem;
         border-radius: 40px 10px;
     }
-
+    .logo_img {
+        width: 80px; /* Largeur souhaitée de l'image */
+        height: 80px; /* Hauteur souhaitée de l'image */
+        border-radius: 50%; /* Pour arrondir les coins de l'image */
+        object-fit: cover; /* Pour s'assurer que l'image est correctement ajustée*/
+        margin-top : 10px;
+        position:absolute;
+        top: 1rem;
+        left: 2rem;
+    }
 </style>
 {% endblock %}
 {% block body %}
     <div class="container">
+
+        <a href="{{ path('app_home') }}" class="brand">
+            <img src="{{ asset('logo/Beats.jpeg') }}" alt="une image" class="logo_img" style="width: 6rem;height: 6rem;border-radius: 3rem">
+        </a>
         {% for message in app.flashes('error') %}
             <div class="alert alert-error">
                 {{ message }}
@@ -148,7 +161,7 @@
             </div>
 
             <button class="button login__submit" type="submit">
-                <span class="button__text">Log In Now</span>
+                <span class="button__text">S'inscrire maintenant</span>
             </button>
             {{ form_end(form) }}
         </form>

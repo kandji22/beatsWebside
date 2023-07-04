@@ -80,4 +80,14 @@ class IndexController extends AbstractController
     }
 
 
+    /**
+     * @Route("/apropos", name="app_about")
+     */
+    public function about(Request $request): Response
+    {
+
+        return $this->render('home/about.html.twig', [
+
+        ]);
+    }
 }

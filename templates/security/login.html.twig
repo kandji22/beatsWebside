@@ -79,17 +79,29 @@
         border: none;
     }
 
-body {
-    background-image: url('{{ asset('assets/img/login.jpeg') }}') !important;
-}
-input {
-    color: white;
-}
+    body {
+        background-image: url('{{ asset('assets/img/login.jpeg') }}') !important;
+    }
+    input {
+        color: white;
+    }
+    .logo_img {
+        width: 80px; /* Largeur souhaitée de l'image */
+        height: 80px; /* Hauteur souhaitée de l'image */
+        border-radius: 50%; /* Pour arrondir les coins de l'image */
+        object-fit: cover; /* Pour s'assurer que l'image est correctement ajustée*/
+        margin-top : 10px;
+        position:absolute;
+        top: 1rem;
+        left: 2rem;
+    }
 </style>
 {% endblock %}
 {% block body %}
 <div class="container">
-    <div class="alert alert-info">L' utilisateur: doudoukandji@gmail.com à été bien crée</div>
+    <a href="{{ path('app_home') }}" class="brand">
+        <img src="{{ asset('logo/Beats.jpeg') }}" alt="une image" class="logo_img" style="width: 6rem;height: 6rem;border-radius: 3rem">
+    </a>
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}

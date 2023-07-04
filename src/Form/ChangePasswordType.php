@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class ChangePasswordType extends AbstractType
 {
@@ -46,7 +47,13 @@ class ChangePasswordType extends AbstractType
                     'label' => 'Mon nouveau mot de passe',
                     'attr' => [
                         'placeholder' => 'Merci de saisir votre nouveau mot de passe.'
-                    ]
+                    ],
+                    'constraints' => [
+        new Length([
+            'min' => 11,
+            'minMessage' => 'Un mot de passe d\'au moins {{ limit }} caractères est requis.',
+        ]),
+    ],
                 ],
                 'second_options' => [
                     'label' => 'Confirmez votre nouveau mot de passe',

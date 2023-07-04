@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: black;
+    }
+
+    .container {
+      display: flex;
+      height: 100%;
+    }
+
+    .left-block {
+      flex-grow: 1;
+      background-image: url("{{ asset('images/profil/1.jpeg') }}");
+      background-color: black;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.3s ease;
+    }
+
+    .right-block {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .left-block:hover {
+      transform: scale(1.05);
+    }
+    .animated-text {
+        font-size: 50px;
+        font-weight: bold;
+        background-color: black;
+        position:absolute;
+        top: 2rem;
+    }
+
+    .animated-text .one {
+        display: inline-block;
+        animation: color-animation 1s linear infinite;
+    }
+
+    .animated-text .one {
+        display: inline-block;
+        animation: color-animation 3s linear infinite;
+    }
+    .animated-text .two {
+        display: inline-block;
+        animation: color-animation 5s linear infinite;
+    }
+    .animated-text .seven {
+        display: inline-block;
+        animation: color-animation 7s linear infinite;
+    }
+    .animated-text .four {
+        display: inline-block;
+        animation: color-animation 7s linear infinite;
+    }
+    .animated-text .five {
+        display: inline-block;
+        animation: color-animation 7s linear infinite;
+    }
+
+    .animated-text .six {
+        display: inline-block;
+        animation: color-animation 10s linear infinite;
+    }
+    .animated-text .seven {
+        display: inline-block;
+        animation: color-animation 5s linear infinite;
+    }
+    .animated-text .three {
+          display: inline-block;
+          animation: color-animation 4s linear infinite;
+      }
+    .animated-text .me {
+        display: inline-block;
+        animation: color-animation 7s linear infinite;
+    }
+    .animated-text .too {
+        display: inline-block;
+        animation: color-animation 3s linear infinite;
+    }
+
+    .animated-text .octal {
+        display: inline-block;
+        animation: color-animation 3s linear infinite;
+    }
+
+
+
+
+    @keyframes color-animation {
+        0% { color: black; }
+        20% { color: black }
+        80% { color: #f94658;  }
+        100% { color: #f94658; }
+    }
+    .fancy-text {
+        font-family: 'Arial', sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        text-transform: uppercase;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: 2px;
+        padding: 10px;
+        background-color: black;
+        border-radius: 10px;
+        width: 35rem;
+        height: 30rem;
+        overflow-x: auto;
+        overflow-y: auto;
+        position: absolute;
+        top: 12rem;
+        line-height: 2.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-block" id = "left-block"></div>
+    <div class="right-block">
+        <div class="animated-text">
+            <span class="one">J</span>
+            <span class="two">e</span>
+            <span class="three"> </span>
+            <span class="three">s</span>
+            <span class="three">u</span>
+            <span class="three">i</span>
+            <span class="three">s</span>
+
+            <span class="four">p</span>
+            <span class="five">r</span>
+            <span class="six">o</span>
+            <span class="three">d</span>
+            <span class="seven">u</span>
+            <span class="three">c</span>
+            <span class="me" >t</span>
+            <span class="three">e</span>
+            <span class="too" >u</span>
+            <span class="octal">r</span>
+        </div>
+        <div class="fancy-text">Wagëblë est composé d'Eyewitness, alias Lamine Kandji et Waterflow, alias Papa Moussa Lo, qui ont commencé à faire de la musique ensemble en 1997. [1] Les Wageble sont originaires de Thiaroye , un ghetto à la périphérie de la capitale sénégalaise, Dakar . [1] Selon le groupe, ils représentent la jeunesse défavorisée du Sénégal et de l'Afrique, [2] [3] et œuvrent pour le changement social au Sénégal . [4]
+
+            Selon Wagëblë, leur style s'inspire de la tradition du griot [2] - un conteur sénégalais, historien oral et critique social. Leurs paroles visent des problèmes tels que l'injustice sociale, la corruption politique et les conflits, [4] tout en couvrant également des sujets personnels tels que l'amour et la famille. Leur nom, Wagëblë est un mot wolof qui signifie « du ghetto ». [2] C'est aussi un acronyme pour Wax Aduna Gëddu Ëttu Baatin Lemu Ëlëk [5] - une expression de la philosophie du groupe sur la vérité et la diffusion des connaissances. [6]
+
+            Les Wagëblë décrivent leur musique comme du Rap Afro [6] - un style fortement influencé par le hip hop américain, mais se concentrant sur des thèmes qui parlent de l'Afrique. Leur musique mêle rap , poésie et création parlée avec des rythmes hip hop et des instruments traditionnels africains. Wagëblë rap en wolof, français et anglais. [5] </div>
+    </div>
+  </div>
+</body>
+</html>
+<script>
+
+    var element = document.getElementById('left-block')
+    element.addEventListener('click', function() {
+        window.location.href = "{{ path('app_home') }}"
+    })
+</script>
