@@ -774,10 +774,13 @@
                 </a>
             </li>
             <li>
-                <a href="{{ path('admin') }}">
-                    <i class='bx bxs-cog'></i>
-                    <span class="text">Tableau de bord </span>
-                </a>
+
+                {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+                    <a href="{{ path('admin') }}">
+                        <i class='bx bxs-cog'></i>
+                        <span class="text">Tableau de bord </span>
+                    </a>
+                {% endif %}
             </li>
         </ul>
     </section>
@@ -804,7 +807,11 @@
                 <span class="num"> </span>-->
             </a>
             <a href="#" class="profile profile_img">
+                {% if app.user.picture == null %}
+                    <img class="profile_img_target" src="{{ asset('images/profil/default_profil.jpeg') }}">
+                {% else %}
                 <img class="profile_img_target" src="{{ asset('images/profil/'~ app.user.picture) }}">
+                {% endif %}
             </a>
         </nav>
         <!-- NAVBAR -->

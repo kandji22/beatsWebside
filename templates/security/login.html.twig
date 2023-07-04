@@ -24,72 +24,6 @@
     min-height: 100vh;
     }
 
-    .screen {
-    background: linear-gradient(90deg, #111, #111);
-    position: relative;
-    height: 50rem;
-    width: 450px;
-    box-shadow: 0px 0px 24px #111;
-    }
-
-    .screen__content {
-    z-index: 1;
-    position: relative;
-    height: 100%;
-    }
-
-    .screen__background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    -webkit-clip-path: inset(0 0 0 0);
-    clip-path: inset(0 0 0 0);
-    }
-
-    .screen__background__shape {
-    transform: rotate(45deg);
-    position: absolute;
-    }
-
-    .screen__background__shape1 {
-    height: 90rem;
-    width: 520px;
-    background: #FFF;
-    top: -120px;
-    right: 120px;
-    border-radius: 0 72px 0 0;
-    }
-
-    .screen__background__shape2 {
-    height: 220px;
-    width: 220px;
-    background: #6C63AC;
-    top: -172px;
-    right: 0;
-    border-radius: 32px;
-    }
-
-    .screen__background__shape3 {
-    height: 540px;
-    width: 190px;
-    background: linear-gradient(270deg, #111, #111);
-    top: -24px;
-    right: 0;
-    border-radius: 32px;
-    }
-
-    .screen__background__shape4 {
-    height: 40px;
-    width: 200px;
-    background: #111;
-    top: 420px;
-    right: 50px;
-    border-radius: 60px;
-    }
-
     .login {
     width: 500px;
     padding: 30px;
@@ -126,144 +60,75 @@
     border-bottom-color: #6A679E;
     }
 
-    .login__submit {
-    background: #fff;
-    font-size: 14px;
-    margin-top: 30px;
-    padding: 16px 20px;
-    border-radius: 26px;
-    border: 1px solid #D4D3E8;
-    text-transform: uppercase;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    color: #4C489D;
-    box-shadow: 0px 2px 2px #5C5696;
-    cursor: pointer;
-    transition: .2s;
+
+
+    .alert-danger {
+        background-color: black;
+        color: red;
+        position: absolute;
+        top: 5rem;
+        width: 30rem;
+        border: none;
+    }
+    .alert-info {
+        background-color: black;
+        color: #7875B5;
+        position: absolute;
+        top: 3rem;
+        width: 30rem;
+        border: none;
     }
 
-    .login__submit:active,
-    .login__submit:focus,
-    .login__submit:hover {
-    border-color: #111;
-    outline: none;
-    }
-
-    .button__icon {
-    font-size: 24px;
-    margin-left: auto;
-    color: #7875B5;
-    text-space: 1px;
-    }
-
-.btn-connexion {
-    border-radius: 5px !important;
-    padding-left: 10rem;
-    padding-right: 10rem;
-    width: 10rem;
-    padding-top: 0;
-    padding-bottom: 0;
-    display: inline !important;
-    display: flex;
-    flex-display: row;
-    text-align: center;
+body {
+    background-image: url('{{ asset('assets/img/login.jpeg') }}') !important;
 }
-.btn-connexion:hover {
-    background-color: #aa1111;
+input {
+    color: white;
 }
-.screen__content {
-    position: relative;
-}
-.bxl-google {
-
-}
-
-.social-connected {
-    background-color: #111;
-    cursor: pointer;
-    border-radius: 26px;
-}
-.social-connected:hover {
-    background-color: #aa1111;
-}
-.info_register {
-    position: absolute;
-    bottom: 3rem;
-    left: 29rem;
-    color: #4d4de3;
-}
-.register_btn {
-    background-color: #111 !important;
-    cursor: pointer !important;
-    border-radius: 26px;
-}
-.register_btn:hover{
-    background-color: #aa1111 !important;
-}
-.alert-info {
-    position: relative;
-    top: 10rem;
-    width: 30rem;
-    border-radius: 40px 10px;
-}
-
 </style>
 {% endblock %}
 {% block body %}
-<div class="container container_login">
-    <div class="screen">
+<div class="container">
+    <div class="alert alert-info">L' utilisateur: doudoukandji@gmail.com à été bien crée</div>
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-info">{{ message }}</div>
+    {% endfor %}
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+    <form class="login" method="post">
 
-        <div class="screen__content">
+        <div class="login__field">
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="login__input" autocomplete="email" placeholder="Email" required autofocus>
+        </div>
+        <div class="login__field">
+            <input type="password" name="password" id="inputPassword" class="login__input" autocomplete="current-password" placeholder="Mot de passe" required>
+        </div>
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+        <div class="list-group" style="text-align: center;margin-top: 4rem">
+            <button class="list-group-item list-group-item-action" type="submit" style="background-color: #5eb5e0">
+                Se connecter
+            </button>
 
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-            {% for message in app.flashes('notice') %}
-                <div class="alert alert-info">{{ message }}</div>
-            {% endfor %}
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
-<form class="login" method="post">
-
-    <div class="login__field">
-        <i class="login__icon fas fa-user"></i>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="login__input" autocomplete="email" placeholder="Email" required autofocus>
-    </div>
-    <div class="login__field">
-        <i class="login__icon fas fa-user"></i>
-        <input type="password" name="password" id="inputPassword" class="login__input" autocomplete="current-password" placeholder="Mot de passe" required>
-    </div>
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-    <div class="list-group" style="text-align: center">
-        <button class="list-group-item list-group-item-action" type="submit" style="background-color: #5eb5e0">
-            Se connecter
-        </button>
-
-        <a class= "list-group-item list-group-item-action link-connection-google" href="{{ path('connect_google') }}" style="background-color: #ff564c">
+            <a class= "list-group-item list-group-item-action link-connection-google" href="{{ path('connect_google') }}" style="background-color: #ff564c">
                 <i class='bx bxl-google'></i> Continuer avec google
-        </a>
-        <a href="{{ path('register') }}" class="list-group-item list-group-item-action">
+            </a>
+            <a href="{{ path('register') }}" class="list-group-item list-group-item-action">
                 Enrégistrer vous ici <i class='bx bxs-hand-right'></i>
-        </a>
-    </div>
+            </a>
+            <a href="{{ path('reset_password') }}" class="list-group-item list-group-item-action">
+                Mot de passe oublié <i class='bx bx-question-mark'></i>
+            </a>
+        </div>
 
     </form>
-
-</div>
-    <div class="screen__background">
-        <span class="screen__background__shape screen__background__shape4"></span>
-        <span class="screen__background__shape screen__background__shape3"></span>
-
-        <span class="screen__background__shape screen__background__shape1"></span>
-    </div>
-</div>
 </div>
 
 

@@ -23,73 +23,7 @@
         min-height: 100vh;
     }
 
-    .screen {
-        background: linear-gradient(90deg, #111, #111);
-        position: relative;
-        height: 45rem;
-        width: 600px;
-        box-shadow: 0px 0px 24px #111;
-        opacity: 0.8;
-        color: white;
-    }
 
-    .screen__content {
-        z-index: 1;
-        position: relative;
-        height: 100%;
-    }
-
-    .screen__background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 0;
-        -webkit-clip-path: inset(0 0 0 0);
-        clip-path: inset(0 0 0 0);
-    }
-
-    .screen__background__shape {
-        transform: rotate(45deg);
-        position: absolute;
-    }
-
-    .screen__background__shape1 {
-        height: 60rem;
-        width: 1000px;
-        background: #FFF;
-        top: -120px;
-        right: 120px;
-        border-radius: 0 72px 0 0;
-    }
-
-    .screen__background__shape2 {
-        height: 220px;
-        width: 220px;
-        background: #111;
-        top: -172px;
-        right: 0;
-        border-radius: 32px;
-    }
-
-    .screen__background__shape3 {
-        height: 540px;
-        width: 190px;
-        background: linear-gradient(270deg, #111, #111);
-        top: -24px;
-        right: 0;
-        border-radius: 32px;
-    }
-
-    .screen__background__shape4 {
-        height: 400px;
-        width: 200px;
-        background: #111;
-        top: 420px;
-        right: 50px;
-        border-radius: 60px;
-    }
 
     .login {
         width: 500px;
@@ -160,32 +94,7 @@
         color: #111;
     }
 
-    .social-login {
-        position: absolute;
-        height: 140px;
-        width: 160px;
-        text-align: center;
-        bottom: 0px;
-        right: 0px;
-        color: #fff;
-    }
 
-    .social-icons {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .social-login__icon {
-        padding: 20px 10px;
-        color: #fff;
-        text-decoration: none;
-        text-shadow: 0px 0px 8px #111;
-    }
-
-    .social-login__icon:hover {
-        transform: scale(1.5);
-    }
     .alert-error {
         background-color: #c8a7a7;
         color: red;
@@ -198,87 +107,51 @@
 </style>
 {% endblock %}
 {% block body %}
-    <div class="container container_login">
-        <div class="screen">
-
-            <div class="screen__content">
-
-                {% for message in app.flashes('error') %}
-                    <div class="alert alert-error">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-
-
-
-
-
-
-                <form class="login" method="{{ form.vars.method }}" action="{{ form.vars.action }}">
-                    {{ form_start(form) }}
-                    <div class="login__field">
-                        <i class="login__icon fas fa-user"></i>
-                        {{ form_widget(form.email, {'attr': {'class': 'login__input', 'placeholder': 'Email','novalidate' : 'novalidate'}}) }}
-                    </div>
-
-                    <div class="login__field">
-                        <i class="login__icon fas fa-user"></i>
-                        {{ form_widget(form.firstname, {'attr': {'class': 'login__input', 'placeholder': 'First Name' ,'novalidate' : 'novalidate'}}) }}
-                    </div>
-
-                    <div class="login__field">
-                        <i class="login__icon fas fa-user"></i>
-                        {{ form_widget(form.lastname, {'attr': {'class': 'login__input', 'placeholder': 'Last Name','novalidate' : 'novalidate'}}) }}
-                    </div>
-
-                    <div class="login__field">
-                        <i class="login__icon fas fa-lock"></i>
-                        {{ form_widget(form.password, {'attr': {'class': 'login__input', 'placeholder': 'Password','novalidate': 'novalidate'}}) }}
-                        {{ form_errors(form.password) }}
-                    </div>
-
-                    <div class="login__field">
-                        <i class="login__icon fas fa-lock"></i>
-                        <input type="password" name ="confirm_password" class="login__input form-control" placeholder="Confirmer le mot de passe">
-                    </div>
-
-
-
-                  <!--  <div class="login__field">
-                        <i class="login__icon fas fa-map-marker"></i>
-                        { # form_widget(form.ville, {'attr': {'class': 'login__input', 'placeholder': 'City'}}) #}
-                    </div>
-                    <div class="login__field">
-                        <i class="login__icon fas fa-map-marker"></i>
-                        { #form_widget(form.code_postal, {'attr': {'class': 'login__input', 'placeholder': 'Postal Code'}}) }
-                    </div>
-                    <div class="login__field">
-                        <i class="login__icon fas fa-map-marker"></i>
-                        { #form_widget(form.pays, {'attr': {'class': 'login__input', 'placeholder': 'Country'}}) #}
-                    </div>-->
-                    <button class="button login__submit" type="submit">
-                        <span class="button__text">Log In Now</span>
-                        <i class="button__icon fas fa-chevron-right"></i>
-                    </button>
-                    {{ form_end(form) }}
-                </form>
-
-
-
-
-
-
-                <div class="social-login">
-
-                </div>
+    <div class="container">
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-error">
+                {{ message }}
             </div>
-            <div class="screen__background">
-                <span class="screen__background__shape screen__background__shape4"></span>
-                <span class="screen__background__shape screen__background__shape3"></span>
-                <span class="screen__background__shape screen__background__shape2"></span>
-                <span class="screen__background__shape screen__background__shape1"></span>
+        {% endfor %}
+
+
+
+
+
+
+        <form class="login" method="{{ form.vars.method }}" action="{{ form.vars.action }}">
+            {{ form_start(form) }}
+            <div class="login__field">
+
+                {{ form_widget(form.email, {'attr': {'class': 'login__input', 'placeholder': 'Email','novalidate' : 'novalidate'}}) }}
             </div>
-        </div>
+
+            <div class="login__field">
+
+                {{ form_widget(form.firstname, {'attr': {'class': 'login__input', 'placeholder': 'First Name' ,'novalidate' : 'novalidate'}}) }}
+            </div>
+
+            <div class="login__field">
+
+                {{ form_widget(form.lastname, {'attr': {'class': 'login__input', 'placeholder': 'Last Name','novalidate' : 'novalidate'}}) }}
+            </div>
+
+            <div class="login__field">
+
+                {{ form_widget(form.password, {'attr': {'class': 'login__input', 'placeholder': 'Password','novalidate': 'novalidate'}}) }}
+                {{ form_errors(form.password) }}
+            </div>
+
+            <div class="login__field">
+
+                <input type="password" name ="confirm_password" class="login__input form-control" placeholder="Confirmer le mot de passe">
+            </div>
+
+            <button class="button login__submit" type="submit">
+                <span class="button__text">Log In Now</span>
+            </button>
+            {{ form_end(form) }}
+        </form>
     </div>
 {% endblock %}
 {% block javascripts %}
