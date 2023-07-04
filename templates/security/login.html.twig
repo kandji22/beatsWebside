@@ -159,18 +159,16 @@
     }
 
 .btn-connexion {
-    position: absolute;
-    top:0;
-    right: 0;
-    background-color: #111;
-    width: 150px;
-    height: 30px;
-    font-size: 16px;
+    border-radius: 5px !important;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    width: 10rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: inline !important;
+    display: flex;
+    flex-display: row;
     text-align: center;
-    padding-top: 4px;
-    border: none;
-    font-weight: bold;
-    border-radius: 26px;
 }
 .btn-connexion:hover {
     background-color: #aa1111;
@@ -181,12 +179,7 @@
 .bxl-google {
 
 }
-.link-connection-google {
-    display: block;
-    margin-top: 3rem;
-    margin-left: 8rem;
 
-}
 .social-connected {
     background-color: #111;
     cursor: pointer;
@@ -248,26 +241,21 @@
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
-
-    <div class="option-btn">
-        <button class="btn btn-lg btn-primary btn-connexion" type="submit">
-           Se connecter
+    <div class="list-group" style="text-align: center">
+        <button class="list-group-item list-group-item-action" type="submit" style="background-color: #5eb5e0">
+            Se connecter
         </button>
+
+        <a class= "list-group-item list-group-item-action link-connection-google" href="{{ path('connect_google') }}" style="background-color: #ff564c">
+                <i class='bx bxl-google'></i> Continuer avec google
+        </a>
+        <a href="{{ path('register') }}" class="list-group-item list-group-item-action">
+                Enrégistrer vous ici <i class='bx bxs-hand-right'></i>
+        </a>
     </div>
+
     </form>
-    <a class= "link-connection-google" href="{{ path('connect_google') }}">
-        <button class="btn btn-secondary social-connected">
-            <i class='bx bxl-google'></i> Continuer avec google
-        </button>
-    </a>
-    <div class="social-login">
 
-        <div class="social-icons">
-            <a href="#" class="social-login__icon fab fa-instagram"></a>
-            <a href="#" class="social-login__icon fab fa-facebook"></a>
-            <a href="#" class="social-login__icon fab fa-twitter"></a>
-        </div>
-    </div>
 </div>
     <div class="screen__background">
         <span class="screen__background__shape screen__background__shape4"></span>
@@ -277,7 +265,7 @@
     </div>
 </div>
 </div>
-    <p class="info_register">Si vous n'avez pas de compte <a href="{{ path('register') }}" class="link_register btn btn-primary register_btn"> Enrégistrer vous ici </a></p>
+
 
 {% endblock %}
 {% block javascripts %}

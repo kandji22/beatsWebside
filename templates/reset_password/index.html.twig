@@ -27,11 +27,11 @@
         }
 
         .screen {
-            background: linear-gradient(90deg, #5D54A4, #7C78B8);
+            background: linear-gradient(90deg, #111111, #111111);
             position: relative;
             height: 30rem;
             width: 380px;
-            box-shadow: 0px 0px 24px #5C5696;
+            box-shadow: 0px 0px 24px #111111;
         }
 
         .screen__content {
@@ -68,7 +68,7 @@
         .screen__background__shape2 {
             height: 220px;
             width: 220px;
-            background: #6C63AC;
+            background: #111111;
             top: -172px;
             right: 0;
             border-radius: 32px;
@@ -77,7 +77,7 @@
         .screen__background__shape3 {
             height: 540px;
             width: 190px;
-            background: linear-gradient(270deg, #5D54A4, #6A679E);
+            background: linear-gradient(270deg, #111111, #111111);
             top: -24px;
             right: 0;
             border-radius: 32px;
@@ -86,7 +86,7 @@
         .screen__background__shape4 {
             height: 400px;
             width: 200px;
-            background: #7E7BB9;
+            background: #111111;
             top: 420px;
             right: 50px;
             border-radius: 60px;
@@ -106,7 +106,7 @@
         .login__icon {
             position: absolute;
             top: 30px;
-            color: #7875B5;
+            color: #111111;
         }
 
         .login__input {
@@ -124,7 +124,7 @@
         .login__input:focus,
         .login__input:hover {
             outline: none;
-            border-bottom-color: #6A679E;
+            border-bottom-color: #111111;
         }
 
         .login__submit {
@@ -148,14 +148,14 @@
         .login__submit:active,
         .login__submit:focus,
         .login__submit:hover {
-            border-color: #6A679E;
+            border-color: #111111;
             outline: none;
         }
 
         .button__icon {
             font-size: 24px;
             margin-left: auto;
-            color: #7875B5;
+            color: #111111;
         }
 
         .social-login {
@@ -184,6 +184,20 @@
         .social-login__icon:hover {
             transform: scale(1.5);
         }
+        .alert-info {
+
+            border-radius: 50%;
+            top: 2rem;
+            background-color: #111111;
+            color: #ff564c;
+            height: 100px;
+            width: 300px;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            text-align:justify;
+            border: #111111;
+        }
+
     </style>
 {% endblock %}
 {% block body %}
@@ -191,11 +205,11 @@
         <div class="screen">
 
             <div class="screen__content">
+                <div class="alert alert-info">Vous allez recevoir dans quelques secondes un mail avec la procédure pour réinitialiser votre mot de passe.</div>
                 {% for message in app.flashes('notice') %}
                     <div class="alert alert-info">{{ message }}</div>
                 {% endfor %}
                 <form class="login" method="post">
-                    <p class="h3 mb-3 font-weight-normal">Merci d'entrer votre address mail de connexion</p>
                     <div class="login__field">
                         <i class="login__icon fas fa-user"></i>
                         <input type="email"  name="email" id="inputEmail" class="login__input" autocomplete="email" placeholder="Email" required autofocus>
@@ -203,7 +217,7 @@
 
 
 
-                    <button class="btn btn-lg btn-primary" type="submit">
+                    <button class="btn btn-lg btn-danger" type="submit">
                         Reset password
                     </button>
                 </form>
