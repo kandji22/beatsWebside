@@ -17,6 +17,7 @@
 
         body {
             background-image: url("../img/musicgif.gif");
+            background-color: black;
         }
 
         .container {
@@ -24,73 +25,10 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+
         }
 
-        .screen {
-            background: linear-gradient(90deg, #111111, #111111);
-            position: relative;
-            height: 30rem;
-            width: 380px;
-            box-shadow: 0px 0px 24px #111111;
-        }
 
-        .screen__content {
-            z-index: 1;
-            position: relative;
-            height: 100%;
-        }
-
-        .screen__background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 0;
-            -webkit-clip-path: inset(0 0 0 0);
-            clip-path: inset(0 0 0 0);
-        }
-
-        .screen__background__shape {
-            transform: rotate(45deg);
-            position: absolute;
-        }
-
-        .screen__background__shape1 {
-            height: 90rem;
-            width: 520px;
-            background: #FFF;
-            top: -120px;
-            right: 120px;
-            border-radius: 0 72px 0 0;
-        }
-
-        .screen__background__shape2 {
-            height: 220px;
-            width: 220px;
-            background: #111111;
-            top: -172px;
-            right: 0;
-            border-radius: 32px;
-        }
-
-        .screen__background__shape3 {
-            height: 540px;
-            width: 190px;
-            background: linear-gradient(270deg, #111111, #111111);
-            top: -24px;
-            right: 0;
-            border-radius: 32px;
-        }
-
-        .screen__background__shape4 {
-            height: 400px;
-            width: 200px;
-            background: #111111;
-            top: 420px;
-            right: 50px;
-            border-radius: 60px;
-        }
 
         .login {
             width: 320px;
@@ -111,13 +49,14 @@
 
         .login__input {
             border: none;
-            border-bottom: 2px solid #D1D1D4;
+            border-bottom: 2px solid white;
             background: none;
             padding: 10px;
             padding-left: 24px;
             font-weight: 700;
             width: 75%;
             transition: .2s;
+            color: white;
         }
 
         .login__input:active,
@@ -127,116 +66,41 @@
             border-bottom-color: #111111;
         }
 
-        .login__submit {
-            background: #fff;
-            font-size: 14px;
-            margin-top: 30px;
-            padding: 16px 20px;
-            border-radius: 26px;
-            border: 1px solid #D4D3E8;
-            text-transform: uppercase;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            width: 100%;
-            color: #4C489D;
-            box-shadow: 0px 2px 2px #5C5696;
-            cursor: pointer;
-            transition: .2s;
-        }
 
-        .login__submit:active,
-        .login__submit:focus,
-        .login__submit:hover {
-            border-color: #111111;
-            outline: none;
-        }
-
-        .button__icon {
-            font-size: 24px;
-            margin-left: auto;
-            color: #111111;
-        }
-
-        .social-login {
-            position: absolute;
-            height: 140px;
-            width: 160px;
-            text-align: center;
-            bottom: 0px;
-            right: 0px;
-            color: #fff;
-        }
-
-        .social-icons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .social-login__icon {
-            padding: 20px 10px;
-            color: #fff;
-            text-decoration: none;
-            text-shadow: 0px 0px 8px #7875B5;
-        }
-
-        .social-login__icon:hover {
-            transform: scale(1.5);
-        }
         .alert-info {
-
-            border-radius: 50%;
+            position: absolute;
+            top: 8rem;
+            left: 15rem;
             top: 2rem;
-            background-color: #111111;
             color: #ff564c;
-            height: 100px;
-            width: 300px;
             overflow-y: auto !important;
             overflow-x: hidden !important;
             text-align:justify;
-            border: #111111;
+            background-color: black !important;
+            border: none;
+
         }
 
     </style>
 {% endblock %}
 {% block body %}
     <div class="container">
-        <div class="screen">
-
-            <div class="screen__content">
-                <div class="alert alert-info">Vous allez recevoir dans quelques secondes un mail avec la procédure pour réinitialiser votre mot de passe.</div>
-                {% for message in app.flashes('notice') %}
-                    <div class="alert alert-info">{{ message }}</div>
-                {% endfor %}
-                <form class="login" method="post">
-                    <div class="login__field">
-                        <i class="login__icon fas fa-user"></i>
-                        <input type="email"  name="email" id="inputEmail" class="login__input" autocomplete="email" placeholder="Email" required autofocus>
-                    </div>
-
-
-
-                    <button class="btn btn-lg btn-danger" type="submit">
-                        Reset password
-                    </button>
-                </form>
-                <div class="social-login">
-                    <h3>log in via</h3>
-                    <div class="social-icons">
-                        <a href="#" class="social-login__icon fab fa-instagram"></a>
-                        <a href="#" class="social-login__icon fab fa-facebook"></a>
-                        <a href="#" class="social-login__icon fab fa-twitter"></a>
-                    </div>
-                </div>
+        <div class="alert alert-info">Vous allez recevoir dans quelques secondes un mail avec la procédure pour réinitialiser votre mot de passe.</div>
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+        <form class="login" method="post">
+            <div class="login__field">
+                <i class="login__icon fas fa-user"></i>
+                <input type="email"  name="email" id="inputEmail" class="login__input" autocomplete="email" placeholder="Email" required autofocus>
             </div>
-            <div class="screen__background">
-                <span class="screen__background__shape screen__background__shape4"></span>
-                <span class="screen__background__shape screen__background__shape3"></span>
-                <span class="screen__background__shape screen__background__shape2"></span>
-                <span class="screen__background__shape screen__background__shape1"></span>
-            </div>
-        </div>
+
+
+
+            <button class="btn btn-lg btn-danger" type="submit">
+                Reset password
+            </button>
+        </form>
     </div>
 {% endblock %}
 {% block javascripts %}
