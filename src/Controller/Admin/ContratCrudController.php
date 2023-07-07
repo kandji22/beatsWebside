@@ -21,7 +21,7 @@ class ContratCrudController extends AbstractCrudController
     {
 
         return [
-            TextField::new('name'),
+            TextField::new('name')->setLabel('Nom'),
             ImageField::new('fileContrat')
                 ->setBasePath('uploads/')
                 ->setUploadDir('public/uploads')

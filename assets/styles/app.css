@@ -1610,7 +1610,7 @@ audio {
 body {
     background-color: #1d1d1d !important;
 }
-
+/*
 .song {
     margin-left: 4rem !important;
     margin-right: 4rem !important;
@@ -1624,7 +1624,7 @@ body {
     transform-style: preserve-3d;
     transform: perspective(1000px) rotateX(20deg) rotateY(10deg) rotateZ(5deg);
 }
-
+*/
 .btn-danger {
     width: 70px; /* Ajustez la largeur en fonction de vos besoins */
     height: 70px; /* Ajustez la hauteur en fonction de vos besoins */
@@ -1649,7 +1649,7 @@ body {
 }
 
 .song:hover  .mini_disk {
-    transform: translateX(-90px) !important;
+    transform: translateX(-110px) !important;
 }
 
 .menu_album {
@@ -1692,19 +1692,14 @@ body {
 }
 
 
-.text_lecteur:hover,.open_modal_btn:hover  {
+.text_lecteur:hover,.open_modal:hover  {
     color: #5eb5e0 !important;
     cursor: pointer !important;
-    border-color: blue !important;
-    animation: pulse 2s infinite !important;
-    animation: borderClose 1s linear infinite !important;
+    border-color: #5eb5e0 !important;
+
 }
 
-.music-player {
-    background: url("../img/music.jpeg");
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-}
+
 
 .container_login {
     background-image: url("../img/login.jpeg") !important;

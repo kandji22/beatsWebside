@@ -10,6 +10,12 @@
          .active {
              background-color: #393636 !important;
          }
+        .show_card:hover {
+            color: #5eb5e0;
+        }
+        .show_card {
+            padding-left: 0px !important;
+        }
 
      </style>
 {% endblock %}
@@ -28,9 +34,9 @@
             {% for instrumental in instrumentals %}
 
                 <tr class="song {{ "song_"~ t }} {{ t==1?'active':'' }}" data-song="{{ asset("audio/"~ instrumental.getFichierAudio) }}" data-piste="{{ t }}" data-id ="{{ instrumental.id }}">
-                    <td class="nr"><h5>{{ t }}<h5></td>
+                    <td class="nr"><h5>{{ t }}</h5></td>
                     <td class="title"><h6 style="color: #ff564c;">{{ instrumental.titre }}<h6></td>
-                    <td  class="length "><h5 class="duration_sound"> <h5></td>
+                    <td  class="length "><h5 class="duration_sound"> </h5></td>
                     <td><input type="checkbox" class="heart" {% if instrumental.hasLike() %}checked {% endif %} /><label class="zmr label_heart" for="heart" ></label></td>
                 </tr>
                 {% set t = t + 1 %}
@@ -42,19 +48,19 @@
 
         <div class="bar"></div>
 
-        <div class="info">
+        <div class="info" style="display: none;">
             <h4>{{ album.title }}</h4>
+
             {% if isInSession == false %}
-                {% if album.getStatus != 1 %}
+                {% if album.getStatus == 'false' %}
                     <h3>Prix album:  <span style="color:#4f4fe5">{{ album.price}} $</span></h3>
                     <a href="{{ path('add_to_cart',{'id': album.id}) }}"><i class="fa fa-cart-arrow-down panier_show" aria-hidden="true" style='font-size:24px; display:none'></i></a>
                 {% else %}
                     <h3>Album <span style="color: #f94658"> Vendu </span></h3>
                 {% endif %}
             {% endif %}
-                <div class="show_card" style ="display: none; margin-top: 6px; "> <a href="{{ path('app_account') }}" class="btn btn-primary" style="font-size: 11px" > Voir mon panier <i class="fa fa-arrow-right"></i> </a></div>
             {% if isInSession == true %}
-                <div class="show_card" style ="display: none; margin-top: 6px; "> <a href="{{ path('app_account') }}" class="btn btn-primary" style="font-size: 11px" > Voir mon panier <i class="fa fa-arrow-right"></i> </a></div>
+                <div class="show_card panier_show" style ="display: none; margin-top: 6px; "> <a href="{{ path('app_account') }}" class="btn" style="font-size: 11px" > Voir mon panier <i class="fa fa-arrow-right"></i> </a></div>
             {% endif %}
         </div>
         <audio preload="auto" id="audio" controls>
@@ -187,7 +193,8 @@
                 }
             }
             $('#magicButton').on('click',function (){
-                $('.panier_show').toggle()
+                $('.panier_show').toggle();
+                $('.info').toggle()
             })
             $('#play').on('click',function() {
                 togglePlayPause()

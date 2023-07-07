@@ -224,7 +224,9 @@ class Albums
     }
     public function __toString(): string
     {
-        return $this->getTitle();
+        $status = $this->getStatus() == "1"?"Vendu":"Disponible";
+        $idAlbum = $this->getId();
+        return $this->getTitle().','.$status;
     }
 
     public function getCreatedat(): ?\DateTimeInterface
