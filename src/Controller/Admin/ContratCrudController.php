@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contrat;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -19,6 +21,11 @@ class ContratCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        if ($pageName === 'index') {
+            return [
+                TextField::new('name')->setLabel('Nom'),
+            ];
+        }
 
         return [
             TextField::new('name')->setLabel('Nom'),
@@ -29,5 +36,12 @@ class ContratCrudController extends AbstractCrudController
                 ->setRequired(false),
         ];
     }
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->disable(Action::EDIT)
+            ->disable(Action::DELETE)
+        ->disable(Action::NEW);
 
+    }
 }

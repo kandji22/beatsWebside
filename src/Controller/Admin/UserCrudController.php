@@ -36,6 +36,6 @@ class UserCrudController extends AbstractCrudController
     public function  configureActions(Actions $actions): Actions
     {
         return $actions
-            ->disable('new','edit');
+            ->disable('new','edit','delete');
     }
 }
