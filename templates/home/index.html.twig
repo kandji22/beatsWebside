@@ -40,9 +40,9 @@
                                             <button class="make_lector play-button">
 
                                                 {%   if albumsId != null %}
-                                                    <i class="material-icons">pause</i>
+                                                    <i class="material-icons song_icon" data-id = "{{ album.id }}">pause</i>
                                                 {% else %}
-                                                    <i class="material-icons">play_arrow</i>
+                                                    <i class="material-icons song_icon" data-id = "{{ album.id }}"> play_arrow</i>
 
                                                 {% endif %}
                                             </button>
@@ -155,7 +155,7 @@
             initialize()
         }
 
-        $(".song").on("click", function (e) {
+        $(".song_icon").on("click", function (e) {
             console.log(e.target.id)
             if(e.target.classList.contains('open_modal_btn')) {
                 $('#content_modal').empty()
