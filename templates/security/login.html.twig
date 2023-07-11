@@ -95,6 +95,10 @@
         top: 1rem;
         left: 2rem;
     }
+    .list-group-item:hover {
+        font-size: 18px;
+        color: #aa1111 !important;
+    }
 </style>
 {% endblock %}
 {% block body %}
@@ -124,18 +128,18 @@
         <input type="hidden" name="_csrf_token"
                value="{{ csrf_token('authenticate') }}"
         >
-        <div class="list-group" style="text-align: center;margin-top: 4rem">
-            <button class="list-group-item list-group-item-action" type="submit" style="background-color: #5eb5e0">
+        <div class="list-group" style="text-align: center;margin-top: 4rem; background-color: black !important;">
+            <button class="list-group-item list-group-item-action" type="submit" style="color: white;background-color: black !important;">
                 Se connecter
             </button>
 
-            <a class= "list-group-item list-group-item-action link-connection-google" href="{{ path('connect_google') }}" style="background-color: #ff564c">
+            <a class= "list-group-item list-group-item-action link-connection-google" href="{{ path('connect_google') }}" style="color: white;background-color: black !important;">
                 <i class='bx bxl-google'></i> Continuer avec google
             </a>
-            <a href="{{ path('register') }}" class="list-group-item list-group-item-action">
+            <a href="{{ path('register') }}" class="list-group-item list-group-item-action" style="background-color: black !important; color: white">
                 Enrégistrer vous ici <i class='bx bxs-hand-right'></i>
             </a>
-            <a href="{{ path('reset_password') }}" class="list-group-item list-group-item-action">
+            <a href="{{ path('reset_password') }}" class="list-group-item list-group-item-action" style="background-color: black !important; color: white" >
                 Mot de passe oublié <i class='bx bx-question-mark'></i>
             </a>
         </div>

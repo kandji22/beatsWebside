@@ -96,8 +96,8 @@ class StripeController extends AbstractController
         //app_account
         // Add a flash message
         //http://127.0.0.1:8000/commande/merci/dkdfk
-
         $tabDetail = $this->entityManager->getRepository(OrderDetail::class)->findOneByStripeSessionId($checkout);
+
         $tabUrlFileContrat = [];
         $this->addFlash('success', 'Paiement effectué avec succés');
         //on set les albums à vendu

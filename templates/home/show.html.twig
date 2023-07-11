@@ -22,13 +22,12 @@
 {% block head %}
     {{ parent() }}
     <article class="screen">
-        <input type="checkbox" value="None" id="magicButton" name="check" />
-        <label class="main" for="magicButton"></label>
+        <input  type="checkbox" value="None" id="magicButton" name="check" />
+        <label  class="main" for="magicButton"></label>
 
-        <div class="coverImage"></div>
+        <div class="coverImage" style="background-image: url('{{ asset('uploads/' ~ album.image) }}') !important;border-radius: 50%"></div>
         <!--<div class="search"></div>-->
         <div class="bodyPlayer"></div>
-
         <table class="list">
            {% set t = 1 %}
             {% for instrumental in instrumentals %}

@@ -34,6 +34,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
     {
         // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_google_check';
+
     }
 
     public function authenticate(Request $request): Passport
@@ -73,7 +74,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // change "app_homepage" to some route in your app
-        $targetUrl = $this->router->generate('app_profil');
+        $targetUrl = $this->router->generate('app_account');
 
         return new RedirectResponse($targetUrl);
 

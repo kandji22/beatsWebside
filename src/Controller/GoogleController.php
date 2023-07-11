@@ -60,8 +60,7 @@ class GoogleController extends AbstractController
 
             if($userInDb) {
                 $session->set(Security::LAST_USERNAME,$userInDb[0]->getEmail());
-
-                return $this->redirectToRoute('app_profil');
+                return $this->redirectToRoute('app_account');
             }
 
             //Redirect vers la page de connexion et message
