@@ -1,4 +1,5 @@
 <?php
+namespace App\Controller\Admin;
 
 use EasyCorp\Bundle\EasyAdminBundle\Controller\EasyAdminController;
 use Symfony\Component\Form\FormEvent;

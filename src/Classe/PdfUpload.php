@@ -7,7 +7,7 @@ namespace App\Classe;
 
     use mikehaertl\pdftk\Pdf;
     use Symfony\Component\HttpFoundation\JsonResponse;
-
+    use Dompdf\Dompdf;
 
 class PdfUpload
 {
@@ -30,21 +30,130 @@ class PdfUpload
     }
 
 
-    public function genererate($data,$contrat,$album)
+    public function genererate($data,$contrat=null,$album=null)
     {
-        try {
-            $filename = 'pdf_' . $album->getId() . '.pdf';
-            $templatePath = $_SERVER['DOCUMENT_ROOT'] . 'uploads/' . $contrat->getFileContrat();
-            $pdf = new Pdf($templatePath);
-            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . 'uploads/contrats';
+        // Créez une instance de Dompdf
+        $dompdf = new Dompdf();
+        $filename = 'pdf_' . $album->getId() . '.pdf';
+        // Construisez le contenu HTML du contrat en utilisant les données fournies
+        $html = '<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            /* CSS pour le contrat */
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 24px;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .contract-details {
+                margin-bottom: 30px;
+            }
+            .contract-details table {
+                width: 100%;
+            }
+            .contract-details table td {
+                padding: 5px;
+            }
+            .contract-details .buyer-info {
+                width: 50%;
+                float: left;
+            }
+            .contract-details .seller-info {
+                width: 50%;
+                float: right;
+            }
+            .contract-details .album-title {
+                margin-top: 20px;
+                font-weight: bold;
+            }
+            .contract-details .price {
+                margin-top: 10px;
+                font-weight: bold;
+            }
+            .contract-body {
+                margin-top: 30px;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Contrat d\'achat d\'album</h1>
+    
+        <div class="contract-details">
+            <table>
+                <tr>
+                    <td class="buyer-info">
+                        <h2>Acheteur :</h2>
+                        <p>'.$data["Name_buyer"].'</p>
+                    </td>
+                    <td class="seller-info">
+                        <h2>Vendeur :</h2>
+                        <p>'.$data["name_seller"].'</p>
+                    </td>
+                </tr>
+            </table>
+    
+            <div class="album-title">
+                <h2>Titre de l\'album :</h2>
+                <p>'.$data["title_album"].'</p>
+            </div>
+    
+            <div class="price">
+                <h2>Prix de l\'album :</h2>
+                <p>'.$data["price_album"].'</p>
+            </div>
+        </div>
+        <div class="contract-body">
+        <h2>Corps du contrat :</h2>
+        <p>Par le présent contrat, l\'Acheteur s\'engage à acheter l\'album intitulé "{{ data.title_album }}" du Vendeur via la plateforme de vente en ligne.</p>
+        <p>Les détails de l\'achat sont les suivants :</p>
+        <ul>
+            <li>Nom de l\'Acheteur : '.$data["Name_buyer"].'</li>
+            <li>Nom du Vendeur : '.$data["name_seller"].'</li>
+            <li>Prix de l\'album : '.$data["price_album"].'</li>
+        </ul>
+        <p>Les parties conviennent des conditions suivantes :</p>
+        <ol>
+            <li>L\'Acheteur confirme que les informations fournies sont exactes et accepte les modalités de paiement en ligne.</li>
+            <li>Le Vendeur s\'engage à fournir l\'accès à l\'album après la confirmation du paiement.</li>
+            <li>L\'Acheteur reconnaît que cet achat est non remboursable.</li>
+            <li>Ce contrat est soumis aux lois en vigueur dans le pays de résidence du Vendeur.</li>
+        </ol>
+        <p>En cliquant sur le bouton "Confirmer l\'achat", l\'Acheteur reconnaît avoir pris connaissance et accepté les termes et conditions du présent contrat.</p>
+    </div>
+    </body>
+    </html>
+    ';
 
-            $pdf->fillForm($data)
-                ->flatten()
-                ->saveAs($destinationPath . '/' . $filename);
-            return $filename;
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
+        // Chargez le contenu HTML dans Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optionnel) Définissez les options de configuration de Dompdf si nécessaire
+        // $dompdf->setOptions([...]);
+
+        // Générez le fichier PDF
+        $dompdf->render();
+
+        // Obtenez le contenu PDF généré
+        $output = $dompdf->output();
+
+        // Définissez le chemin de destination pour enregistrer le fichier PDF
+        $filePath = $_SERVER['DOCUMENT_ROOT'] . '/public/uploads/contrats/'.$filename;
+
+
+        // Enregistrez le fichier PDF sur le serveur
+        file_put_contents($filePath, $output);
+
+        // Retournez le chemin du fichier PDF généré
+        return $filename;
     }
     
     function convertirChiffreEnLettre($a)

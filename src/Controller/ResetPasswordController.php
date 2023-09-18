@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ResetPasswordController extends AbstractController
@@ -48,7 +49,7 @@ class ResetPasswordController extends AbstractController
                 //send($to_email, $to_name, $subject, $content,$tabFiles = null)
                 $url = $this->generateUrl('update_password', [
                     'token' => $reset_password->getToken()
-                ]);
+                ],UrlGeneratorInterface::ABSOLUTE_URL);
                 $content = "Bonjour ".$user->getFirstname()."<br/>Vous avez demandé à réinitialiser votre mot de passe sur le site webBeat.<br/><br/>";
                 $content .= "Merci de bien vouloir cliquer sur le lien suivant pour <a href='".$url."'>mettre à jour votre mot de passe</a>.";
                 $subject = "Réinitialiser votre mot de passe sur La WebBeat";

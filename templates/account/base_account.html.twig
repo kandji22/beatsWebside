@@ -749,31 +749,33 @@
             <img src="{{ asset('logo/Beats.jpeg') }}" alt="une image" class="logo_img">
         </a>
         <ul class="side-menu top">
-            <li class="active">
+            <li class="{{app.request.attributes.get('_route') == 'app_account' ? 'active' : '' }}">
                 <a href="{{ path('app_account') }}">
-                    <i class='bx bxs-dashboard' ></i>
+                    <i class='bx bxs-dashboard'></i>
                     <span class="text">Mon Panier</span>
                 </a>
             </li>
 
-            <li>
+            <li class="{{app.request.attributes.get('_route') == 'app_profil' ? 'active' : '' }}">
                 <a href="{{ path('app_profil') }}">
-                    <i class='bx bxs-doughnut-chart' ></i>
+                    <i class='bx bxs-doughnut-chart'></i>
                     <span class="text">Profile</span>
                 </a>
             </li>
-            <li >
+            <li class="{{app.request.attributes.get('_route') == 'app_change_password' ? 'active' : '' }}">
                 <a href="{{ path('app_change_password') }}">
                     <i class="bx bx-reset"></i>
                     <span class="text">Changer son mot de passe</span>
                 </a>
             </li>
-            <li >
+            <li>
                 <a href="{{ path('app_logout') }}">
                     <i class="bx bx-log-out"></i>
-                    <span class="text">Se déconnecter </span>
+                    <span class="text">Se déconnecter
+						</span>
                 </a>
             </li>
+
             <li>
 
                 {% if app.user.roles[0] == 'ROLE_ADMIN' %}
@@ -1057,7 +1059,7 @@
                         html +='<tr> <th scope="row">'+$value+'</th> <td>€'+$key+'</td>  </tr>'
                     })
                     //modal-body
-                    html += '<tr> <th scope="row"><span style="color: #5a5ab0">Total:<span></th> <td><span style="color: #e07e7e">$'+$priceTotal+'</span></td> </tr>'
+                    html += '<tr> <th scope="row"><span style="color: #5a5ab0">Total:<span></th> <td><span style="color: #e07e7e">€'+$priceTotal+'</span></td> </tr>'
                     html +='</tbody> </table>'
                     console.log(html)
                     $('.modal-body').append(html)
@@ -1065,7 +1067,7 @@
                 })
 
                 $('#checkout-button').on('click',function(){
-                    fetch("/profil/commande/create-session/"+tabIdAlbums, {
+                    fetch("/public/profil/commande/create-session/"+tabIdAlbums, {
                         method: "POST",
                     })
                         .then(function (response) {
@@ -1121,7 +1123,7 @@
                     }
                     //ici lancer le téléchargement pdf
                     // ajax(selectedPdfIds)
-                    var baseUrl = '/profil/pdf';
+                    var baseUrl = '/public/profil/pdf';
                     var url = baseUrl + '?ids=' + encodeURIComponent(JSON.stringify(selectedPdfIds));
 
                     window.location.href = url;
@@ -1165,7 +1167,7 @@
 
                     //ici lancer le téléchargement pdf
                     // ajax(selectedPdfIds)
-                    var baseUrl = '/profil/music';
+                    var baseUrl = '/public/profil/music';
                     var url = baseUrl + '?ids=' + encodeURIComponent(idInstrumental);
 
                     window.location.href = url;
@@ -1258,6 +1260,7 @@
 
                 }
             })
+
         </script>
     {% endblock %}
  {% endblock %}

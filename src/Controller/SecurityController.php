@@ -21,6 +21,12 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // Vérifier si l'utilisateur est connecté
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Rediriger vers une autre route
+            return $this->redirectToRoute('app_profil');
+        }
+
         $message = $this->session->getFlashBag()->get('success');
         $email = $this->session->getFlashBag()->get('email');
         // get the login error if there is one

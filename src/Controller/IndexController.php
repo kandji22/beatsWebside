@@ -4,11 +4,15 @@ namespace App\Controller;
 
 use App\Classe\Cart;
 use App\Entity\Albums;
+use App\Repository\AlbumsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\CacheInterface;
+
+
 
 class IndexController extends AbstractController
 {
@@ -22,20 +26,31 @@ class IndexController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function index(Request $request): Response
+    public function index(Request $request,CacheInterface $cache,AlbumsRepository $repository): Response
     {
         $titleAlbum = null;
         $albumsId = null;
+
         if($request->query->get('album_id') != null) {
             $albumsId = $request->query->get('album_id');
             $albumChoice = $this->entityManager->getRepository(Albums::class)->find($albumsId);
 
             $titleAlbum = $albumChoice->getTitle();
         }
-        $albums = $this->entityManager->getRepository(Albums::class)->findAll();
-        
+        $filterAlbums = $cache->get('filter_album',function(){
+            $filter = [];
+            $albums = $this->entityManager->getRepository(Albums::class)->findAll();
+            foreach ($albums as $album) {
+                $bool = $album->haveInstruimental();
+                if(!$bool) {
+                    array_push($filter,$album);
+                }
+            }
+            return $filter;
+        });
+
         return $this->render('home/index.html.twig', [
-            'albums' => $albums,
+            'albums' => $filterAlbums,
             'albumsId' => $albumsId,
             'titleAlbum' => $titleAlbum
         ]);

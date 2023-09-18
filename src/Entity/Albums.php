@@ -255,4 +255,8 @@ class Albums
             $this->image = 'audio_' . time() . '.' . $albumFile->guessExtension();
         }
     }
+
+    public function haveInstruimental() {
+        return $this->instrumentals->isEmpty();
+    }
 }

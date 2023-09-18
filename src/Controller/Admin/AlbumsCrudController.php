@@ -35,7 +35,9 @@ class AlbumsCrudController extends AbstractCrudController
             return [
                 TextField::new('title')->setLabel('Titre'),
                 SlugField::new('slug')->setTargetFieldName('title')->setLabel('Url titre'),
-                TextEditorField::new('description')->setLabel('Description'),
+                TextEditorField::new('description')->setLabel('Description')->formatValue(function ($value) {
+                    return $value;
+                }),
                 MoneyField::new('price')->setCurrency('EUR')->setLabel('Prix'),
                 ImageField::new('image')
                     ->setBasePath('uploads/')
@@ -58,14 +60,14 @@ class AlbumsCrudController extends AbstractCrudController
 
             return [
                 TextField::new('title')->setLabel('Titre'),
-                //SlugField::new('slug')->setLabel('Url titre'),
+                SlugField::new('slug')->setTargetFieldName('title')->setLabel('Url titre'),
                 TextEditorField::new('description')->setLabel('Description'),
                 MoneyField::new('price')->setCurrency('EUR')->setLabel('Prix'),
                 ImageField::new('image')
                     ->setBasePath('uploads/')
                     ->setUploadDir('public/uploads')
                     ->setUploadedFileNamePattern('[randomhash].[extension]')
-                    ->setRequired(false)->setLabel('Illustration'),
+                    ->setRequired(true)->setLabel('Illustration'),
                 AssociationField::new('contrat')->setLabel('Template Contrat album'),
 
             ];

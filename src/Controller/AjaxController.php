@@ -66,6 +66,7 @@ class AjaxController extends AbstractController {
      */
     public function ajaxprofil(Request $request,Security $security): Response
     {
+        // Traitement de l'upload de l'image
         $uploadedFile = $request->files->get('fileUpload');
 
         // Vérifier si un fichier a été envoyé
@@ -78,20 +79,34 @@ class AjaxController extends AbstractController {
             return new Response('Le fichier envoyé n\'est pas une image valide.', Response::HTTP_BAD_REQUEST);
         }
 
-        // Déplacer le fichier vers le répertoire souhaité (par exemple, le dossier public/uploads)
+        // Déplacer le fichier vers le répertoire souhaité (par exemple, le dossier public/images/profil)
         $user = $security->getUser();
-        $newFileName = $user->getId().'.'.$uploadedFile->getClientOriginalExtension();
+        $timestamp = time();
+        $newFileName = $user->getId().'.'.$timestamp.''.$uploadedFile->getClientOriginalExtension();
         $project_dir = $this->kernel->getProjectDir();
-        $folder = $project_dir . '/public/images/profil';
-        $profilFile = $project_dir . $folder.$newFileName ;
-        if(file_exists($profilFile)) {
-            unlink($profilFile);
+        $folder = '/images/profil/';
+        $profilFile = $project_dir . '/public' . $folder . $newFileName;
+
+        // Supprimer l'ancienne image si elle existe
+        $files = scandir($project_dir . '/public' . $folder);
+        foreach ($files as $file) {
+            if (strpos($file, strval($user->getId())) === 0) {
+                // Fichier trouvé ! Faites ce que vous voulez avec le fichier
+                $filePath =  $project_dir . '/public' . $folder . $file;
+                unlink($filePath);
+            }
         }
         $user->setPicture($newFileName);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
-        $uploadedFile->move($folder,$newFileName);
-        return new Response('Le fichier a été enregistré avec succès.', Response::HTTP_OK);
 
+        $uploadedFile->move($project_dir . '/public' . $folder, $newFileName);
+
+        // Construire la réponse avec le nouveau chemin de l'image
+        $imagePath = $folder . $newFileName;
+        $response = new JsonResponse(['imagePath' => $imagePath]);
+
+        // Retourner la réponse JSON
+        return $response;
     }
 }

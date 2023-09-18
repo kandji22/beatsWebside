@@ -28,6 +28,11 @@ class RegisterController extends AbstractController
      */
     public function index( Request $request,UserPasswordEncoderInterface $encoder): Response
     {
+        // Vérifier si l'utilisateur est connecté
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Rediriger vers une autre route
+            return $this->redirectToRoute('app_profil');
+        }
         $user = new User();
         $form = $this->createForm(RegisterType::class,$user);
         $form->handleRequest($request);

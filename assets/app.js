@@ -11,5 +11,6 @@ global.$ = $;
 import gsap from "gsap";
 global.gsap = gsap;
 $(document).ready(function() {
-console.log('ok')
+    // Cacher le spinner une fois que tous les éléments de la page sont chargés
+    $("#spinner").fadeOut("slow");
 });

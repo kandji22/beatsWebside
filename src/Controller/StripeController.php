@@ -30,10 +30,9 @@ class StripeController extends AbstractController
      */
     public function index(Cart $cart,Request $request,Security $security,$reference)
     {
-
         $priceTotal = 0;
         $products_for_stripe = [];
-        $YOUR_DOMAIN = 'http://127.0.0.1:8000';
+        $YOUR_DOMAIN = 'https://webbeat.webbeat.online/'; //'http://127.0.0.1:8000';
         $user = $security->getUser();
         $userId = $user->getId();
         $emailUser = $user->getUsername();
@@ -44,6 +43,7 @@ class StripeController extends AbstractController
         foreach ($idsAlbums as $id) {
             $numberAlbum++;
         }
+        
         //création detail achat et recalcul p
         foreach ($idsAlbums as $id) {
            $album =  $this->entityManager->getReference(Albums::class,$id);
@@ -74,8 +74,8 @@ class StripeController extends AbstractController
                 $products_for_stripe
             ],
             'mode' => 'payment',
-            'success_url' => $YOUR_DOMAIN . '/profil/commande/merci/{CHECKOUT_SESSION_ID}',
-            'cancel_url' => $YOUR_DOMAIN . '/profil/commande/erreur/{CHECKOUT_SESSION_ID}',
+            'success_url' => $YOUR_DOMAIN . 'public/profil/commande/merci/{CHECKOUT_SESSION_ID}',
+            'cancel_url' => $YOUR_DOMAIN . 'public/profil/commande/erreur/{CHECKOUT_SESSION_ID}',
         ]);
         foreach ($tabOrderDetail as $orderDetail) {
             $orderDetail->setStripesession($checkout_session->id);
@@ -121,7 +121,7 @@ class StripeController extends AbstractController
             //création fichier contrat
             $pdfContrat = new PdfUpload();
             $nameFile = $pdfContrat->getPDFContrat($album,$contrat,$this->entityManager,$user);
-            $path = $_SERVER['DOCUMENT_ROOT'] . 'uploads/contrats/' .$nameFile;
+            $path = $_SERVER['DOCUMENT_ROOT'] . '/public/uploads/contrats/' .$nameFile;
             $type = pathinfo($path, PATHINFO_EXTENSION);
 
             $data = file_get_contents($path);

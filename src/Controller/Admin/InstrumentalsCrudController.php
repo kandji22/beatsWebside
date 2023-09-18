@@ -32,7 +32,9 @@ class InstrumentalsCrudController extends AbstractCrudController
         if ($pageName === 'index') {
             return [
                 TextField::new('titre')->setLabel('Titre'),
-                TextEditorField::new('description')->setLabel('Description'),
+                TextEditorField::new('description')->setLabel('Description')->formatValue(function ($value) {
+                    return $value;
+                }),
                 AssociationField::new('album_id')->formatValue(function ($value) {
                     $resultat = explode(',', $value)[0];
                     return $resultat;

@@ -51,15 +51,6 @@
             </div>
         </div>
     </main>
-    <!-- MAIN -->
-    {% block javascripts %}
-        {{ parent() }}
-        <script>
-            $(function(){
-                $('ul.side-menu li').removeClass('active');
-                $('ul.side-menu li:nth-child(2)').addClass('active');
-            })
-        </script>
-    {% endblock %}
+
 {% endblock %}
 

@@ -63,6 +63,12 @@ class AlbumsRepository extends ServiceEntityRepository
             ;
     }
 
+    public function paginationQuery() {
+        return $this->createQueryBuilder('a')
+            ->getQuery()
+            ;
+    }
+
 //    /**
 //     * @return Albums[] Returns an array of Albums objects
 //     */

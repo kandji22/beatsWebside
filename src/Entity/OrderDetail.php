@@ -61,6 +61,11 @@ class OrderDetail
      */
     private $price;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +140,18 @@ class OrderDetail
     public function setStripesession(?string $stripesession): self
     {
         $this->stripesession = $stripesession;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

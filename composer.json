@@ -16,6 +16,7 @@
         "easycorp/easyadmin-bundle": "^3.5",
         "egulias/email-validator": "^3.2",
         "james-heinrich/getid3": "^1.9",
+        "knplabs/knp-paginator-bundle": "^5.9",
         "knpuniversity/oauth2-client-bundle": "^2.12",
         "league/oauth2-google": "^4.0",
         "mailjet/mailjet-apiv3-php": "^1.5",
@@ -27,6 +28,7 @@
         "sensio/framework-extra-bundle": "^6.1",
         "stripe/stripe-php": "^10.14",
         "symfony/asset": "5.4.*",
+        "symfony/cache": "5.4.*",
         "symfony/console": "5.4.*",
         "symfony/doctrine-bridge": "5.4.*",
         "symfony/doctrine-messenger": "5.4.*",
@@ -55,6 +57,7 @@
         "symfony/web-link": "5.4.*",
         "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "5.4.*",
+        "tecnickcom/tcpdf": "^6.6",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
         "vich/uploader-bundle": "^1.23"

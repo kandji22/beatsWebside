@@ -70,17 +70,25 @@ class AccountController extends AbstractController
             $album = $this->entityManager->getRepository(Albums::class)->find($val);
             $contrat = $album->getContrat();
             $filename = $pdf->getPDFContrat($album,$contrat,$this->entityManager,$this->user);
-            $pdfPath = $_SERVER['DOCUMENT_ROOT'] . 'uploads/contrats/' . $filename;
+            $pdfPath = $_SERVER['DOCUMENT_ROOT'] . '/public/uploads/contrats/' . $filename;
             if (file_exists($pdfPath)) {
-                // Définir les en-têtes pour le téléchargement du fichier
-                header('Content-Type: application/pdf');
-                header('Content-Disposition: attachment; filename="' . basename($pdfPath) . '"');
-                header('Content-Length: ' . filesize($pdfPath));
+                $response = new Response();
 
-// Lire le fichier et l'envoyer au navigateur
-                readfile($pdfPath);
+                // Définir les en-têtes pour le téléchargement du fichier
+                $response->headers->set('Content-Type', 'application/pdf');
+                $response->headers->set('Content-Disposition', 'attachment; filename="' . basename($pdfPath) . '"');
+                $response->headers->set('Content-Length', filesize($pdfPath));
+
+                // Lire le fichier et le renvoyer dans la réponse
+                $response->setContent(file_get_contents($pdfPath));
+
+                return $response;
             }
         }
+        // Si aucun fichier PDF n'est disponible, rediriger vers la même page avec un message d'erreur
+        $this->addFlash('error', 'Aucun fichier PDF disponible.');
+
+        return $this->redirectToRoute('app_account');
     }
 
     /**
@@ -130,7 +138,7 @@ class AccountController extends AbstractController
 
 
         // Vérifier si le fichier MP3 existe
-        $filePath = $_SERVER['DOCUMENT_ROOT'] . 'original/'.$instru->getOriginalfile();
+        $filePath = $_SERVER['DOCUMENT_ROOT'] . '/public/original/'.$instru->getOriginalfile();
 
         if (!file_exists($filePath)) {
             // Retourner une réponse appropriée si le fichier n'existe pas
